@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 11:45:40 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/21 14:57:08 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/30 14:17:04 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,14 @@ int	get_next_line(int fd, char **line)
 	while (read_size > 0)
 	{
 		read_size = read(fd, buffer, BUFFER_SIZE);
-		buffer[read_size] = '\0';
-		store[fd] = gnl_ft_strjoin(store[fd], buffer);
-		i = check_newline(store[fd]);
-		if (i >= 0)
-			return (sub_line_and_dup_store(&store[fd], line, i));
+		if (read_size > 0)
+		{
+			buffer[read_size] = '\0';
+			store[fd] = gnl_ft_strjoin(store[fd], buffer);
+			i = check_newline(store[fd]);
+			if (i >= 0)
+				return (sub_line_and_dup_store(&store[fd], line, i));
+		}
 	}
 	if (read_size < 0)
 		return (-1);
