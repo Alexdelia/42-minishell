@@ -15,6 +15,7 @@ while (TRUE)
 		break;
 }
 
+check errno;
 clean what has been init;
 
 end of program;
