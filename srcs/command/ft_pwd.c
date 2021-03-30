@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/30 12:21:44 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/30 12:22:23 by adelille         ###   ########.fr       */
+/*   Created: 2021/03/30 18:32:23 by adelille          #+#    #+#             */
+/*   Updated: 2021/03/30 18:39:16 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#define PATH_LEN
 
-int	main(int ac, char **av)
+void	ft_pwd(int fd)
 {
-	return (0);
+	char	path[PATH_LEN];
+
+	getcwd(path, PATH_LEN - 1);
+	ft_putstr_fd(path, fd);
 }
