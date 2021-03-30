@@ -1,80 +1,53 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: adelille <adelille@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/11/30 19:21:49 by adelille          #+#    #+#              #
-#    Updated: 2021/03/30 12:03:22 by adelille         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME = minishell
 
-NAME = 	minishell
-CC = 	clang -Wall -Werror -Wextra
-RM = 	rm -rf
-# FLAGS =	-O2
+MAIN = ./srcs/minishell.c
 
-# **************************************************************************** #
+OBJ_MAIN = ${MAIN:.c=.o}
 
-MAKEFLAGS += --silent
+SRCS = env_utils.c env_utils2.c
 
-B =		$(shell tput bold)
-BLA =	$(shell tput setaf 0)
-RED =	$(shell tput setaf 1)
-GRE =	$(shell tput setaf 2)
-YEL =	$(shell tput setaf 3)
-BLU =	$(shell tput setaf 4)
-MAG =	$(shell tput setaf 5)
-CYA =	$(shell tput setaf 6)
-WHI =	$(shell tput setaf 7)
-D =		$(shell tput sgr0)
-BEL =	$(shell tput bel)
-CLR =	$(shell tput el 1)
+PATH_SRCS = ./srcs/
 
-# **************************************************************************** #
-#	 LIB	#
+_SRCS = ${addprefix ${PATH_SRCS}, ${SRCS}}
 
-LBPATH =	./libft/
-LBNAME =	$(LBPATH)libft.a
-LBINC =		-I$(LBPATH)
+OBJS = ${_SRCS:.c=.o}
 
-# **************************************************************************** #
+LINK = ar rc
 
-SRCSPATH =	./srcs/
-#OBJSPATH =	./objs/
-INC =		./includes/
+CC = clang
 
-SRCSNAME =
+FLAGS = -Wall -Wextra -Werror
 
-#SRCS = $(addprefix $(SRCSPATH), $(SRCSNAME))
-#OBJS = $(addprefix $(OBJSPATH), $(OBJSNAME))
-OBJS = $(SRCSNAME:.s=.o)
+RM = rm -rf
 
-# *************************************************************************** #
+PATH_HEADER = ./includes/
 
-%.o:	%.s
-	@$(CC) $< -o $@
+.c.o:
+		${CC} ${FLAGS} ${BUFFER} -I${PATH_HEADER} -c $< -o ${<:.c=.o}
 
-all:	$(NAME)
+MYLIB = mylib.a
 
-$(NAME):	$(OBJS)
-	@make -C $(LBPATH)
-	@$(CC) $(OBJS) $(LBNAME) -L$(LBPATH) $(LBINC) -I$(INC) -o $(NAME)
-	@echo "\n$(B)$(MAG)$(BEL)minishell\tcompiled !$(D)\n"
+PATH_LIBFT = ./libft/
 
-libft:
-	@make -C $(LBPATH) -f Makefile
+LIBFT = libft.a
+
+all:			${NAME}
+
+${NAME}:		${OBJ_MAIN} ${OBJS}
+				${LINK} ${MYLIB} ${OBJS}
+				ranlib ${MYLIB}
+				make -C ${PATH_LIBFT}
+				${CC} ${FLAGS} ${OBJ_MAIN} ${MYLIB} ${PATH_LIBFT}${LIBFT} -o ${NAME}
 
 clean:
-	@$(RM) $(OBJS)
-	@echo "$(B)Cleared$(D)"
+				${RM} ${OBJ_MAIN} ${OBJS}
+				make clean -C ${PATH_LIBFT}
 
-fclean: clean
-	@$(RM) $(NAME)
+fclean:			clean
+				${RM} ${NAME} ${MYLIB}
+				make fclean -C ${PATH_LIBFT}
+				rm -rf *.dSYM
 
-re:	fclean all
+re:				fclean all
 
-.PHONY: all, clean, fclean, re, libft
-
-# **************************************************************************** #
+.PHONY:			all clean fclean re
