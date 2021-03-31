@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 09:50:45 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 09:54:47 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,15 @@
 # define STDERR 2
 
 typedef struct	s_cmd {
-	char			*str;
+	char			*data;
 	struct s_cmd	*next;
 }				t_cmd;
 
 typedef struct	s_env {
-	char			*str;
+	char			*name;
+	char			*data;
 	struct s_env	*next;
-}				t_env;
-
-/*	How I see t_env struct:
-**
-**typedef struct	s_env {
-**	char			*name;
-**	char			*data; // or str if you prefer
-**	struct s_env	*next;
-**}					t_env;
-*/
+}					t_env;
 
 typedef struct		s_word {
 	char			*data;
