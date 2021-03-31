@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 11:15:04 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 11:45:57 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 int	ft_parse_exec(t_word *word, t_env *env, int actual_p, int total_p, int fd)
 {
-	if (actual_p < total_p)
-		fd += 2;
+	/*if (actual_p < total_p)
+		fd += 2;*/
 	if (ft_strcmp(word->data, "echo") == 0)
 		ft_echo(fd, word->next, env);
 	else if (ft_strcmp(word->data, "cd") == 0)
@@ -78,6 +78,8 @@ int	ft_exec_command(char *line, t_env *env)
 		if (pid == 0)
 		{
 			word = ft_word(line, base_p_num - process_num);
+			if (base_p_num > 1)
+				fd = ft_redirection(line, base_p_num - process_num);
 			fd = ft_parse_exec(word, env, base_p_num - process_num, base_p_num, fd);
 		}
 		else if (pid != 0)

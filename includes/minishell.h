@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 11:17:16 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 12:21:29 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # define STDIN 0
 # define STDOUT 1
 # define STDERR 2
+
+# define PATH_LEN 512
 
 typedef struct	s_hist {
 	char			*data;
@@ -81,6 +83,7 @@ void			ft_free_all_word(t_word *word);
 */
 
 int				ft_exec_command(char *line, t_env *env);
+int				ft_redirection(char *line, int process_num);
 
 /*
 ** command
