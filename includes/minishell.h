@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 09:54:47 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 10:18:50 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int				ft_exec_command(char *line, t_env *env);
 int				ft_echo(int fd, t_word *word, t_env *env);
 int				ft_cd(char *path);
 void			ft_pwd(int fd);
+void			ft_env(int fd, t_env env);
 
 /*
 ** search in lst

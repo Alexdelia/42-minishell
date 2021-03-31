@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 09:49:21 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 10:19:52 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	ft_parse_exec(t_word *word, t_env *env, int actual_p, int total_p, int fd)
 		ft_cd(word->data);
 	else if (ft_strcmp(word->data, "pwd") == 0)
 		ft_pwd(fd);
+	else if (ft_strcmp(word->data, "env") == 0)
+		ft_env(fd, *env);
 	ft_free_all_word(word);
 	kill();
 }
