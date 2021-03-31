@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 09:41:48 by nessayan         ###   ########.fr       */
+/*   Updated: 2021/03/31 10:50:34 by nessayan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,39 @@
 # define STDOUT 1
 # define STDERR 2
 
-typedef struct	s_cmd {
+typedef struct	s_hist {
 	char			*data;
-	struct s_cmd	*next;
-}				t_cmd;
+	struct s_hist	*next;
+}				t_hist;
 
 typedef struct	s_env {
 	char			*name;
 	char			*data;
 	struct s_env	*next;
-}					t_env;
+}				t_env;
 
-typedef struct		s_word {
+typedef struct	s_word {
 	char			*data;
 	struct s_word	*next;
-}					t_word;
+}				t_word;
 
 typedef	struct	s_data {
-	t_cmd		*cmd;
-	t_env		*env;
-	int			exit;
+	t_hist			*hist;
+	t_env			*env;
+	int				exit;
 }				t_data;
+
+/*
+** hist_utils
+*/
+
+t_hist			*new_hist(char *str);
+t_hist			*get_last_hist(t_hist *hist);
+void			add_back_hist(t_hist **hist, t_hist *new);
+void			store_hist(t_data *d, char *l);
+void			free_one_hist(t_hist *hist);
+void			free_all_hist(t_hist *hist);
+void			print_hist(t_hist *hist);
 
 /*
 ** env_utils
