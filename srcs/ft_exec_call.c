@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 14:54:03 by nessayan         ###   ########.fr       */
+/*   Updated: 2021/03/31 15:08:44 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_parse_exec(t_word *word, t_env *env, int actual_p, int total_p, int fd)
 {
-	if (actual_p < total_p)
-		fd += 2;
+	/*if (actual_p < total_p)
+		fd += 2;*/
 	if (ft_strcmp(word->data, "echo") == 0)
 		ft_echo(fd, word->next, env);
 	/*else if (ft_strcmp(word->data, "cd") == 0)
@@ -27,7 +27,12 @@ int	ft_parse_exec(t_word *word, t_env *env, int actual_p, int total_p, int fd)
 	else if (ft_strcmp(word->data, "unset") == 0)
 		ft_unset(word, env);
 	else if (ft_strcmp(word->data, "env") == 0)
-		ft_env(fd, *env);*/
+		ft_env(fd, *env);
+	else
+		ft_exec(word->data, *word->next, *env, fd);
+	** this can be call somewhere else because getting back envp can be a pain in the ass
+	** or we just transform back t_env *env into char *env
+	*/
 	ft_free_all_word(word);
 	kill();
 }
@@ -70,6 +75,8 @@ int	ft_exec_command(t_env *env, char *l)
 		if (pid == 0)
 		{
 			word = ft_word(line, base_p_num - process_num);
+			if (base_p_num > 1)
+				fd = ft_redirection(line, base_p_num - process_num);
 			fd = ft_parse_exec(word, env, base_p_num - process_num, base_p_num, fd);
 		}
 		else if (pid != 0)
