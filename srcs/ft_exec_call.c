@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 10:19:52 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 11:15:04 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,19 @@
 int	ft_parse_exec(t_word *word, t_env *env, int actual_p, int total_p, int fd)
 {
 	if (actual_p < total_p)
-		// put output of actual_p in input of next_p
+		fd += 2;
 	if (ft_strcmp(word->data, "echo") == 0)
 		ft_echo(fd, word->next, env);
 	else if (ft_strcmp(word->data, "cd") == 0)
 		ft_cd(word->data);
 	else if (ft_strcmp(word->data, "pwd") == 0)
 		ft_pwd(fd);
+	/*
+	else if (ft_strcmp(word->data, "export") == 0)
+		ft_export();
+	else if (ft_strcmp(word->data, "unset") == 0)
+		ft_unset(word, env);
+	*/
 	else if (ft_strcmp(word->data, "env") == 0)
 		ft_env(fd, *env);
 	ft_free_all_word(word);
