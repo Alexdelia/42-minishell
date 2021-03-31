@@ -4,8 +4,10 @@ MAIN = ./srcs/minishell.c
 
 OBJ_MAIN = ${MAIN:.c=.o}
 
-SRCS = env_utils.c env_utils2.c hist_utils.c hist_utils2.c #ft_word_utils.c ft_word_split.c \
-		ft_echo.c ft_cd.c ft_pwd.c ft_lst_search.c
+SRCS = env_utils.c env_utils2.c hist_utils.c hist_utils2.c \
+		# ft_word_utils.c ft_word_split.c \
+		ft_echo.c ft_cd.c ft_pwd.c ft_env.c \
+		ft_lst_search.c ft_exec_call.c
 
 PATH_SRCS = ./srcs/
 
