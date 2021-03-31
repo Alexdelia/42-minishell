@@ -6,16 +6,18 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 15:08:44 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 17:23:05 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_parse_exec(t_word *word, t_env *env, int actual_p, int total_p, int fd)
+int	ft_parse_exec(t_word *word, t_env *env, int fd, int pid)
 {
 	/*if (actual_p < total_p)
 		fd += 2;*/
+	//ft_ps(word->data);
+	//ft_ps("YES");
 	if (ft_strcmp(word->data, "echo") == 0)
 		ft_echo(fd, word->next, env);
 	/*else if (ft_strcmp(word->data, "cd") == 0)
@@ -34,7 +36,8 @@ int	ft_parse_exec(t_word *word, t_env *env, int actual_p, int total_p, int fd)
 	** or we just transform back t_env *env into char *env
 	*/
 	ft_free_all_word(word);
-	kill();
+	kill(pid, SIGKILL);
+	return (0);
 }
 
 int	ft_count_process(char *line)
@@ -56,9 +59,20 @@ int	ft_count_process(char *line)
 		}
 		i++;
 	}
+	return (process_num);
 }
 
-int	ft_exec_command(t_env *env, char *l)
+void	ft_print_word(t_word *word)
+{
+	while (word)
+	{
+		ft_ps(word->data);
+		ft_ps("\n");
+		word = word->next;
+	}
+}
+
+int	ft_exec_command(char *line, t_env *env)
 {
 	int		process_num;
 	int		base_p_num;
@@ -66,18 +80,22 @@ int	ft_exec_command(t_env *env, char *l)
 	int		fd;
 	t_word	*word;
 
+	//ft_ps("ICI");
 	process_num = ft_count_process(line);
 	base_p_num = process_num;
 	fd = STDOUT;
-	while(process > 0)
+	while(process_num > 0)
 	{
 		pid = fork();
 		if (pid == 0)
 		{
-			word = ft_word(line, base_p_num - process_num);
+			//ft_ps("OUIII\n");
+			//ft_ps(line);
+			word = ft_word_split(line, base_p_num - process_num);
+			//ft_print_word(word);
 			if (base_p_num > 1)
 				fd = ft_redirection(line, base_p_num - process_num);
-			fd = ft_parse_exec(word, env, base_p_num - process_num, base_p_num, fd);
+			fd = ft_parse_exec(word, env, fd, pid);
 		}
 		else if (pid != 0)
 		{

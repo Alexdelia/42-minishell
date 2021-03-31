@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 14:53:53 by nessayan         ###   ########.fr       */
+/*   Updated: 2021/03/31 15:13:21 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	launch_minishell(t_data *d, char *l)
 			store_hist(d, l);
 		if (l[0] == '\0')
 			d->exit = 1;
-		ft_exec_command(d->env, l);
+		ft_exec_command(l, d->env);
 }
 
 int		main(int ac, char **av, char **env)

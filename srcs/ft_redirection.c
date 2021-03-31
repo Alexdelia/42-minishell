@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 11:46:13 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 12:20:46 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 15:38:46 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 char	*ft_next_word(char *line, int i)
 {
-	char	str[PATH_LEN];
+	char	*str;
 	int		y;
 
 	y = i;
 	while (line[y] != ' ')
 		y++;
+	str = (char *)malloc(sizeof(char *) * y + 1);
 	y = 0;
 	while (line[i] != ' ')
 	{
@@ -39,6 +40,7 @@ int		ft_pipe(char *line, int i)
 	bin = ft_next_word(line, i + 1);
 	fd = STDOUT;
 	//
+	free(bin);
 	return (fd);
 }
 
@@ -52,6 +54,7 @@ int		ft_chevron(char *line, int i)
 		fd = open(file, O_CREAT | O_APPEND | O_WRONLY);
 	else
 		fd = open(file, O_CREAT | O_WRONLY);
+	free(file);
 	return (fd);
 }
 
@@ -71,7 +74,7 @@ int		ft_redirection(char *line, int process_num)
 		if (line[i] == '|' || line[i] == '>')
 		{
 			if (line[i + 1] && line[i + 1] == '>')
-				++;
+				i++;
 			process_num--;
 		}
 	}

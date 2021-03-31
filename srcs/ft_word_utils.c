@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 07:08:50 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 09:25:47 by nessayan         ###   ########.fr       */
+/*   Updated: 2021/03/31 16:23:45 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	ft_add_back_word(t_word **word, t_word *new)
 		l->next = new;
 	else
 		*word = new;
+	// ft_ps((*word)->data);
 }
 
 void	ft_free_one_word(t_word *word)
