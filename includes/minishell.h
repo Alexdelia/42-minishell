@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 12:21:29 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 15:09:47 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/libft.h"
 # include <stdio.h>
+# include <signal.h>
 
 # define STDIN 0
 # define STDOUT 1
@@ -72,8 +73,8 @@ void			print_env(t_env *env);
 ** word_utils
 */
 
-t_word			*new_word(char *str);
-t_word			*get_last_word(t_word *word);
+t_word			*ft_new_word(char *str);
+t_word			*ft_get_last_word(t_word *word);
 void			ft_add_back_word(t_word **word, t_word *new);
 void			ft_free_one_word(t_word *word);
 void			ft_free_all_word(t_word *word);
@@ -84,6 +85,7 @@ void			ft_free_all_word(t_word *word);
 
 int				ft_exec_command(char *line, t_env *env);
 int				ft_redirection(char *line, int process_num);
+int				ft_exec_command(t_env *env, char *line);
 
 /*
 ** command
@@ -98,7 +100,7 @@ void			ft_env(int fd, t_env env);
 ** search in lst
 */
 
-char			*ft_env_search(char *str, t_env env);
-int				ft_word_search(t_word word, char *str);
+char			*ft_env_search(char *str, t_env *env);
+int				ft_word_search(char *str, t_word *word);
 
 #endif
