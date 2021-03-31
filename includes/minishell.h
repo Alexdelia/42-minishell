@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 06:46:53 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 07:14:54 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ typedef struct	s_env {
 **	struct s_env	*next;
 **}					t_env;
 */
+
+typedef struct		s_word {
+	char			*data;
+	struct s_word	*next;
+}					t_word;
 
 typedef	struct	s_data {
 	t_cmd		*cmd;

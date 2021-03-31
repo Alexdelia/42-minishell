@@ -6,13 +6,13 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:41:22 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/30 18:23:12 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 07:03:14 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo_env_convert(int fd, char *str, t_env *env)
+static void	ft_echo_env_convert(int fd, char *str, t_env *env)
 {
 	char	*to_write;
 
@@ -20,7 +20,7 @@ void	ft_echo_env_convert(int fd, char *str, t_env *env)
 	write(fd, to_write, ft_strlen(to_write));
 }
 
-int		ft_echo(int fd, t_word *word, t_env *env)
+int			ft_echo(int fd, t_word *word, t_env *env)
 {
 	t_word	*head;
 
