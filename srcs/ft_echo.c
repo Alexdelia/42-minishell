@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:41:22 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 07:03:14 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 14:40:31 by nessayan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ int			ft_echo(int fd, t_word *word, t_env *env)
 	word = head;
 	//ft_lstclear(head, free);
 	if (ft_word_search(*word, "-n") == FALSE)
-		ft_putstr_fd("\n");
+		ft_putstr_fd("\n", STDOUT);
 	return (0);
 }

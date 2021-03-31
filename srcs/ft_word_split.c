@@ -6,16 +6,16 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 09:20:31 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 14:38:28 by nessayan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static int	ft_convert_string(t_word **word, char *str, int i)
 {
 	int		y;
-	char	*elem
+	char	*elem;
 
 	y = 0;
 	i++;
@@ -35,10 +35,10 @@ static int	ft_convert_string(t_word **word, char *str, int i)
 	return (i);
 }
 
-static int	ft_convert_basic(t_word **, char *str, int i)
+static int	ft_convert_basic(t_word **word, char *str, int i)
 {
 	int		y;
-	char	*elem
+	char	*elem;
 
 	y = 0;
 	i++;
@@ -58,7 +58,7 @@ static int	ft_convert_basic(t_word **, char *str, int i)
 	return (i);
 }
 
-t_word		*ft_word_split(char const *str, int stop)
+t_word		*ft_word_split(char *str, int stop)
 {
 	t_word	*word;
 	int		i;
@@ -66,14 +66,14 @@ t_word		*ft_word_split(char const *str, int stop)
 	i = 0;
 	while (str[i] || stop >= 0)
 	{
-		if (str[i] == '|' str[i] == ';'
+		if (str[i] == '|' || str[i] == ';'
 					|| str[i] == '>' || str[i] == '<')
 		{
-			if (str[i + 1] && (str[i + 1] == '>' || str[i + 1] == '<')
+			if (str[i + 1] && (str[i + 1] == '>' || str[i + 1] == '<'))
 				i++;
 			stop--;
 		}
-		else if (stop == 0 && str[i] == '\"' || str[i] == '\'')
+		else if (stop == 0 && (str[i] == '\"' || str[i] == '\''))
 			i = ft_convert_string(&word, str, i);
 		else if (stop == 0)
 			i = ft_convert_basic(&word, str, i);
