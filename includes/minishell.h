@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 06:46:53 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 06:56:38 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,17 @@ void			free_one_env(t_env *env);
 void			free_all_env(t_env *env);
 void			print_env(t_env *env);
 
+/*
+** command
+*/
+
 int				ft_echo(int fd, t_word *word, t_env *env);
 int				ft_cd(char *path);
 void			ft_pwd(int fd);
+
+/*
+** search in lst
+*/
 
 char			*ft_env_search(char *str, t_env env);
 int				ft_word_search(t_word word, char *str);
