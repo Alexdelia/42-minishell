@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 07:08:50 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 07:32:16 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 07:48:31 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,16 @@ void	ft_free_one_word(t_word *word)
 	word->next = NULL;
 	free(word);
 	word = NULL;
+}
+
+void	ft_free_all_word(t_word *word);
+{
+	t_word	*t;
+
+	while (word != NULL)
+	{
+		t = word;
+		word = t->next;
+		free_one_word(t);
+	}
 }

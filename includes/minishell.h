@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 07:44:15 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 07:49:06 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct	s_env {
 **
 **typedef struct	s_env {
 **	char			*name;
-**	char			*data;
+**	char			*data; // or str if you prefer
 **	struct s_env	*next;
 **}					t_env;
 */
@@ -61,6 +61,16 @@ t_env			*init_env(char **env);
 void			free_one_env(t_env *env);
 void			free_all_env(t_env *env);
 void			print_env(t_env *env);
+
+/*
+** word_utils
+*/
+
+t_word			*new_word(char *str);
+t_word			*get_last_word(t_word *word);
+void			ft_add_back_word(t_word **word, t_word *new);
+void			ft_free_one_word(t_word *word);
+void			ft_free_all_word(t_word *word);
 
 /*
 ** command
