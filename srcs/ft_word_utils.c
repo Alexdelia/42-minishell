@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 07:08:50 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 07:48:31 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 09:25:47 by nessayan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_free_one_word(t_word *word)
 	word = NULL;
 }
 
-void	ft_free_all_word(t_word *word);
+void	ft_free_all_word(t_word *word)
 {
 	t_word	*t;
 
@@ -59,6 +59,6 @@ void	ft_free_all_word(t_word *word);
 	{
 		t = word;
 		word = t->next;
-		free_one_word(t);
+		ft_free_one_word(t);
 	}
 }

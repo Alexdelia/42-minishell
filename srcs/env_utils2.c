@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 18:32:39 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/30 18:33:03 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/03/31 09:46:12 by nessayan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_env(t_env *env)
 {
 	while (env != NULL)
 	{
-		printf("%s\n", env->str);
+		printf("%-30s:%s\n", env->name, env->data);
 		env = env->next;
 	}
 }
