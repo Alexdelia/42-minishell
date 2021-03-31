@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 18:18:16 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/30 18:22:01 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/03/31 09:47:32 by nessayan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 t_env	*new_env(char *str)
 {
 	t_env	*new;
+	char	**split;
 
 	new = malloc(sizeof(t_env));
-	new->str = ft_strdup(str);
+	split = ft_split(str, '=');
+	new->name = split[0];
+	new->data = split[1];
 	new->next = NULL;
+	free(split);
 	return (new);
 }
 
@@ -62,8 +66,10 @@ t_env	*init_env(char **env)
 
 void	free_one_env(t_env *env)
 {
-	free(env->str);
-	env->str = NULL;
+	free(env->name);
+	env->name = NULL;
+	free(env->data);
+	env->data = NULL;
 	env->next = NULL;
 	free(env);
 	env = NULL;
