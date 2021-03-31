@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 07:49:06 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 09:50:45 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,12 @@ t_word			*get_last_word(t_word *word);
 void			ft_add_back_word(t_word **word, t_word *new);
 void			ft_free_one_word(t_word *word);
 void			ft_free_all_word(t_word *word);
+
+/*
+** calling command
+*/
+
+int				ft_exec_command(char *line, t_env *env);
 
 /*
 ** command
