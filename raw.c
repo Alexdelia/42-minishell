@@ -6,7 +6,7 @@
 /*   By: nessayan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 10:53:22 by nessayan          #+#    #+#             */
-/*   Updated: 2021/04/01 14:31:14 by nessayan         ###   ########.fr       */
+/*   Updated: 2021/04/01 15:18:32 by nessayan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void editorRefreshScreen() {
 int main() {
   enableRawMode();
   char c;
-  while (read(STDIN_FILENO, &c, 1) == 1 && c != 4) {
+  while (read(STDIN_FILENO, &c, 1) == 1 && c != 'q') {
 
   	if (iscntrl(c)) {
       printf("%d\r\n", c);
