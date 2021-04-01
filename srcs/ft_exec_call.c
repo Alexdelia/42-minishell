@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/01 09:25:33 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/01 10:23:44 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int	ft_exec_command(char *line, t_env *env)
 	int		fd;
 	t_word	*word;
 
+	if (!line[0])
+		return (0);
 	process_num = ft_count_process(line);
 	base_p_num = process_num;
 	fd = STDOUT;
