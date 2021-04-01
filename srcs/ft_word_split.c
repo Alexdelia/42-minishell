@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/01 09:39:29 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/01 11:58:22 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static int	ft_convert_string(t_word **word, char *str, int i, int c)
 	while (str[i] && (str[i] != '\"' && str[i] != '\''))
 	{
 		elem[y] = str[i];
-		i++;
 		y++;
+		i++;
 	}
 	elem[y] = '\0';
 	if (c == 0)
@@ -45,15 +45,17 @@ static int	ft_convert_basic(t_word **word, char *str, int i, int c)
 
 	y = 0;
 	//i++;
-	while (str[i + y] && str[i + y] != ' ')
+	while (str[i + y] && str[i + y] != ' '
+			&& str[i + y] != '\"' && str[i + y] != '\'')
 		y++;
 	elem = (char *)malloc(sizeof(char *) * y + 1);
 	y = 0;
-	while (str[i] && str[i] != ' ')
+	while (str[i] && str[i] != ' '
+			&& str[i] != '\"' && str[i] != '\'')
 	{
 		elem[y] = str[i];
-		i++;
 		y++;
+		i++;
 	}
 	elem[y] = '\0';
 	if (c == 0)
@@ -74,7 +76,7 @@ t_word	*ft_word_split(char *str, int stop)
 	c = 0;
 	while (str[i] && stop >= 0)
 	{
-		if (i > 0)
+		if (i > 0 && str[i] == ' ')
 			i++;
 		if (str[i] == '|' || str[i] == ';'
 					|| str[i] == '>' || str[i] == '<')

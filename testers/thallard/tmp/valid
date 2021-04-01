@@ -1,0 +1,15 @@
+echo
+echo echo
+echo rhobebou
+echo "bonjour"
+echo bonjour
+echo 'bonjour'
+echo -n bonjour
+echo -n -n -n bonjour
+echo -n -n -n bonjour
+echo "-n" bonjour
+echo "~"
+echo '~'
+echo ~123
+echo 123~
+echo ' $USER '

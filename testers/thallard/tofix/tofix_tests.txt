@@ -1,28 +1,14 @@
-echo
-echo echo
 eCho
 eChO
 eCHO
 ECHO
-echo rhobebou
 echo stop barking
-echo "bonjour"
-echo bonjour
-echo 'bonjour'
-echo -n bonjour
 echo -nn bonjour
-echo -n -n -n bonjour
-echo -n -n -n bonjour
-echo "-n" bonjour
 echo -n"-n" bonjour
 echo "-nnnn" bonjour
 echo "-n -n -n"-n bonjour
 echo "-n '-n'" bonjour
 echo ~
-echo "~"
-echo '~'
-echo ~123
-echo 123~
 echo ~/123
 echo ~/123/456
 echo $USER
@@ -32,7 +18,6 @@ echo " '$USER' "
 echo text"$USER"
 echo text"'$USER'" ' $USER '
 echo "text" "$USER" "$USER"
-echo ' $USER '
 echo text "$USER" "$USER"text
 echo ''''''''''$USER''''''''''
 echo """"""""$USER""""""""
