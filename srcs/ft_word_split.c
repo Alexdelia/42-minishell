@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 17:11:18 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/01 08:24:25 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	ft_convert_basic(t_word **word, char *str, int i, int c)
 {
 	int		y;
 	char	*elem;
-	t_word	*last;
+	//t_word	*last;
 
 	y = 0;
 	//i++;
@@ -65,7 +65,7 @@ static int	ft_convert_basic(t_word **word, char *str, int i, int c)
 		(*word) = ft_new_word(elem);
 	else
 		ft_add_back_word(word, ft_new_word(elem));
-	last = ft_get_last_word(*word);
+	//last = ft_get_last_word(*word);
 	//ft_ps(last->data);
 	free(elem);
 	return (i);
