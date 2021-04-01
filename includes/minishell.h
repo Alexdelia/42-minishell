@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 16:12:33 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/01 18:14:03 by nessayan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,18 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <termios.h>
+# include <stdlib.h>
+# include <curses.h>
+# include <term.h>
 
 # define STDIN 0
 # define STDOUT 1
 # define STDERR 2
 
 # define PATH_LEN 512
+
+struct termios orig_termios;
 
 typedef struct	s_hist {
 	char			*data;

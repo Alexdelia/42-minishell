@@ -46,7 +46,7 @@ ${NAME}:		objs_dir ${OBJS} ${OBJ_MAIN}
 				${LINK} ${MYLIB} ${LOCA_OBJS}
 				ranlib ${MYLIB}
 				make -C ${PATH_LIBFT}
-				${CC} ${FLAGS} ${LOCA_OBJ_MAIN} ${MYLIB} ${PATH_LIBFT}${LIBFT} -o ${NAME}
+				${CC} ${FLAGS} ${LOCA_OBJ_MAIN} ${MYLIB} ${PATH_LIBFT}${LIBFT} -lncurses -o ${NAME}
 				@echo "$(shell tput bold)\t${NAME} compiled$(shell tput sgr0)"
 
 objs_dir:
