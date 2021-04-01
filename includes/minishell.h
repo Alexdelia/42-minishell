@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 15:09:47 by adelille         ###   ########.fr       */
+/*   Updated: 2021/03/31 16:12:33 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <signal.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 # define STDIN 0
 # define STDOUT 1
@@ -73,6 +76,7 @@ void			print_env(t_env *env);
 ** word_utils
 */
 
+t_word			*ft_word_split(char *str, int stop);
 t_word			*ft_new_word(char *str);
 t_word			*ft_get_last_word(t_word *word);
 void			ft_add_back_word(t_word **word, t_word *new);
@@ -85,7 +89,6 @@ void			ft_free_all_word(t_word *word);
 
 int				ft_exec_command(char *line, t_env *env);
 int				ft_redirection(char *line, int process_num);
-int				ft_exec_command(t_env *env, char *line);
 
 /*
 ** command
