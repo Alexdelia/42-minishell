@@ -6,11 +6,11 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 11:46:13 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 15:38:46 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/01 12:57:08 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 char	*ft_next_word(char *line, int i)
 {

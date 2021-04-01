@@ -6,11 +6,11 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 18:19:32 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/30 18:32:09 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/01 12:56:15 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	ft_cd(char *path)
 {

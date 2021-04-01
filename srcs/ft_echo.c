@@ -6,11 +6,11 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:41:22 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/01 12:20:34 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/01 12:56:04 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static int	ft_is_n(char *str)
 {
