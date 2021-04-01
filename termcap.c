@@ -6,7 +6,7 @@
 /*   By: nessayan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 16:39:58 by nessayan          #+#    #+#             */
-/*   Updated: 2021/04/01 14:31:16 by nessayan         ###   ########.fr       */
+/*   Updated: 2021/04/01 15:16:34 by nessayan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int	init_term(void)
 int	main(void)
 {
 	int term;
-	char str[] = "Hello kaajlsjaljsljaljdljalsjdjsjljjsKJSLJLJLSAJADLjlsjjJljl";
-	term = init_term();
+	/*char str[] = "Hello kaajlsjaljsljaljdljalsjdjsjljjsKJSLJLJLSAJADLjlsjjJljl";*/
+	term = init_term();/*
 	ft_putstr_fd(str, STDOUT);
 	char *cap = tgetstr("le", NULL);
 	int i = 0;
@@ -59,10 +59,10 @@ int	main(void)
 	{
 		tputs (cap, STDOUT, ft_putchar);
 		i++;
-	}
-	/*printf("co = %d; li = %d\n", tgetnum("c"), tgetnum("li"));
+	}*/
+	printf("co = %d; li = %d\n", tgetnum("co"), tgetnum("li"));
 	printf("os = %d\n", tgetflag("os"));
-	char *cl_cap = tgetstr("md", NULL);
+	char *cl_cap = tgetstr("cl", NULL);
 	tputs (cl_cap, STDOUT, ft_putchar);
 	printf("Coucou\n");
 	char* color_cap = tgetstr("AF", NULL);
@@ -77,5 +77,5 @@ int	main(void)
 	tputs(cl_cap, 1, putchar);
 	printf("Texte vert souligné\n");
 	char *cm_cap = tgetstr("cm", NULL);
-	tputs(tgoto(cm_cap, 5, 5), 1, putchar);*/
+	tputs(tgoto(cm_cap, 5, 5), 1, putchar);
 }
