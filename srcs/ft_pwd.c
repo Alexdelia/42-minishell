@@ -6,11 +6,11 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 18:32:23 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 12:12:08 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/01 12:56:32 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	ft_pwd(int fd)
 {
