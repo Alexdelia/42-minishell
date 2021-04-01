@@ -6,7 +6,7 @@
 /*   By: nessayan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 16:39:58 by nessayan          #+#    #+#             */
-/*   Updated: 2021/03/31 18:22:02 by nessayan         ###   ########.fr       */
+/*   Updated: 2021/04/01 14:31:16 by nessayan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,17 @@ int	init_term(void)
 int	main(void)
 {
 	int term;
-
+	char str[] = "Hello kaajlsjaljsljaljdljalsjdjsjljjsKJSLJLJLSAJADLjlsjjJljl";
 	term = init_term();
-	printf("co = %d; li = %d\n", tgetnum("co"), tgetnum("li"));
+	ft_putstr_fd(str, STDOUT);
+	char *cap = tgetstr("le", NULL);
+	int i = 0;
+	while (i < (int)ft_strlen(str) - 10)
+	{
+		tputs (cap, STDOUT, ft_putchar);
+		i++;
+	}
+	/*printf("co = %d; li = %d\n", tgetnum("c"), tgetnum("li"));
 	printf("os = %d\n", tgetflag("os"));
 	char *cl_cap = tgetstr("md", NULL);
 	tputs (cl_cap, STDOUT, ft_putchar);
@@ -68,4 +76,6 @@ int	main(void)
 	tputs(underline_cmd, 1, putchar);
 	tputs(cl_cap, 1, putchar);
 	printf("Texte vert souligné\n");
+	char *cm_cap = tgetstr("cm", NULL);
+	tputs(tgoto(cm_cap, 5, 5), 1, putchar);*/
 }
