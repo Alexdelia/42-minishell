@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/01 18:12:24 by nessayan         ###   ########.fr       */
+/*   Updated: 2021/04/02 11:47:00 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ int		main(int ac, char **av, char **env)
 			launch_minishell(&d, l);
 			free(l);
 		}
+	if (l)
+		free(l);
 	else if (ac == 3 && ft_strcmp(av[1], "-c") == 0)
 		launch_minishell(&d, av[2]);
 	else
