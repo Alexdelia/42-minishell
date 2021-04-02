@@ -14,6 +14,7 @@
 
 t_env	*new_env(char *str)
 {
+	int	i;
 	t_env	*new;
 	char	**split;
 
@@ -22,6 +23,12 @@ t_env	*new_env(char *str)
 	new->name = split[0];
 	new->data = split[1];
 	new->next = NULL;
+	i = 2;
+	while (split[i] != NULL)
+	{
+		free(split[i]);
+		i++;
+	}
 	free(split);
 	return (new);
 }
