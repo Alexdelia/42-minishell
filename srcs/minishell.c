@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/02 11:47:00 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/02 11:56:15 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int		main(int ac, char **av, char **env)
 	init_data(&d, env);
 	enable_raw_mode();
 	term = init_term();
+	l = NULL;
 	if (ac == 1)
 		while (d.exit == 0)
 		{
@@ -107,12 +108,12 @@ int		main(int ac, char **av, char **env)
 			launch_minishell(&d, l);
 			free(l);
 		}
-	if (l)
-		free(l);
 	else if (ac == 3 && ft_strcmp(av[1], "-c") == 0)
 		launch_minishell(&d, av[2]);
 	else
 		ft_putstr_fd("\033[0;31mWrong arguments - Please retry\n", STDERR);
+	if (l)
+		free(l);
 	/*print_env(d.env);
 	printf("=================\n");
 	print_hist(d.hist);*/
