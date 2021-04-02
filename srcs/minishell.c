@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/02 10:03:19 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/02 11:02:32 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int		main(int ac, char **av, char **env)
 	if (ac == 1)
 		while (d.exit == 0)
 		{
-			ft_putstr_fd("\033[0;36m\033[1mminishell ▸ \033[0m", STDERR);
+			//ft_putstr_fd("\033[0;36m\033[1mminishell ▸ \033[0m", STDERR);
+			ft_prompt_line();
 			get_next_line(STDIN, &l);
 			launch_minishell(&d, l);
 			free(l);

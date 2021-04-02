@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   ft_prompt.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/30 18:19:32 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/02 10:34:50 by adelille         ###   ########.fr       */
+/*   Created: 2021/04/02 10:39:17 by adelille          #+#    #+#             */
+/*   Updated: 2021/04/02 11:06:05 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_cd(char *path)
+int		ft_prompt_line(void)
 {
-	if (chdir(path) == -1)
+	char	path[PATH_LEN];
+	int		i;
+	int		y;
+
+	getcwd(path, PATH_LEN - 1);
+	i = 0;
+	y = 0;
+	while (path[i])
 	{
-		ft_putstr_fd("Error:\t\"", 2);
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd("\" not found\n", 2);
-		return (FALSE);
+		if (path[i] == '/')
+			y = i;
+		i++;
 	}
-	return (TRUE);
+	ft_pserc("➜  ", GRN);
+	ft_pserc("minishell ", "\033[1;36m");
+	ft_pserc(&path[y + 1], BIMAG);
+	ft_pserc(" ▸ ", "\033[1;36m");
+	return (0);
 }
