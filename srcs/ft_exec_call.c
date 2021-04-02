@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/01 12:56:58 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/02 10:33:27 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ int	ft_parse_exec(t_word *word, t_env *env, int fd)
 		fd += 2;*/
 	if (ft_strcmp(word->data, "echo") == 0)
 		ft_echo(fd, word->next, env);
-	/*else if (ft_strcmp(word->data, "cd") == 0)
-		ft_cd(word->data);
+	else if (ft_strcmp(word->data, "cd") == 0)
+		ft_cd(word->next->data);
 	else if (ft_strcmp(word->data, "pwd") == 0)
-		ft_pwd(fd);
+		ft_pwd(fd);/*
 	else if (ft_strcmp(word->data, "export") == 0)
 		ft_export();
 	else if (ft_strcmp(word->data, "unset") == 0)
-		ft_unset(word, env);
+		ft_unset(word, env);*/
 	else if (ft_strcmp(word->data, "env") == 0)
-		ft_env(fd, *env);
+		ft_env(fd, env);/*
 	else
 		ft_exec(word->data, *word->next, *env, fd);
 	** this can be call somewhere else because getting back envp can be a pain in the ass

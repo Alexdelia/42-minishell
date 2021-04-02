@@ -101,7 +101,8 @@ int		main(int ac, char **av, char **env)
 	if (ac == 1)
 		while (d.exit == 0)
 		{
-			ft_putstr_fd("\033[0;36m\033[1mminishell ▸ \033[0m", STDERR);
+			//ft_putstr_fd("\033[0;36m\033[1mminishell ▸ \033[0m", STDERR);
+			ft_prompt_line();
 			get_next_line(STDIN, &l);
 			launch_minishell(&d, l);
 			free(l);

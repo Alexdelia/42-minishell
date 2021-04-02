@@ -90,6 +90,12 @@ void			ft_free_one_word(t_word *word);
 void			ft_free_all_word(t_word *word);
 
 /*
+** prompt
+*/
+
+int				ft_prompt_line(void);
+
+/*
 ** calling command
 */
 
@@ -103,7 +109,7 @@ int				ft_redirection(char *line, int process_num);
 int				ft_echo(int fd, t_word *word, t_env *env);
 int				ft_cd(char *path);
 void			ft_pwd(int fd);
-void			ft_env(int fd, t_env env);
+void			ft_env(int fd, t_env *env);
 
 /*
 ** search in lst
