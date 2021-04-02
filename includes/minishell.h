@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 16:12:33 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/02 10:27:58 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int				ft_redirection(char *line, int process_num);
 int				ft_echo(int fd, t_word *word, t_env *env);
 int				ft_cd(char *path);
 void			ft_pwd(int fd);
-void			ft_env(int fd, t_env env);
+void			ft_env(int fd, t_env *env);
 
 /*
 ** search in lst
