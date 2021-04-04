@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/02 17:27:58 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/04 14:24:30 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,8 @@ void	process_input_newline(t_data *d, char **l)
 		store_hist(d, *l);
 		ft_exec_command(*l, d->env);
 	}
-	ft_putstr_fd("\033[0;36m\033[1mminishell ▸ \033[0m", STDERR);
+	ft_prompt_line();
+	//ft_putstr_fd("\033[0;36m\033[1mminishell ▸ \033[0m", STDERR);
 }
 
 void	process_arrow_up(t_data *d, char **l)
@@ -237,7 +238,8 @@ int		process_input(t_data *d, char **l)
 	else if (c == 27)
 		process_input_arrows(d, l);
 	else if (c == 3)
-		ft_putstr_fd("\n\033[0;36m\033[1mminishell ▸ \033[0m", STDERR);
+		ft_prompt_line();
+	//ft_putstr_fd("\n\033[0;36m\033[1mminishell ▸ \033[0m", STDERR);
 	else if (c == 4)
 		d->exit = 1;
 	if (c == 10 || c == 3 || c == 4)
@@ -283,7 +285,8 @@ int		main(int ac, char **av, char **env)
 	{
 		enable_raw_mode();
 		l = NULL;
-		ft_putstr_fd("\033[0;36m\033[1mminishell ▸ \033[0m", STDERR);
+		ft_prompt_line();
+		//ft_putstr_fd("\033[0;36m\033[1mminishell ▸ \033[0m", STDERR);
 		while (d.exit == 0)
 			process_input(&d, &l);
   }
