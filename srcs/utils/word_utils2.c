@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst_search.c                                    :+:      :+:    :+:   */
+/*   word_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/30 18:13:42 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/01 12:56:46 by adelille         ###   ########.fr       */
+/*   Created: 2021/04/06 15:53:04 by nicolases         #+#    #+#             */
+/*   Updated: 2021/04/06 16:10:35 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*ft_env_search(char *str, t_env *env)
-{
-	if (str[0] != '$')
-		return (str);
-	while (env != NULL)
-	{
-		if (ft_strcmp(&str[1], env->name) == 0)
-			return (env->data);
-		env = env->next;
-	}
-	return (str);
-}
-
-int		ft_word_search(char *str, t_word *word)
+int	ft_word_search(char *str, t_word *word)
 {
 	while (word != NULL)
 	{

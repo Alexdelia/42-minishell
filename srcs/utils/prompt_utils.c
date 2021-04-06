@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_prompt.c                                        :+:      :+:    :+:   */
+/*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 10:39:17 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/02 11:34:02 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/06 16:11:18 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,27 @@ int		ft_prompt_line(void)
 	ft_pserc(&path[y + 1], BIMAG);
 	ft_pserc(" ▸ ", "\033[1;36m");
 	return (0);
+}
+
+void	put_cursor_backward(int n)
+{
+	int i;
+
+	i = 0;
+	while (i < n)
+	{
+		ft_putstr_fd("\x1b[1D", STDIN);
+		i++;
+	}
+	ft_putstr_fd("\x1b[K", STDIN);
+}
+
+void	erase_line(char **l)
+{
+	int size;
+
+	size = ft_strlen(*l);
+	put_cursor_backward(size);
+	free(*l);
+	*l = NULL;
 }
