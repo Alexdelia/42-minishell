@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 10:39:17 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/02 11:06:05 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/06 15:27:30 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,27 @@ int		ft_prompt_line(void)
 	ft_pserc(&path[y + 1], BIMAG);
 	ft_pserc(" ▸ ", "\033[1;36m");
 	return (0);
+}
+
+void	put_cursor_backward(int n)
+{
+	int i;
+
+	i = 0;
+	while (i < n)
+	{
+		ft_putstr_fd("\x1b[1D", STDIN);
+		i++;
+	}
+	ft_putstr_fd("\x1b[K", STDIN);
+}
+
+void	erase_line(char **l)
+{
+	int size;
+
+	size = ft_strlen(*l);
+	put_cursor_backward(size);
+	free(*l);
+	*l = NULL;
 }
