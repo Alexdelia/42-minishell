@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/01 18:14:03 by nessayan         ###   ########.fr       */
+/*   Updated: 2021/04/02 17:28:35 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 # include <fcntl.h>
 # include <termios.h>
 # include <stdlib.h>
-# include <curses.h>
-# include <term.h>
 
 # define STDIN 0
 # define STDOUT 1
@@ -52,6 +50,8 @@ typedef	struct	s_data {
 	t_hist			*hist;
 	t_env			*env;
 	int				exit;
+	int				hc;
+	int				ts;
 }				t_data;
 
 /*
@@ -59,8 +59,7 @@ typedef	struct	s_data {
 */
 
 t_hist			*new_hist(char *str);
-t_hist			*get_last_hist(t_hist *hist);
-void			add_back_hist(t_hist **hist, t_hist *new);
+void			add_front_hist(t_hist **hist, t_hist *new);
 void			store_hist(t_data *d, char *l);
 void			free_one_hist(t_hist *hist);
 void			free_all_hist(t_hist *hist);

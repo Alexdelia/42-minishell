@@ -20,7 +20,7 @@ char	*ft_env_search(char *str, t_env *env)
 			return (env->data);
 		env = env->next;
 	}
-	return ("\0");
+	return (str);
 }
 
 int		ft_word_search(char *str, t_word *word)
