@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/04 14:24:30 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/06 09:54:51 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,8 +238,11 @@ int		process_input(t_data *d, char **l)
 	else if (c == 27)
 		process_input_arrows(d, l);
 	else if (c == 3)
+	{
+		ft_putchar_fd('\n', STDERR);
 		ft_prompt_line();
 	//ft_putstr_fd("\n\033[0;36m\033[1mminishell ▸ \033[0m", STDERR);
+	}
 	else if (c == 4)
 		d->exit = 1;
 	if (c == 10 || c == 3 || c == 4)
