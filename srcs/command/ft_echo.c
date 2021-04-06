@@ -30,24 +30,21 @@ static int	ft_is_n(char *str)
 	return (FALSE);
 }
 
-static void	ft_echo_env_convert(int fd, char *str, t_env *env)
-{
-	ft_putstr_fd(ft_env_search(&str[1], env), fd);
-}
-
-int			ft_echo(int fd, t_word *word, t_env *env)
+int			ft_echo(int fd, t_word *word)
 {
 	t_word	*head;
 
+	if (!word)
+	{
+		ft_putstr_fd("\n", fd);
+		return (1);
+	}
 	head = word;
 	while (ft_is_n(word->data))
 		word = word->next;
 	while (word)
 	{
-		if (word->data[0] == '$')
-			ft_echo_env_convert(fd, word->data, env);
-		else
-			ft_putstr_fd(word->data, fd);
+		ft_putstr_fd(word->data, fd);
 		word = word->next;
 		if (word)
 			ft_putstr_fd(" ", fd);

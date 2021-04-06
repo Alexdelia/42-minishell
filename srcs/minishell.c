@@ -152,6 +152,11 @@ void	process_input_newline(t_data *d, char **l)
 	if (*l != NULL)
 	{
 		store_hist(d, *l);
+		if (ft_strcmp(*l, "exit") == 0)
+		{
+			d->exit = 1;
+			return;
+		}
 		ft_exec_command(*l, d->env);
 	}
 	ft_prompt_line();
@@ -292,7 +297,7 @@ int		main(int ac, char **av, char **env)
 		//ft_putstr_fd("\033[0;36m\033[1mminishell ▸ \033[0m", STDERR);
 		while (d.exit == 0)
 			process_input(&d, &l);
-  }
+	}
 	else if (ac == 3 && ft_strcmp(av[1], "-c") == 0)
 		ft_exec_command(av[2], d.env);
 	else
