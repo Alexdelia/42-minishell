@@ -81,15 +81,19 @@ static int	ft_convert_basic(t_word **word, t_env *env,
 	while (str[i] && str[i] != ' '
 			&& str[i] != '\"' && str[i] != '\'')
 	{
+		if (str[i] == '\\' && str[i + 1])
+			i++;
+		else if (str[i] == '\\' && !str[i + 1])
+			return (-1);
 		elem[y] = str[i];
 		y++;
 		i++;
 	}
 	elem[y] = '\0';
 	if (c == 0)
-		(*word) = ft_new_word(ft_env_search(elem, env));
+		(*word) = ft_new_word(ft_env_search_advanced(elem, env));
 	else
-		ft_add_back_word(word, ft_new_word(ft_env_search(elem, env)));
+		ft_add_back_word(word, ft_new_word(ft_env_search_advanced(elem, env)));
 	free(elem);
 	return (i);
 }
@@ -102,7 +106,7 @@ t_word	*ft_word_split(t_env *env, char *str, int stop)
 
 	i = 0;
 	c = 0;
-	while (str[i] && stop >= 0)
+	while (i >= 0 && str[i] && stop >= 0)
 	{
 		if (i > 0 && str[i] == ' ')
 			i++;
@@ -120,6 +124,12 @@ t_word	*ft_word_split(t_env *env, char *str, int stop)
 		else if (stop == 0)
 			i = ft_convert_basic(&word, env, str, i, c);
 		c++;
+	}
+	if (i < 0)
+	{
+		ft_pserc("Error: multiligne\n", RED);
+		ft_free_all_word(word);
+		return (NULL);
 	}
 	return (word);
 }
