@@ -18,21 +18,33 @@ int	ft_exec(const char *path, t_word word, t_env env, int fd)
 	char	*envp;
 	int		i;
 	int		y;
+	int		pid;
+	char	c;
 
-	y = 0;
-	while(word)
+	pid = fork();
+	if (pid == 0)
 	{
-		i = 0;
-		while (word->data[i])
+		y = 0;
+		while(word)
 		{
-			av[y][i] = word->data[i];
-			i++;
+			i = 0;
+			while (word->data[i])
+			{
+				av[y][i] = word->data[i];
+				i++;
+			}
+			y++;
+			word = word.next;
 		}
-		y++;
-		word = word.next;
+		// find a way to get envp back;
+		execve(path, av, envp);
 	}
-	// find a way to get envp back;
-	execve(path, av, envp);
+	else if (pid != 0)
+	{
+		if (read(STDIN, &c, 1) != -1 && c == 28)
+			kill(pid, SIGKILL);
+		wait(NULL);
+	}
 	if (fd != STDOUT || fd != STDIN)
 		close(fd);
 	return (0);
