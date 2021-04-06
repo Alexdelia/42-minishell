@@ -289,13 +289,13 @@ int		main(int ac, char **av, char **env)
 		//ft_putstr_fd("\033[0;36m\033[1mminishell ▸ \033[0m", STDERR);
 		while (d.exit == 0)
 			process_input(&d, &l);
-  }
+		if (l)
+			free(l);
+	}
 	else if (ac == 3 && ft_strcmp(av[1], "-c") == 0)
 		ft_exec_command(av[2], d.env);
 	else
 		ft_putstr_fd("\033[0;31mWrong arguments - Please retry\n", STDERR);
-	if (l)
-		free(l);
 	/*print_env(d.env);
 	printf("=================\n");
 	print_hist(d.hist);*/

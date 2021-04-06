@@ -14,9 +14,11 @@
 
 char	*ft_env_search(char *str, t_env *env)
 {
+	if (str[0] != '$')
+		return (str);
 	while (env != NULL)
 	{
-		if (ft_strcmp(str, env->name) == 0)
+		if (ft_strcmp(&str[1], env->name) == 0)
 			return (env->data);
 		env = env->next;
 	}

@@ -17,7 +17,7 @@ int	ft_parse_exec(t_word *word, t_env *env, int fd)
 	/*if (actual_p < total_p)
 		fd += 2;*/
 	if (ft_strcmp(word->data, "echo") == 0)
-		ft_echo(fd, word->next, env);
+		ft_echo(fd, word->next);
 	else if (ft_strcmp(word->data, "cd") == 0)
 		ft_cd(word->next->data);
 	else if (ft_strcmp(word->data, "pwd") == 0)
@@ -86,7 +86,7 @@ int	ft_exec_command(char *line, t_env *env)
 	while(process_num > 0)
 	{
 		//pid = fork();
-		word = ft_word_split(line, base_p_num - process_num);
+		word = ft_word_split(env, line, base_p_num - process_num);
 		//ft_print_word(word);
 		if (base_p_num > 1)
 			fd = ft_redirection(line, base_p_num - process_num);

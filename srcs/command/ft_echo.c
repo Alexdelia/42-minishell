@@ -30,7 +30,7 @@ static int	ft_is_n(char *str)
 	return (FALSE);
 }
 
-int			ft_echo(int fd, t_word *word, t_env *env)
+int			ft_echo(int fd, t_word *word)
 {
 	t_word	*head;
 

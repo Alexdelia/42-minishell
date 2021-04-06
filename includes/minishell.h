@@ -81,7 +81,7 @@ void			print_env(t_env *env);
 ** word_utils
 */
 
-t_word			*ft_word_split(char *str, int stop);
+t_word			*ft_word_split(t_env *env, char *str, int stop);
 t_word			*ft_new_word(char *str);
 t_word			*ft_get_last_word(t_word *word);
 void			ft_add_back_word(t_word **word, t_word *new);
@@ -105,7 +105,7 @@ int				ft_redirection(char *line, int process_num);
 ** command
 */
 
-int				ft_echo(int fd, t_word *word, t_env *env);
+int				ft_echo(int fd, t_word *word);
 int				ft_cd(char *path);
 void			ft_pwd(int fd);
 void			ft_env(int fd, t_env *env);

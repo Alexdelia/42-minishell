@@ -38,11 +38,11 @@ static int	ft_convert_single(t_word **word, char *str, int i, int c)
 	return (i);
 }
 
-static int	ft_convert_double(t_word **word, char str, int i, int c)
+static int	ft_convert_double(t_word **word, t_env *env,
+	char *str, int i, int c)
 {
 	int		y;
 	char	*elem;
-	char	*va_env
 
 	y = 0;
 	i++;
@@ -58,14 +58,15 @@ static int	ft_convert_double(t_word **word, char str, int i, int c)
 	}
 	elem[y] = '\0';
 	if (c == 0)
-		(*word) = ft_new_word(ft_env_search(elem));
+		(*word) = ft_new_word(ft_env_search(elem, env));
 	else
-		ft_add_back_word(word, ft_new_word(ft_env_search(elem)));
+		ft_add_back_word(word, ft_new_word(ft_env_search(elem, env)));
 	free(elem);
 	return (i);
 }
 
-static int	ft_convert_basic(t_word **word, char *str, int i, int c)
+static int	ft_convert_basic(t_word **word, t_env *env,
+	char *str, int i, int c)
 {
 	int		y;
 	char	*elem;
@@ -86,14 +87,14 @@ static int	ft_convert_basic(t_word **word, char *str, int i, int c)
 	}
 	elem[y] = '\0';
 	if (c == 0)
-		(*word) = ft_new_word(ft_env_search(elem));
+		(*word) = ft_new_word(ft_env_search(elem, env));
 	else
-		ft_add_back_word(word, ft_new_word(ft_env_search(elem)));
+		ft_add_back_word(word, ft_new_word(ft_env_search(elem, env)));
 	free(elem);
 	return (i);
 }
 
-t_word	*ft_word_split(char *str, int stop)
+t_word	*ft_word_split(t_env *env, char *str, int stop)
 {
 	int		i;
 	t_word	*word;
@@ -113,11 +114,11 @@ t_word	*ft_word_split(char *str, int stop)
 			stop--;
 		}
 		else if (stop == 0 && str[i] == '\"')
-			i = ft_convert_double(&word, str, i, c);
+			i = ft_convert_double(&word, env, str, i, c);
 		else if (stop == 0 && str[i] == '\'')
 			i = ft_convert_single(&word, str, i, c);
 		else if (stop == 0)
-			i = ft_convert_basic(&word, str, i, c);
+			i = ft_convert_basic(&word, env, str, i, c);
 		c++;
 	}
 	return (word);
