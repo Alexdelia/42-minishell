@@ -34,6 +34,11 @@ int			ft_echo(int fd, t_word *word)
 {
 	t_word	*head;
 
+	if (!word)
+	{
+		ft_putstr_fd("\n", fd);
+		return (1);
+	}
 	head = word;
 	while (ft_is_n(word->data))
 		word = word->next;
