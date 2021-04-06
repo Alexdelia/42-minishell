@@ -12,18 +12,18 @@
 
 #include "../includes/minishell.h"
 
-static int	ft_convert_string(t_word **word, char *str, int i, int c)
+static int	ft_convert_single(t_word **word, char *str, int i, int c)
 {
 	int		y;
 	char	*elem;
 
 	y = 0;
 	i++;
-	while (str[i] && (str[i + y] != '\"' && str[i + y] != '\''))
+	while (str[i] && str[i + y] != '\'')
 		y++;
 	elem = (char *)malloc(sizeof(char *) * y + 1);
 	y = 0;
-	while (str[i] && (str[i] != '\"' && str[i] != '\''))
+	while (str[i] && str[i] != '\'')
 	{
 		elem[y] = str[i];
 		y++;
@@ -38,7 +38,35 @@ static int	ft_convert_string(t_word **word, char *str, int i, int c)
 	return (i);
 }
 
-static int	ft_convert_basic(t_word **word, char *str, int i, int c)
+static int	ft_convert_double(t_word **word, t_env *env,
+	char *str, int i, int c)
+{
+	int		y;
+	char	*elem;
+
+	y = 0;
+	i++;
+	while (str[i] && str[i + y] != '\"')
+		y++;
+	elem = (char *)malloc(sizeof(char *) * y + 1);
+	y = 0;
+	while (str[i] && str[i] != '\"')
+	{
+		elem[y] = str[i];
+		y++;
+		i++;
+	}
+	elem[y] = '\0';
+	if (c == 0)
+		(*word) = ft_new_word(ft_env_search(elem, env));
+	else
+		ft_add_back_word(word, ft_new_word(ft_env_search(elem, env)));
+	free(elem);
+	return (i);
+}
+
+static int	ft_convert_basic(t_word **word, t_env *env,
+	char *str, int i, int c)
 {
 	int		y;
 	char	*elem;
@@ -59,14 +87,14 @@ static int	ft_convert_basic(t_word **word, char *str, int i, int c)
 	}
 	elem[y] = '\0';
 	if (c == 0)
-		(*word) = ft_new_word(elem);
+		(*word) = ft_new_word(ft_env_search(elem, env));
 	else
-		ft_add_back_word(word, ft_new_word(elem));
+		ft_add_back_word(word, ft_new_word(ft_env_search(elem, env)));
 	free(elem);
 	return (i);
 }
 
-t_word	*ft_word_split(char *str, int stop)
+t_word	*ft_word_split(t_env *env, char *str, int stop)
 {
 	int		i;
 	t_word	*word;
@@ -85,10 +113,12 @@ t_word	*ft_word_split(char *str, int stop)
 				i++;
 			stop--;
 		}
-		else if (stop == 0 && (str[i] == '\"' || str[i] == '\''))
-			i = ft_convert_string(&word, str, i, c);
+		else if (stop == 0 && str[i] == '\"')
+			i = ft_convert_double(&word, env, str, i, c);
+		else if (stop == 0 && str[i] == '\'')
+			i = ft_convert_single(&word, str, i, c);
 		else if (stop == 0)
-			i = ft_convert_basic(&word, str, i, c);
+			i = ft_convert_basic(&word, env, str, i, c);
 		c++;
 	}
 	return (word);

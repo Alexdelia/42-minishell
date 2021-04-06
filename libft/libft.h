@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 15:47:54 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/06 15:21:55 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/06 16:12:28 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void *));
 # define GRN	"\033[1;32m"
 # define SBLU	"\033[5;3;34m"
 # define DEF	"\033[0m"
+# define CLEAR_SCREEN_ANSI	" \e[1;1H\e[2J"
 
 int				ft_ps(char *str);
 int				ft_psc(char *str, char *color);
