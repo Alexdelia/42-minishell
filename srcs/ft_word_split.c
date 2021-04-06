@@ -87,9 +87,9 @@ static int	ft_convert_basic(t_word **word, t_env *env,
 	}
 	elem[y] = '\0';
 	if (c == 0)
-		(*word) = ft_new_word(ft_env_search(elem, env));
+		(*word) = ft_new_word(ft_env_search_advanced(elem, env));
 	else
-		ft_add_back_word(word, ft_new_word(ft_env_search(elem, env)));
+		ft_add_back_word(word, ft_new_word(ft_env_search_advanced(elem, env)));
 	free(elem);
 	return (i);
 }

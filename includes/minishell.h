@@ -114,6 +114,7 @@ void			ft_env(int fd, t_env *env);
 ** search in lst
 */
 
+char			*ft_env_search_advanced(char *str, t_env *env);
 char			*ft_env_search(char *str, t_env *env);
 int				ft_word_search(char *str, t_word *word);
 

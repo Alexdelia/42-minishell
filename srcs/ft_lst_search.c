@@ -12,6 +12,15 @@
 
 #include "../includes/minishell.h"
 
+char	*ft_env_search_advanced(char *str, t_env *env)
+{
+	char	path[PATH_LEN];
+
+	if (str[0] == '~' && !str[1])
+		return (getcwd(path, PATH_LEN - 1));
+	return (ft_env_search(str, env));
+}
+
 char	*ft_env_search(char *str, t_env *env)
 {
 	if (str[0] != '$')
