@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_utils2.c                                      :+:      :+:    :+:   */
+/*   free_tab.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/07 19:01:36 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/07 19:01:37 by nicolases        ###   ########.fr       */
+/*   Created: 2021/04/07 18:41:44 by nicolases         #+#    #+#             */
+/*   Updated: 2021/04/07 18:47:04 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int	ft_word_search(char *str, t_word *word)
+void	free_tab(char **str)
 {
-	while (word != NULL)
+	int i;
+
+	i = 0;
+	while (str[i] != NULL)
 	{
-		if (ft_strcmp(str, word->data) == 0)
-			return (TRUE);
-		word = word->next;
+		free(str[i]);
+		i++;
 	}
-	return (FALSE);
+	free(str);
 }
