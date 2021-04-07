@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/07 12:43:45 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 15:15:20 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,21 @@ static int	ft_convert_double(t_word **word, t_env *env,
 		if (str[i] == '$')
 		{
 			y = ft_mi_strcat(&elem, &str[i], y, env);
-			while (str[i] && str[i] != ' ')
+			while (str[i] && str[i] != '\"')
 				i++;
-			break;
 		}
-		elem[y] = str[i];
-		y++;
-		i++;
+		else
+		{
+			elem[y] = str[i];
+			y++;
+			i++;
+		}
 	}
 	elem[y] = '\0';
 	if (c == 0)
-		(*word) = ft_new_word(ft_env_search(elem, env));
+		(*word) = ft_new_word(ft_special_convertion(elem));
 	else
-		ft_add_back_word(word, ft_new_word(ft_env_search(elem, env)));
+		ft_add_back_word(word, ft_new_word(ft_special_convertion(elem)));
 	free(elem);
 	return (i);
 }
@@ -91,10 +93,10 @@ static int	ft_convert_basic(t_word **word, t_env *env,
 			i++;
 		else if (str[i] == '\\' && !str[i + 1])
 			return (-1);
-		else if (str[i] == '$')
+		if (str[i] == '$')
 		{
 			y = ft_mi_strcat(&elem, &str[i], y, env);
-			while (str[i] && str[i] != ' ')
+			while (str[i] && str[i] != ' ' && str[i] != '\"' && str[i] != '\'')
 				i++;
 			break;
 		}
@@ -104,9 +106,9 @@ static int	ft_convert_basic(t_word **word, t_env *env,
 	}
 	elem[y] = '\0';
 	if (c == 0)
-		(*word) = ft_new_word(ft_env_search_advanced(elem, env));
+		(*word) = ft_new_word(ft_special_convertion(elem));
 	else
-		ft_add_back_word(word, ft_new_word(ft_env_search_advanced(elem, env)));
+		ft_add_back_word(word, ft_new_word(ft_special_convertion(elem)));
 	free(elem);
 	return (i);
 }

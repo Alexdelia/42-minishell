@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:18:42 by user42            #+#    #+#             */
-/*   Updated: 2021/04/07 12:44:45 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 14:40:48 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	ft_mi_strcat(char **dst, const char *src, int y, t_env *env)
 
 	i = 0;
 	na_env = (char *)malloc(sizeof(char *) * ft_strlen(src) + 1);
-	while (src[i] && src[i] != ' ')
+	while (src[i + 1] && src[i + 1] != ' '
+		&& src[i + 1] != '\"' && src[i + 1] != '\'')
 	{
-		//ft_ps("IN\n");
-		na_env[i] = src[i];
+		na_env[i] = src[i + 1];
 		i++;
 	}
 	na_env[i] = '\0';
@@ -32,7 +32,6 @@ int	ft_mi_strcat(char **dst, const char *src, int y, t_env *env)
 	i = 0;
 	while (dt_env[i] && y < PATH_LEN)
 	{
-		//ft_ps("OUT\n");
 		(*dst)[y] = dt_env[i];
 		i++;
 		y++;
