@@ -88,9 +88,10 @@ int	ft_exec_command(char *line, t_env *env)
 		//pid = fork();
 		if (!(word = ft_word_split(env, line, base_p_num - process_num)))
 			return (0);
+		//ft_ps(word->data);
 		//ft_print_word(word);
-		if (base_p_num > 1)
-			fd = ft_redirection(line, base_p_num - process_num);
+		//if (base_p_num > 1)
+		//	fd = ft_redirection(line, base_p_num - process_num);
 		fd = ft_parse_exec(word, env, fd);
 		process_num--;
 	}

@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/07 15:15:20 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 19:01:03 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	ft_convert_single(t_word **word, char *str, int i, int c)
 	i++;
 	while (str[i] && str[i + y] != '\'')
 		y++;
-	elem = (char *)malloc(sizeof(char *) * y + 1);
+	elem = (char *)malloc(sizeof(str) * (y + 1));
 	y = 0;
 	while (str[i] && str[i] != '\'')
 	{
@@ -30,6 +30,8 @@ static int	ft_convert_single(t_word **word, char *str, int i, int c)
 		i++;
 	}
 	elem[y] = '\0';
+	if (str[i] != '\'')
+		i = -1;
 	if (c == 0)
 		(*word) = ft_new_word(elem);
 	else
@@ -48,7 +50,7 @@ static int	ft_convert_double(t_word **word, t_env *env,
 	i++;
 	while (str[i] && str[i + y] != '\"')
 		y++;
-	elem = (char *)malloc(sizeof(char *) * y + 1);
+	elem = (char *)malloc(sizeof(elem) * (y + PATH_LEN));
 	y = 0;
 	while (str[i] && str[i] != '\"')
 	{	
@@ -66,6 +68,8 @@ static int	ft_convert_double(t_word **word, t_env *env,
 		}
 	}
 	elem[y] = '\0';
+	if (str[i] != '\"')
+		i = -1;
 	if (c == 0)
 		(*word) = ft_new_word(ft_special_convertion(elem));
 	else
@@ -81,12 +85,12 @@ static int	ft_convert_basic(t_word **word, t_env *env,
 	char	*elem;
 
 	y = 0;
-	while (str[i + y] && str[i + y] != ' '
+	while (str[i + y] && str[i + y] != ' ' && str[i + y] != ';'
 			&& str[i + y] != '\"' && str[i + y] != '\'')
 		y++;
-	elem = (char *)malloc(sizeof(char *) * (y + PATH_LEN));
+	elem = (char *)malloc(sizeof(elem) * (y + PATH_LEN));
 	y = 0;
-	while (str[i] && str[i] != ' '
+	while (str[i] && str[i] != ' ' && str[i] != ';'
 			&& str[i] != '\"' && str[i] != '\'')
 	{
 		if (str[i] == '\\' && str[i + 1])
@@ -96,7 +100,8 @@ static int	ft_convert_basic(t_word **word, t_env *env,
 		if (str[i] == '$')
 		{
 			y = ft_mi_strcat(&elem, &str[i], y, env);
-			while (str[i] && str[i] != ' ' && str[i] != '\"' && str[i] != '\'')
+			while (str[i] && str[i] != ' ' && str[i + y] != ';'
+					&& str[i] != '\"' && str[i] != '\'')
 				i++;
 			break;
 		}
@@ -138,7 +143,10 @@ t_word	*ft_word_split(t_env *env, char *str, int stop)
 			i = ft_convert_single(&word, str, i, c);
 		else if (stop == 0)
 			i = ft_convert_basic(&word, env, str, i, c);
-		c++;
+		if (word)
+			c++;
+		if (stop > 0)
+			i++;
 	}
 	if (i < 0)
 	{
