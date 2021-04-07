@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/07 15:52:18 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 18:35:30 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,12 @@ static int	ft_convert_basic(t_word **word, t_env *env,
 	char	*elem;
 
 	y = 0;
-	while (str[i + y] && str[i + y] != ' '
+	while (str[i + y] && str[i + y] != ' ' && str[i + y] != ';'
 			&& str[i + y] != '\"' && str[i + y] != '\'')
 		y++;
 	elem = (char *)malloc(sizeof(char *) * (y + PATH_LEN));
 	y = 0;
-	while (str[i] && str[i] != ' '
+	while (str[i] && str[i] != ' ' && str[i] != ';'
 			&& str[i] != '\"' && str[i] != '\'')
 	{
 		if (str[i] == '\\' && str[i + 1])
@@ -100,7 +100,8 @@ static int	ft_convert_basic(t_word **word, t_env *env,
 		if (str[i] == '$')
 		{
 			y = ft_mi_strcat(&elem, &str[i], y, env);
-			while (str[i] && str[i] != ' ' && str[i] != '\"' && str[i] != '\'')
+			while (str[i] && str[i] != ' ' && str[i + y] != ';'
+					&& str[i] != '\"' && str[i] != '\'')
 				i++;
 			break;
 		}
@@ -142,7 +143,10 @@ t_word	*ft_word_split(t_env *env, char *str, int stop)
 			i = ft_convert_single(&word, str, i, c);
 		else if (stop == 0)
 			i = ft_convert_basic(&word, env, str, i, c);
-		c++;
+		if (word)
+			c++;
+		if (stop > 0)
+			i++;
 	}
 	if (i < 0)
 	{
