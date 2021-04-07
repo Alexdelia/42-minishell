@@ -52,3 +52,14 @@ char	*ft_special_convertion(char *str)
 		return (getcwd(path, PATH_LEN - 1));
 	return (str);
 }
+
+t_env	*get_env_by_name(char *name, t_env *env)
+{
+	while (env != NULL)
+	{
+		if (ft_strcmp(name, env->name) == 0)
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
+}

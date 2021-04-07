@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_utils2.c                                      :+:      :+:    :+:   */
+/*   is_included.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/07 19:01:36 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/07 19:01:37 by nicolases        ###   ########.fr       */
+/*   Created: 2021/04/07 18:39:40 by nicolases         #+#    #+#             */
+/*   Updated: 2021/04/07 18:40:37 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
-int	ft_word_search(char *str, t_word *word)
+int	is_included(char *str, char c)
 {
-	while (word != NULL)
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
 	{
-		if (ft_strcmp(str, word->data) == 0)
-			return (TRUE);
-		word = word->next;
+		if (str[i] == c)
+			return (1);
+		i++;
 	}
-	return (FALSE);
+	return (0);
 }

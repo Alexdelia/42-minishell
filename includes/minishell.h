@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/07 15:16:25 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 18:55:36 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void			free_one_env(t_env *env);
 void			free_all_env(t_env *env);
 void			print_env(t_env *env);
 char			*ft_env_search(char *str, t_env *env);
+t_env			*get_env_by_name(char *name, t_env *env);
+int				is_inenv(char *str, t_env *env);
 
 /*
 ** word_utils
@@ -125,5 +127,7 @@ int				ft_cd(char *path);
 void			ft_pwd(int fd);
 void			ft_env(int fd, t_env *env);
 void			ft_export(t_word *word, t_env **env);
+void			print_declare_x(t_env *env);
+char			*join_env(t_word *word);
 
 #endif

@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_utils2.c                                      :+:      :+:    :+:   */
+/*   ft_tablen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/07 19:01:36 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/07 19:01:37 by nicolases        ###   ########.fr       */
+/*   Created: 2021/04/07 18:43:04 by nicolases         #+#    #+#             */
+/*   Updated: 2021/04/07 18:48:55 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int	ft_word_search(char *str, t_word *word)
+int	ft_tablen(char **str)
 {
-	while (word != NULL)
-	{
-		if (ft_strcmp(str, word->data) == 0)
-			return (TRUE);
-		word = word->next;
-	}
-	return (FALSE);
+	int i;
+
+	i = 0;
+	while (str[i] != NULL)
+		i++;
+	return (i);
 }
