@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/07 15:15:20 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 15:52:18 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static int	ft_convert_single(t_word **word, char *str, int i, int c)
 		i++;
 	}
 	elem[y] = '\0';
+	if (str[i] != '\'')
+		i = -1;
 	if (c == 0)
 		(*word) = ft_new_word(elem);
 	else
@@ -66,6 +68,8 @@ static int	ft_convert_double(t_word **word, t_env *env,
 		}
 	}
 	elem[y] = '\0';
+	if (str[i] != '\"')
+		i = -1;
 	if (c == 0)
 		(*word) = ft_new_word(ft_special_convertion(elem));
 	else
