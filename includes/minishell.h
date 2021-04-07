@@ -93,6 +93,7 @@ void			ft_add_back_word(t_word **word, t_word *new);
 void			ft_free_one_word(t_word *word);
 void			ft_free_all_word(t_word *word);
 int				ft_word_search(char *str, t_word *word);
+int				ft_mi_strcat(char **dst, const char *src, int y, t_env *env);
 
 /*
 ** prompt_utils
