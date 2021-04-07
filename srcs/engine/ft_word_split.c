@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/07 14:42:16 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 15:15:20 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ static int	ft_convert_double(t_word **word, t_env *env,
 	}
 	elem[y] = '\0';
 	if (c == 0)
-		(*word) = ft_new_word(elem);
+		(*word) = ft_new_word(ft_special_convertion(elem));
 	else
-		ft_add_back_word(word, ft_new_word(elem));
+		ft_add_back_word(word, ft_new_word(ft_special_convertion(elem)));
 	free(elem);
 	return (i);
 }
@@ -106,9 +106,9 @@ static int	ft_convert_basic(t_word **word, t_env *env,
 	}
 	elem[y] = '\0';
 	if (c == 0)
-		(*word) = ft_new_word(elem);
+		(*word) = ft_new_word(ft_special_convertion(elem));
 	else
-		ft_add_back_word(word, ft_new_word(elem));
+		ft_add_back_word(word, ft_new_word(ft_special_convertion(elem)));
 	free(elem);
 	return (i);
 }
