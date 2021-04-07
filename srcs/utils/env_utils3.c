@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   word_utils2.c                                      :+:      :+:    :+:   */
+/*   env_utils3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/07 19:01:36 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/07 19:01:37 by nicolases        ###   ########.fr       */
+/*   Created: 2021/04/07 18:53:30 by nicolases         #+#    #+#             */
+/*   Updated: 2021/04/07 18:54:27 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	ft_word_search(char *str, t_word *word)
+int	is_inenv(char *str, t_env *env)
 {
-	while (word != NULL)
+	while (env != NULL)
 	{
-		if (ft_strcmp(str, word->data) == 0)
-			return (TRUE);
-		word = word->next;
+		if (ft_strcmp(str, env->name) == 0)
+			return (1);
+		env = env->next;
 	}
-	return (FALSE);
+	return (0);
 }
