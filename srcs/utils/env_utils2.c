@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 18:32:39 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/06 16:52:47 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 14:11:35 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*ft_env_search(char *str, t_env *env)
 			return (env->data);
 		env = env->next;
 	}
-	return ("\0");
+	return (str);
 }
 
 char	*ft_env_search_advanced(char *str, t_env *env)
