@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:41:22 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/07 14:01:08 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/07 19:27:50 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int			ft_echo(int fd, t_word *word)
 			ft_putstr_fd(" ", fd);
 	}
 	word = head;
-	//ft_lstclear(head, free);
 	if (ft_is_n(word->data) == FALSE)
 		ft_putstr_fd("\n", fd);
 	if (fd != STDOUT)

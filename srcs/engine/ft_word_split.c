@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/07 19:01:03 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 19:25:39 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	ft_convert_double(t_word **word, t_env *env,
 	elem = (char *)malloc(sizeof(elem) * (y + PATH_LEN));
 	y = 0;
 	while (str[i] && str[i] != '\"')
-	{	
+	{
 		if (str[i] == '$')
 		{
 			y = ft_mi_strcat(&elem, &str[i], y, env);
@@ -103,7 +103,7 @@ static int	ft_convert_basic(t_word **word, t_env *env,
 			while (str[i] && str[i] != ' ' && str[i + y] != ';'
 					&& str[i] != '\"' && str[i] != '\'')
 				i++;
-			break;
+			break ;
 		}
 		elem[y] = str[i];
 		y++;
@@ -118,7 +118,7 @@ static int	ft_convert_basic(t_word **word, t_env *env,
 	return (i);
 }
 
-t_word	*ft_word_split(t_env *env, char *str, int stop)
+t_word		*ft_word_split(t_env *env, char *str, int stop)
 {
 	int		i;
 	t_word	*word;
