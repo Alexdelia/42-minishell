@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 14:14:43 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/31 14:24:41 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 19:27:07 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@ int	ft_exec(const char *path, t_word word, t_env env, int fd)
 	int		i;
 	int		y;
 	int		pid;
-	char	c;
 
 	pid = fork();
 	if (pid == 0)
 	{
 		y = 0;
-		while(word)
+		while (word)
 		{
 			i = 0;
 			while (word->data[i])

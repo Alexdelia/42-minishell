@@ -6,16 +6,14 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/07 16:49:28 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/07 19:21:41 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_parse_exec(t_word *word, t_env *env, int fd)
+int		ft_parse_exec(t_word *word, t_env *env, int fd)
 {
-	/*if (actual_p < total_p)
-		fd += 2;*/
 	if (ft_strcmp(word->data, "echo") == 0)
 		ft_echo(fd, word->next);
 	else if (ft_strcmp(word->data, "cd") == 0)
@@ -38,7 +36,7 @@ int	ft_parse_exec(t_word *word, t_env *env, int fd)
 	return (0);
 }
 
-int	ft_count_process(char *line)
+int		ft_count_process(char *line)
 {
 	int i;
 	int	process_num;
@@ -52,7 +50,7 @@ int	ft_count_process(char *line)
 		else if (line[i] == '>' || line[i] == '<')
 		{
 			process_num++;
-			if (line[i + 1] && (line [i + 1] == '>' || line[i + 1] == '<'))
+			if (line[i + 1] && (line[i + 1] == '>' || line[i + 1] == '<'))
 				i++;
 		}
 		i++;
@@ -70,7 +68,7 @@ void	ft_print_word(t_word *word)
 	}
 }
 
-int	ft_exec_command(char *line, t_env *env)
+int		ft_exec_command(char *line, t_env *env)
 {
 	int		process_num;
 	int		base_p_num;
@@ -83,7 +81,7 @@ int	ft_exec_command(char *line, t_env *env)
 	process_num = ft_count_process(line);
 	base_p_num = process_num;
 	fd = STDOUT;
-	while(process_num > 0)
+	while (process_num > 0)
 	{
 		//pid = fork();
 		if (!(word = ft_word_split(env, line, base_p_num - process_num)))
