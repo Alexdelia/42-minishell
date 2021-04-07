@@ -80,6 +80,7 @@ void			free_one_env(t_env *env);
 void			free_all_env(t_env *env);
 void			print_env(t_env *env);
 char			*ft_env_search(char *str, t_env *env);
+char			*ft_env_searchadvanced(char *str, t_env *env);
 
 /*
 ** word_utils
