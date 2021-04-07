@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/02 17:28:35 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/07 12:54:13 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ t_env			*init_env(char **env);
 void			free_one_env(t_env *env);
 void			free_all_env(t_env *env);
 void			print_env(t_env *env);
+char			*ft_env_search(char *str, t_env *env);
+char			*ft_env_search_advanced(char *str, t_env *env);
 
 /*
 ** word_utils
@@ -87,6 +89,8 @@ t_word			*ft_get_last_word(t_word *word);
 void			ft_add_back_word(t_word **word, t_word *new);
 void			ft_free_one_word(t_word *word);
 void			ft_free_all_word(t_word *word);
+int				ft_word_search(char *str, t_word *word);
+int				ft_mi_strcat(char **dst, const char *src, int y, t_env *env);
 
 /*
 ** prompt
@@ -109,13 +113,5 @@ int				ft_echo(int fd, t_word *word);
 int				ft_cd(char *path);
 void			ft_pwd(int fd);
 void			ft_env(int fd, t_env *env);
-
-/*
-** search in lst
-*/
-
-char			*ft_env_search_advanced(char *str, t_env *env);
-char			*ft_env_search(char *str, t_env *env);
-int				ft_word_search(char *str, t_word *word);
 
 #endif

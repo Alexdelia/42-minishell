@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/01 11:58:22 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 12:43:45 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	ft_convert_single(t_word **word, char *str, int i, int c)
 }
 
 static int	ft_convert_double(t_word **word, t_env *env,
-	char *str, int i, int c)
+		char *str, int i, int c)
 {
 	int		y;
 	char	*elem;
@@ -51,7 +51,14 @@ static int	ft_convert_double(t_word **word, t_env *env,
 	elem = (char *)malloc(sizeof(char *) * y + 1);
 	y = 0;
 	while (str[i] && str[i] != '\"')
-	{
+	{	
+		if (str[i] == '$')
+		{
+			y = ft_mi_strcat(&elem, &str[i], y, env);
+			while (str[i] && str[i] != ' ')
+				i++;
+			break;
+		}
 		elem[y] = str[i];
 		y++;
 		i++;
@@ -66,17 +73,16 @@ static int	ft_convert_double(t_word **word, t_env *env,
 }
 
 static int	ft_convert_basic(t_word **word, t_env *env,
-	char *str, int i, int c)
+		char *str, int i, int c)
 {
 	int		y;
 	char	*elem;
 
 	y = 0;
-	//i++;
 	while (str[i + y] && str[i + y] != ' '
 			&& str[i + y] != '\"' && str[i + y] != '\'')
 		y++;
-	elem = (char *)malloc(sizeof(char *) * y + 1);
+	elem = (char *)malloc(sizeof(char *) * (y + PATH_LEN));
 	y = 0;
 	while (str[i] && str[i] != ' '
 			&& str[i] != '\"' && str[i] != '\'')
@@ -85,6 +91,13 @@ static int	ft_convert_basic(t_word **word, t_env *env,
 			i++;
 		else if (str[i] == '\\' && !str[i + 1])
 			return (-1);
+		else if (str[i] == '$')
+		{
+			y = ft_mi_strcat(&elem, &str[i], y, env);
+			while (str[i] && str[i] != ' ')
+				i++;
+			break;
+		}
 		elem[y] = str[i];
 		y++;
 		i++;
@@ -111,7 +124,7 @@ t_word	*ft_word_split(t_env *env, char *str, int stop)
 		if (i > 0 && str[i] == ' ')
 			i++;
 		if (str[i] == '|' || str[i] == ';'
-					|| str[i] == '>' || str[i] == '<')
+				|| str[i] == '>' || str[i] == '<')
 		{
 			if (str[i + 1] && (str[i + 1] == '>' || str[i + 1] == '<'))
 				i++;

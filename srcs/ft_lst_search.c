@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 18:13:42 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/01 12:56:46 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/06 15:49:54 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@ char	*ft_env_search_advanced(char *str, t_env *env)
 {
 	char	path[PATH_LEN];
 
+	ft_ps("yes\n");
 	if (str[0] == '~' && !str[1])
 		return (getcwd(path, PATH_LEN - 1));
-	return (ft_env_search(str, env));
+	else if (str[0] == '$')
+		return (ft_env_search(str, env));
+	return (str);
 }
 
 char	*ft_env_search(char *str, t_env *env)
@@ -31,7 +34,7 @@ char	*ft_env_search(char *str, t_env *env)
 			return (env->data);
 		env = env->next;
 	}
-	return (str);
+	return ("\0");
 }
 
 int		ft_word_search(char *str, t_word *word)

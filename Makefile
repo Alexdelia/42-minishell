@@ -7,7 +7,8 @@ LOCA_OBJ_MAIN = $(addprefix ${PATH_OBJS}, $(notdir ${OBJ_MAIN}))
 
 SRCS = ft_prompt.c ft_word_split.c ft_exec_call.c ft_redirection.c ft_lst_search.c \
 		command/ft_echo.c command/ft_cd.c command/ft_pwd.c command/ft_env.c \
-		utils/env_utils.c utils/env_utils2.c utils/hist_utils.c utils/hist_utils2.c utils/ft_word_utils.c
+		utils/env_utils.c utils/env_utils2.c utils/hist_utils.c utils/hist_utils2.c utils/ft_word_utils.c \
+		utils/ft_strcat.c
 
 PATH_SRCS = ./srcs/
 
@@ -23,6 +24,8 @@ LINK = ar rc
 CC = clang
 
 FLAGS = -Wall -Wextra -Werror
+
+# FLAGS += -g -fsanitize=address
 
 MAKEFLAGS += --silent
 
