@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 18:32:39 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/07 14:23:56 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 15:16:14 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ char	*ft_env_search(char *str, t_env *env)
 	return ("\0");
 }
 
-char	*ft_env_search_advanced(char *str, t_env *env)
+char	*ft_special_convertion(char *str)
 {
 	char	path[PATH_LEN];
 
 	if (str[0] == '~' && !str[1])
 		return (getcwd(path, PATH_LEN - 1));
-	return (ft_env_search(str, env));
+	return (str);
 }
