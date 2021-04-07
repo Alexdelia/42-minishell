@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/07 18:35:30 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 19:01:03 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	ft_convert_single(t_word **word, char *str, int i, int c)
 	i++;
 	while (str[i] && str[i + y] != '\'')
 		y++;
-	elem = (char *)malloc(sizeof(char *) * y + 1);
+	elem = (char *)malloc(sizeof(str) * (y + 1));
 	y = 0;
 	while (str[i] && str[i] != '\'')
 	{
@@ -50,7 +50,7 @@ static int	ft_convert_double(t_word **word, t_env *env,
 	i++;
 	while (str[i] && str[i + y] != '\"')
 		y++;
-	elem = (char *)malloc(sizeof(char *) * y + 1);
+	elem = (char *)malloc(sizeof(elem) * (y + PATH_LEN));
 	y = 0;
 	while (str[i] && str[i] != '\"')
 	{	
@@ -88,7 +88,7 @@ static int	ft_convert_basic(t_word **word, t_env *env,
 	while (str[i + y] && str[i + y] != ' ' && str[i + y] != ';'
 			&& str[i + y] != '\"' && str[i + y] != '\'')
 		y++;
-	elem = (char *)malloc(sizeof(char *) * (y + PATH_LEN));
+	elem = (char *)malloc(sizeof(elem) * (y + PATH_LEN));
 	y = 0;
 	while (str[i] && str[i] != ' ' && str[i] != ';'
 			&& str[i] != '\"' && str[i] != '\'')
