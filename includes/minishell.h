@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/07 12:54:13 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/07 12:57:06 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ void			store_hist(t_data *d, char *l);
 void			free_one_hist(t_hist *hist);
 void			free_all_hist(t_hist *hist);
 void			print_hist(t_hist *hist);
+int				get_size_hist(t_hist *hist);
+char			*get_str_hist(t_hist *hist, int index);
+void			pop_hist(t_data *d);
 
 /*
 ** env_utils
@@ -93,15 +96,23 @@ int				ft_word_search(char *str, t_word *word);
 int				ft_mi_strcat(char **dst, const char *src, int y, t_env *env);
 
 /*
-** prompt
+** prompt_utils
 */
 
 int				ft_prompt_line(void);
+void			put_cursor_backward(int n);
+void			erase_line(char **l);
 
 /*
-** calling command
+** engine
 */
 
+void			process_input_printable(char **l, char c);
+void			process_input_del(char **l);
+void			process_input_newline(t_data *d, char **l);
+void			process_arrow_up(t_data *d, char **l);
+void			process_arrow_down(t_data *d, char **l);
+int				process_input_arrows(t_data *d, char **l);
 int				ft_exec_command(char *line, t_env *env);
 int				ft_redirection(char *line, int process_num);
 
@@ -113,5 +124,6 @@ int				ft_echo(int fd, t_word *word);
 int				ft_cd(char *path);
 void			ft_pwd(int fd);
 void			ft_env(int fd, t_env *env);
+void			ft_export(t_word *word, t_env **env);
 
 #endif

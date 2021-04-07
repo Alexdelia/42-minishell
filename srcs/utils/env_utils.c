@@ -14,7 +14,7 @@
 
 t_env	*new_env(char *str)
 {
-	int	i;
+	int		i;
 	t_env	*new;
 	char	**split;
 

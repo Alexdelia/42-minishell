@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 18:32:39 by nicolases         #+#    #+#             */
-/*   Updated: 2021/03/31 09:46:12 by nessayan         ###   ########.fr       */
+/*   Updated: 2021/04/06 16:52:47 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,24 @@ void	print_env(t_env *env)
 		printf("%-30s:%s\n", env->name, env->data);
 		env = env->next;
 	}
+}
+
+char	*ft_env_search(char *str, t_env *env)
+{
+	while (env != NULL)
+	{
+		if (ft_strcmp(str, env->name) == 0)
+			return (env->data);
+		env = env->next;
+	}
+	return ("\0");
+}
+
+char	*ft_env_search_advanced(char *str, t_env *env)
+{
+	char	path[PATH_LEN];
+
+	if (str[0] == '~' && !str[1])
+		return (getcwd(path, PATH_LEN - 1));
+	return (ft_env_search(str, env));
 }
