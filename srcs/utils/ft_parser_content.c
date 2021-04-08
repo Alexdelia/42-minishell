@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:08:56 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/08 15:43:19 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 17:03:18 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,16 @@ static void	ft_conv_dollar(t_parser *p, t_env *env, char *str, char **res)
 	p->y = ft_mi_strcat(res, &str[p->i], p->y, env);
 	while (str[p->i] && str[p->i] != ' ' && str[p->i] != ';'
 		&& str[p->i] != '\'' && str[p->i] != '\"' && str[p->i] != '='
-		&& str[p->i] != '|' && str[p->i] != '>' && str[p->i] != '<')
+		&& str[p->i] != '|' && str[p->i] != '>' && str[p->i] != '<'
+		&& str[p->i] != '\\')
 		p->i++;
 }
 
 static void	ft_conv_double(t_parser *p, t_env *env, char *str, char **res)
 {
+	int	ml;
+
+	ml = FALSE;
 	p->i++;
 	while (str[p->i] && str[p->i] != '\"')
 	{
@@ -30,12 +34,21 @@ static void	ft_conv_double(t_parser *p, t_env *env, char *str, char **res)
 			ft_conv_dollar(p, env, str, res);
 		else
 		{
+			if (str[p->i] == '\\')
+			{
+				p->i++;
+				if (!str[p->i])
+				{
+					ml = TRUE;
+					break;
+				}
+			}
 			(*res)[p->y] = str[p->i];
 			p->i++;
 			p->y++;
 		}
 	}
-	if (!str[p->i])
+	if (!str[p->i] || ml == TRUE)
 		p->i = -1;
 	else
 		p->i++;

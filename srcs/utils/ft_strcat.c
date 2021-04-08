@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:18:42 by user42            #+#    #+#             */
-/*   Updated: 2021/04/08 15:32:16 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 17:02:50 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static char	*ft_f_mi_strcat(const char *src)
 	i = 0;
 	na_env = (char *)malloc(sizeof(*na_env) * (ft_strlen(src) + 1));
 	while (src[i + 1] && src[i + 1] != ' ' && src[i + 1] != ';'
-		&& src[i + 1] != '\"' && src[i + 1] != '\'' && src[i + 1] != '=')
+		&& src[i + 1] != '\"' && src[i + 1] != '\'' && src[i + 1] != '='
+		&& src[i + 1] != '\\')
 	{
 		na_env[i] = src[i + 1];
 		i++;
@@ -61,7 +62,8 @@ int			ft_mi_strcat(char **dst, const char *src, int y, t_env *env)
 		i = 0;
 		while (src[i + 1] && src[i + 1] != ' ' && src[i + y] != ';'
 			&& src[i + 1] != '\"' && src[i + 1] != '\'' && src[i + 1] != '='
-			&& src[i + 1] != '|' && src[i + 1] != '>' && src[i + 1] != '<')
+			&& src[i + 1] != '|' && src[i + 1] != '>' && src[i + 1] != '<'
+			&& src[i + 1] != '\\')
 			i++;
 		if (src[i + 1] && src[i + 1] == '=')
 			equal = TRUE;
