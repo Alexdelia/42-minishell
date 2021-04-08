@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:18:42 by user42            #+#    #+#             */
-/*   Updated: 2021/04/08 17:02:50 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 17:33:41 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	ft_copy(char **dst, int y, char *dt_env)
 	return (y);
 }
 
-int			ft_mi_strcat(char **dst, const char *src, int y, t_env *env)
+int			ft_mi_strcat(char **dst, const char *src, int y, t_data *d)
 {
 	int		i;
 	int		equal;
@@ -68,7 +68,10 @@ int			ft_mi_strcat(char **dst, const char *src, int y, t_env *env)
 		if (src[i + 1] && src[i + 1] == '=')
 			equal = TRUE;
 		na_env = ft_f_mi_strcat(src);
-		dt_env = ft_env_search(na_env, env);
+		if (ft_strcmp(na_env, "?") == 0)
+			dt_env = ft_itoa(d->status);
+		else
+			dt_env = ft_env_search(na_env, d->env);
 		free(na_env);
 		y = ft_copy(dst, y, dt_env);
 	}

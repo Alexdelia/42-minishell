@@ -6,15 +6,15 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:08:56 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/08 17:03:18 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 17:32:09 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	ft_conv_dollar(t_parser *p, t_env *env, char *str, char **res)
+static void	ft_conv_dollar(t_parser *p, t_data *d, char *str, char **res)
 {
-	p->y = ft_mi_strcat(res, &str[p->i], p->y, env);
+	p->y = ft_mi_strcat(res, &str[p->i], p->y, d);
 	while (str[p->i] && str[p->i] != ' ' && str[p->i] != ';'
 		&& str[p->i] != '\'' && str[p->i] != '\"' && str[p->i] != '='
 		&& str[p->i] != '|' && str[p->i] != '>' && str[p->i] != '<'
@@ -22,7 +22,7 @@ static void	ft_conv_dollar(t_parser *p, t_env *env, char *str, char **res)
 		p->i++;
 }
 
-static void	ft_conv_double(t_parser *p, t_env *env, char *str, char **res)
+static void	ft_conv_double(t_parser *p, t_data *d, char *str, char **res)
 {
 	int	ml;
 
@@ -31,7 +31,7 @@ static void	ft_conv_double(t_parser *p, t_env *env, char *str, char **res)
 	while (str[p->i] && str[p->i] != '\"')
 	{
 		if (str[p->i] == '$')
-			ft_conv_dollar(p, env, str, res);
+			ft_conv_dollar(p, d, str, res);
 		else
 		{
 			if (str[p->i] == '\\')
@@ -69,7 +69,7 @@ static void	ft_conv_simple(t_parser *p, char *str, char **res)
 		p->i++;
 }
 
-int			ft_content(t_word **word, t_env *env, char *str, int i)
+int			ft_content(t_word **word, t_data *d, char *str, int i)
 {
 	t_parser	p;
 	char		*res;
@@ -83,9 +83,9 @@ int			ft_content(t_word **word, t_env *env, char *str, int i)
 		&& str[p.i] != '>' && str[p.i] != '<')
 	{
 		if (str[p.i] == '$')
-			ft_conv_dollar(&p, env, str, &res);
+			ft_conv_dollar(&p, d, str, &res);
 		else if (str[p.i] == '\"')
-			ft_conv_double(&p, env, str, &res);
+			ft_conv_double(&p, d, str, &res);
 		else if (str[p.i] == '\'')
 			ft_conv_simple(&p, str, &res);
 		else
