@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/08 13:56:19 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 14:31:20 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_word			*ft_word_split(t_env *env, char *str, int stop)
 	i = ft_cmd(&word, env, str, i);
 	if (i < 0)
 		return (ft_error_ml(&word));
-	i = ft_content(&word, env, str, i);
+	i = ft_content(&word, env, str, i + 1);
 	if (i < 0)
 		return (ft_error_ml(&word));
 	return (word);
