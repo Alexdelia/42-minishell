@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:08:56 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/08 14:23:45 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 15:43:19 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,15 @@ static void	ft_conv_double(t_parser *p, t_env *env, char *str, char **res)
 			ft_conv_dollar(p, env, str, res);
 		else
 		{
-			*res[p->y] = str[p->i];
+			(*res)[p->y] = str[p->i];
 			p->i++;
 			p->y++;
 		}
 	}
 	if (!str[p->i])
 		p->i = -1;
+	else
+		p->i++;
 }
 
 static void	ft_conv_simple(t_parser *p, char *str, char **res)
@@ -44,12 +46,14 @@ static void	ft_conv_simple(t_parser *p, char *str, char **res)
 	p->i++;
 	while (str[p->i] && str[p->i] != '\'')
 	{
-		*res[p->y] = str[p->i];
+		(*res)[p->y] = str[p->i];
 		p->i++;
 		p->y++;
 	}
 	if (!str[p->i])
 		p->i = -1;
+	else
+		p->i++;
 }
 
 int			ft_content(t_word **word, t_env *env, char *str, int i)

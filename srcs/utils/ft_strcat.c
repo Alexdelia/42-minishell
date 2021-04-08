@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:18:42 by user42            #+#    #+#             */
-/*   Updated: 2021/04/08 14:13:23 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 15:32:16 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,10 @@ int			ft_mi_strcat(char **dst, const char *src, int y, t_env *env)
 	char	*dt_env;
 
 	equal = FALSE;
-	if (src[0] && src[0] == '$' && (!src[1] || src[1] == '='))
+	if (src[0] && src[0] == '$' && (!src[1] || src[1] == '=' || src[1] == ' '))
 	{
 		(*dst)[y] = '$';
-		if (src[1] && src[1] == '=')
-			equal = TRUE;
-		else
-			return (1);
+		return (y + 1);
 	}
 	else
 	{
