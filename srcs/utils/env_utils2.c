@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 18:32:39 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/07 15:16:14 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 10:27:34 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	print_env(t_env *env)
 
 char	*ft_env_search(char *str, t_env *env)
 {
+	if (ft_strcmp(str, "$") == 0)
+		return ("$");
 	while (env != NULL)
 	{
 		if (ft_strcmp(str, env->name) == 0)
