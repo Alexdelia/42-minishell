@@ -55,6 +55,11 @@ typedef	struct	s_data {
 	int				status;
 }				t_data;
 
+typedef struct	s_parser {
+	int				i;
+	int				y;
+}				t_parser;
+
 /*
 ** hist_utils
 */
@@ -93,6 +98,8 @@ void			remove_index_env(t_env **env, int i);
 */
 
 t_word			*ft_word_split(t_env *env, char *str, int stop);
+int				ft_cmd(t_word **word, t_env *env, char *str, int i);
+int				ft_content(t_word **word, t_env *env, char *str, int i);
 t_word			*ft_new_word(char *str);
 t_word			*ft_get_last_word(t_word *word);
 void			ft_add_back_word(t_word **word, t_word *new);

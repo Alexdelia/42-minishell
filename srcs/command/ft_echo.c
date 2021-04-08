@@ -6,53 +6,37 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:41:22 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/07 19:27:50 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 14:39:49 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	ft_is_n(char *str)
+int			ft_echo(int fd, t_word *word)
 {
 	int	i;
 
-	i = 1;
-	if (str[0] && str[1] && str[0] == '-' && str[1] == 'n')
+	i = 0;
+	if (word->data[0] == '-')
 	{
-		while (str[i])
-		{
-			if (str[i] != 'n')
-				return (FALSE);
+		i++;
+		while (word->data[i] && word->data[i] == 'n')
 			i++;
-		}
-		return (TRUE);
+		if (word->data[i] != ' ')
+			i = 0;
+		else
+			i++;
 	}
-	return (FALSE);
-}
-
-int			ft_echo(int fd, t_word *word)
-{
-	t_word	*head;
-
-	if (!word)
+	ft_putstr_fd(&word->data[i], fd);
+	i = 0;
+	if (word->data[0] == '-')
 	{
-		ft_putstr_fd("\n", fd);
-		return (1);
+		i++;
+		while (word->data[i] && word->data[i] == 'n')
+			i++;
+		if (!word->data[i] || word->data[i] == ' ')
+			return (0);
 	}
-	head = word;
-	while (ft_is_n(word->data))
-		word = word->next;
-	while (word)
-	{
-		ft_putstr_fd(word->data, fd);
-		word = word->next;
-		if (word)
-			ft_putstr_fd(" ", fd);
-	}
-	word = head;
-	if (ft_is_n(word->data) == FALSE)
-		ft_putstr_fd("\n", fd);
-	if (fd != STDOUT)
-		close(fd);
+	ft_putstr_fd("\n", fd);
 	return (0);
 }
