@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/08 12:49:04 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/08 15:43:36 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef	struct	s_data {
 	int				exit;
 	int				hc;
 	int				ts;
+	int				status;
 }				t_data;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/08 14:19:08 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/08 15:44:30 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	init_data(t_data *d, char **env)
 	d->exit = 0;
 	d->hc = 0;
 	d->ts = 0;
+	d->status = 0;
 }
 
 int		main(int ac, char **av, char **env)
