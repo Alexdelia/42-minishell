@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:33:14 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/08 14:01:33 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/08 14:05:30 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	process_input_newline(t_data *d, char **l)
 	if (*l != NULL)
 	{
 		store_hist(d, *l);
-		ft_exec_command(*l, d->env);
+		ft_exec_command(*l, d);
 	}
 	ft_prompt_line();
 }
