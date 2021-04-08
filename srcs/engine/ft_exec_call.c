@@ -6,13 +6,13 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/07 19:21:41 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 14:10:13 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		ft_parse_exec(t_word *word, t_env *env, int fd)
+int		ft_parse_exec(t_word *word, t_data *d, int fd)
 {
 	if (ft_strcmp(word->data, "echo") == 0)
 		ft_echo(fd, word->next);
@@ -21,11 +21,11 @@ int		ft_parse_exec(t_word *word, t_env *env, int fd)
 	else if (ft_strcmp(word->data, "pwd") == 0)
 		ft_pwd(fd);
 	else if (ft_strcmp(word->data, "export") == 0)
-		ft_export(word->next, &env);
-	/*else if (ft_strcmp(word->data, "unset") == 0)
-		ft_unset(word, env);*/
+		ft_export(word->next, &(d->env));
+	else if (ft_strcmp(word->data, "unset") == 0)
+		ft_unset(word->next, &(d->env));
 	else if (ft_strcmp(word->data, "env") == 0)
-		ft_env(fd, env);/*
+		ft_env(fd, d->env);/*
 	else
 		ft_exec(word->data, *word->next, *env, fd);
 	** this can be call somewhere else because getting back envp can be a pain in the ass
@@ -68,7 +68,7 @@ void	ft_print_word(t_word *word)
 	}
 }
 
-int		ft_exec_command(char *line, t_env *env)
+int		ft_exec_command(char *line, t_data *d)
 {
 	int		process_num;
 	int		base_p_num;
@@ -84,13 +84,13 @@ int		ft_exec_command(char *line, t_env *env)
 	while (process_num > 0)
 	{
 		//pid = fork();
-		if (!(word = ft_word_split(env, line, base_p_num - process_num)))
+		if (!(word = ft_word_split(d->env, line, base_p_num - process_num)))
 			return (0);
 		//ft_ps(word->data);
 		//ft_print_word(word);
 		//if (base_p_num > 1)
 		//	fd = ft_redirection(line, base_p_num - process_num);
-		fd = ft_parse_exec(word, env, fd);
+		fd = ft_parse_exec(word, d, fd);
 		process_num--;
 	}
 	return (0);
