@@ -119,7 +119,7 @@ void			process_input_newline(t_data *d, char **l);
 void			process_arrow_up(t_data *d, char **l);
 void			process_arrow_down(t_data *d, char **l);
 int				process_input_arrows(t_data *d, char **l);
-int				ft_exec_command(char *line, t_env *env);
+int				ft_exec_command(char *line, t_data *d);
 int				ft_redirection(char *line, int process_num);
 
 /*

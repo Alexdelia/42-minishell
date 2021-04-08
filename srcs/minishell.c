@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/08 13:59:30 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/08 14:19:08 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,7 @@ int		main(int ac, char **av, char **env)
 	t_data	d;
 	char	*l;
 
-	/*(void)ac;*/
-	/*(void)av;*/
 	init_data(&d, env);
-	/*print_env(d.env);
-	remove_index_env(&(d.env), 0);
-	printf("8888888888888888888888\n");
-	print_env(d.env);*/
 	if (ac == 1)
 	{
 		enable_raw_mode();
@@ -87,7 +81,7 @@ int		main(int ac, char **av, char **env)
 			process_input(&d, &l);
 	}
 	else if (ac == 3 && ft_strcmp(av[1], "-c") == 0)
-		ft_exec_command(av[2], d.env);
+		ft_exec_command(av[2], &d);
 	else
 		ft_putstr_fd("\033[0;31mWrong arguments - Please retry\n", STDERR);
 	free_all(&d);
