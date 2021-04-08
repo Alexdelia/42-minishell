@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/07 17:21:04 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/08 15:44:30 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	init_data(t_data *d, char **env)
 	d->exit = 0;
 	d->hc = 0;
 	d->ts = 0;
+	d->status = 0;
 }
 
 int		main(int ac, char **av, char **env)
@@ -81,7 +82,7 @@ int		main(int ac, char **av, char **env)
 			process_input(&d, &l);
 	}
 	else if (ac == 3 && ft_strcmp(av[1], "-c") == 0)
-		ft_exec_command(av[2], d.env);
+		ft_exec_command(av[2], &d);
 	else
 		ft_putstr_fd("\033[0;31mWrong arguments - Please retry\n", STDERR);
 	free_all(&d);

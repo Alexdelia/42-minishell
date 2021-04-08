@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/08 13:54:24 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 15:43:36 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef	struct	s_data {
 	int				exit;
 	int				hc;
 	int				ts;
+	int				status;
 }				t_data;
 
 typedef struct	s_parser {
@@ -87,6 +88,10 @@ void			print_env(t_env *env);
 char			*ft_env_search(char *str, t_env *env);
 t_env			*get_env_by_name(char *name, t_env *env);
 int				is_inenv(char *str, t_env *env);
+int				get_index_env(t_env *env, char *str);
+int				get_size_env(t_env *env);
+t_env			*get_env_at_index(t_env *env, int index);
+void			remove_index_env(t_env **env, int i);
 
 /*
 ** word_utils
@@ -122,7 +127,7 @@ void			process_input_newline(t_data *d, char **l);
 void			process_arrow_up(t_data *d, char **l);
 void			process_arrow_down(t_data *d, char **l);
 int				process_input_arrows(t_data *d, char **l);
-int				ft_exec_command(char *line, t_env *env);
+int				ft_exec_command(char *line, t_data *d);
 int				ft_redirection(char *line, int process_num);
 
 /*
@@ -134,7 +139,9 @@ int				ft_cd(char *path);
 void			ft_pwd(int fd);
 void			ft_env(int fd, t_env *env);
 void			ft_export(t_word *word, t_env **env);
+int				is_valid_identifier(char *str);
 void			print_declare_x(t_env *env);
 char			*join_env(t_word *word);
+void			ft_unset(t_word *word, t_env **env);
 
 #endif
