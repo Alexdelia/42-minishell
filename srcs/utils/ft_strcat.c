@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:18:42 by user42            #+#    #+#             */
-/*   Updated: 2021/04/08 11:03:18 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 13:49:09 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ int			ft_mi_strcat(char **dst, const char *src, int y, t_env *env)
 	{
 		i = 0;
 		while (src[i + 1] && src[i + 1] != ' ' && src[i + y] != ';'
-			&& src[i + 1] != '\"' && src[i + 1] != '\'' && src[i + 1] != '=')
+			&& src[i + 1] != '\"' && src[i + 1] != '\'' && src[i + 1] != '='
+			&& src[i + 1] != '|' && src[i + 1] != '>' && src[i + 1] !+ '<')
 			i++;
 		if (src[i + 1] && src[i + 1] == '=')
 			equal = TRUE;

@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/07 18:55:36 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/08 13:54:24 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ typedef	struct	s_data {
 	int				ts;
 }				t_data;
 
+typedef struct	s_parser {
+	int				i;
+	int				y;
+}				t_parser;
+
 /*
 ** hist_utils
 */
@@ -88,6 +93,8 @@ int				is_inenv(char *str, t_env *env);
 */
 
 t_word			*ft_word_split(t_env *env, char *str, int stop);
+int				ft_cmd(t_word **word, t_env *env, char *str, int i);
+int				ft_content(t_word **word, t_env *env, char *str, int i);
 t_word			*ft_new_word(char *str);
 t_word			*ft_get_last_word(t_word *word);
 void			ft_add_back_word(t_word **word, t_word *new);
