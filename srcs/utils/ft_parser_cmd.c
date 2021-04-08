@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:10:45 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/08 13:20:09 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 13:57:44 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int		ft_cmd_double(t_word **word, t_env *env, char *str, int i)
 	{
 		if (str[i] == '$')
 		{
-			y = ft_mi_strcat(res, &str[i], y, env);
+			y = ft_mi_strcat(&res, &str[i], y, env);
 			while (str[i] && str[i] != ' ' && str[i] != '=')
 				i++;
 		}
@@ -76,7 +76,7 @@ int				ft_cmd(t_word **word, t_env *env, char *str, int i)
 	{
 		if (str[i] == '$')
 		{
-			y = ft_mi_strcat(res, &str[i], y, env);
+			y = ft_mi_strcat(&res, &str[i], y, env);
 			while (str[i] && str[i] != ' ' && str[i] != '=')
 				i++;
 		}
