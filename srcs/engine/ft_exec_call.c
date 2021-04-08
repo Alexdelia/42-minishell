@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/08 14:10:13 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/08 17:36:47 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int		ft_exec_command(char *line, t_data *d)
 	while (process_num > 0)
 	{
 		//pid = fork();
-		if (!(word = ft_word_split(d->env, line, base_p_num - process_num)))
+		if (!(word = ft_word_split(d, line, base_p_num - process_num)))
 			return (0);
 		//ft_ps(word->data);
 		//ft_print_word(word);
