@@ -6,29 +6,53 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:18:42 by user42            #+#    #+#             */
-/*   Updated: 2021/04/07 19:35:23 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/08 11:03:18 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_mi_strcat(char **dst, const char *src, int y, t_env *env)
+static char	*ft_f_mi_strcat(const char *src)
 {
 	int		i;
 	char	*na_env;
-	char	*dt_env;
 
 	i = 0;
 	na_env = (char *)malloc(sizeof(*na_env) * (ft_strlen(src) + 1));
-	while (src[i + 1] && src[i + 1] != ' ' && src[i + y] != ';'
-		&& src[i + 1] != '\"' && src[i + 1] != '\'')
+	while (src[i + 1] && src[i + 1] != ' ' && src[i + 1] != ';'
+		&& src[i + 1] != '\"' && src[i + 1] != '\'' && src[i + 1] != '=')
 	{
 		na_env[i] = src[i + 1];
 		i++;
 	}
 	na_env[i] = '\0';
-	dt_env = ft_env_search(na_env, env);
-	free(na_env);
+	return (na_env);
+}
+
+static int	ft_end_f_mi_strcat(char **dst, const char *src, int y, int equal)
+{
+	int	i;
+
+	i = 0;
+	if (equal == TRUE)
+	{
+		while (src[i] && src[i] != '=')
+			i++;
+		while (src[i] && src[i] != ' ' && src[i] != ';'
+			&& src[i] != '\"' && src[i] != '\'')
+		{
+			(*dst)[y] = src[i];
+			i++;
+			y++;
+		}
+	}
+	return (y);
+}
+
+static int	ft_copy(char **dst, int y, char *dt_env)
+{
+	int i;
+
 	i = 0;
 	while (dt_env[i] && y < PATH_LEN)
 	{
@@ -37,4 +61,36 @@ int	ft_mi_strcat(char **dst, const char *src, int y, t_env *env)
 		y++;
 	}
 	return (y);
+}
+
+int			ft_mi_strcat(char **dst, const char *src, int y, t_env *env)
+{
+	int		i;
+	int		equal;
+	char	*na_env;
+	char	*dt_env;
+
+	equal = FALSE;
+	if (src[0] && src[0] == '$' && (!src[1] || src[1] == '='))
+	{
+		(*dst)[y] = '$';
+		if (src[1] && src[1] == '=')
+			equal = TRUE;
+		else
+			return (1);
+	}
+	else
+	{
+		i = 0;
+		while (src[i + 1] && src[i + 1] != ' ' && src[i + y] != ';'
+			&& src[i + 1] != '\"' && src[i + 1] != '\'' && src[i + 1] != '=')
+			i++;
+		if (src[i + 1] && src[i + 1] == '=')
+			equal = TRUE;
+		na_env = ft_f_mi_strcat(src);
+		dt_env = ft_env_search(na_env, env);
+		free(na_env);
+		y = ft_copy(dst, y, dt_env);
+	}
+	return (ft_end_f_mi_strcat(dst, src, y, equal));
 }
