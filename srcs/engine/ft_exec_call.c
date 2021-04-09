@@ -29,6 +29,8 @@ int		ft_parse_exec(t_word *word, t_data *d, int fd)
 	else if (word->data[0] && (word->data[0] == '.'
 			|| word->data[0] == '/'))
 		status = ft_exec(word->data, word->next->data, d->env, fd);
+	else if (ft_statable(&word) == TRUE)
+		status = ft_exec(word->data, word->next->data, d->env, fd);
 	else
 		status = ft_mi_error(word->data, "command not found", 127);
 	ft_free_all_word(word);
