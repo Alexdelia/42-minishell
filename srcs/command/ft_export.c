@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 12:06:30 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 11:25:52 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 11:55:15 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,18 @@ int	no_equal_case(char *str)
 	}
 	else
 	{
+		ft_mi_error("export", "not a valid identifier", 1);
 		free(str);
-		ft_putstr_fd("\033[1;31mNot a valid identifier\n", STDERR);
 		return (1);
 	}
+}
+
+int	unvalid_case(char *str, char **split)
+{
+	ft_mi_error("export", "not a valid identifier", 1);
+	free(str);
+	free_tab(split);
+	return (1);
 }
 
 char	**split_export(char *str)
@@ -99,12 +107,7 @@ int	ft_export(t_word *word, t_env **env)
 		return (no_equal_case(str));
 	split = split_export(str);
 	if (is_valid_identifier(split[0]) == 0)
-	{
-		free(str);
-		free_tab(split);
-		ft_putstr_fd("\033[1;31mNot a valid identifier\n", STDERR);
-		return (1);
-	}
+		return (unvalid_case(str, split));
 	else
 		process_name_data(env, split);
 	free(str);
