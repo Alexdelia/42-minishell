@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/09 15:27:13 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 16:38:28 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ int		ft_parse_exec(t_word *word, t_data *d, int fd)
 		status = ft_unset(word->next, &(d->env));
 	else if (ft_strcmp(word->data, "env") == 0)
 		status = ft_env(fd, d->env);
-	/*else if ( xxx )
-		ft_exec(word->data, *word->next, *env, fd);*/
+	else if (word->data[0] && (word->data[0] == '.'
+			|| word->data[0] == '/'))
+		status = ft_exec(word->data, word->next->data, d->env, fd);
 	else
 		status = ft_mi_error(word->data, "command not found", 127);
 	ft_free_all_word(word);
+	printf("status: %d\n", status);
 	//kill(pid, SIGKILL);
 	return (0);
 }

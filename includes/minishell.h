@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 15:27:56 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 16:03:34 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,5 +146,6 @@ int				is_valid_identifier(char *str);
 int				print_declare_x(t_env *env, int fd);
 char			*join_env(t_word *word);
 int				ft_unset(t_word *word, t_env **env);
+int				ft_exec(char *path, char *str, t_env *env, int fd);
 
 #endif
