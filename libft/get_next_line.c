@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 11:45:40 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/30 16:47:34 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 12:25:16 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	get_next_line(int fd, char **line)
 	ssize_t		read_size;
 	int			i;
 
-	if (!line || fd < 0 || fd >= OPEN_MAX2 || BUFFER_SIZE <= 0 )
+	if (!line || fd < 0 || fd >= OPEN_MAX2 || BUFFER_SIZE <= 0)
 		return (-1);
 	read_size = 1;
 	while (read_size > 0)
