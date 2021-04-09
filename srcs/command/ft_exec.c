@@ -6,45 +6,38 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 14:14:43 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/07 19:27:07 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/09 17:16:21 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <string.h>
+#include <errno.h>
 
-int	ft_exec(const char *path, t_word word, t_env env, int fd)
+int	ft_exec(char *path, char *str, t_env *env, int fd)
 {
-	char	av[16][PATH_LEN];
-	char	*envp;
-	int		i;
-	int		y;
-	int		pid;
+	char		**av;
+	char		**envp;
+	int			pid;
+	struct stat	stats;
+	int			exec_status;
 
+	exec_status = 0;
+	if (stat(path, &stats) == -1)
+		return (ft_mi_error(path, "No such file or directory", 127));
+	envp = etoa(env);
+	av = ft_split(str, ' ');
 	pid = fork();
 	if (pid == 0)
-	{
-		y = 0;
-		while (word)
-		{
-			i = 0;
-			while (word->data[i])
-			{
-				av[y][i] = word->data[i];
-				i++;
-			}
-			y++;
-			word = word.next;
-		}
-		// find a way to get envp back;
 		execve(path, av, envp);
-	}
 	else if (pid != 0)
 	{
-		if (read(STDIN, &c, 1) != -1 && c == 28)
-			kill(pid, SIGKILL);
-		wait(NULL);
+		waitpid(pid, &exec_status, 0);
+		printf("pid: %d\nexec_status: %d\n", pid, exec_status);
+		free_tab(envp);
+		free_tab(av);
 	}
-	if (fd != STDOUT || fd != STDIN)
+	if (fd != STDOUT && fd != STDIN)
 		close(fd);
-	return (0);
+	return ((exec_status <= 255 ? exec_status : exec_status / 256));
 }
