@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 12:06:30 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 11:55:15 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 15:31:09 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,19 +89,19 @@ char	**split_export(char *str)
 	return (split);
 }
 
-int		ft_export(t_word *word, t_env **env)
+int		ft_export(t_word *word, t_env **env, int fd)
 {
 	char	*str;
 	char	**split;
 
 	str = NULL;
 	if (word == NULL)
-		return (print_declare_x(*env));
+		return (print_declare_x(*env, fd));
 	str = join_env(word);
-	if (str[0] == '#')
+	if (str[0] == '\0' || str[0] == '#')
 	{
 		free(str);
-		return (print_declare_x(*env));
+		return (print_declare_x(*env, fd));
 	}
 	if (is_included(str, '=') == 0)
 		return (no_equal_case(str));

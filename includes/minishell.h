@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 12:46:49 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 15:27:56 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,9 +141,9 @@ int				ft_echo(int fd, t_word *word);
 int				ft_cd(char *path);
 int				ft_pwd(int fd);
 int				ft_env(int fd, t_env *env);
-int				ft_export(t_word *word, t_env **env);
+int				ft_export(t_word *word, t_env **env, int fd);
 int				is_valid_identifier(char *str);
-int				print_declare_x(t_env *env);
+int				print_declare_x(t_env *env, int fd);
 char			*join_env(t_word *word);
 int				ft_unset(t_word *word, t_env **env);
 
