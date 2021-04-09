@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/08 17:36:47 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/09 10:53:31 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,24 @@
 int		ft_parse_exec(t_word *word, t_data *d, int fd)
 {
 	if (ft_strcmp(word->data, "echo") == 0)
-		ft_echo(fd, word->next);
+		status = ft_echo(fd, word->next);
 	else if (ft_strcmp(word->data, "cd") == 0)
-		ft_cd(word->next->data);
+		status = ft_cd(word->next->data);
 	else if (ft_strcmp(word->data, "pwd") == 0)
-		ft_pwd(fd);
+		status = ft_pwd(fd);
 	else if (ft_strcmp(word->data, "export") == 0)
-		ft_export(word->next, &(d->env));
+		status = ft_export(word->next, &(d->env));
 	else if (ft_strcmp(word->data, "unset") == 0)
-		ft_unset(word->next, &(d->env));
+		status = ft_unset(word->next, &(d->env));
 	else if (ft_strcmp(word->data, "env") == 0)
-		ft_env(fd, d->env);/*
+		status = ft_env(fd, d->env);
+	/*else if ( xxx )
+		ft_exec(word->data, *word->next, *env, fd);*/
 	else
-		ft_exec(word->data, *word->next, *env, fd);
-	** this can be call somewhere else because getting back envp can be a pain in the ass
-	** or we just transform back t_env *env into char *env
-	*/
+	{
+		status = 127;
+		ft_putstr_fd("\033[1;31mCommand not found\n", STDERR);
+	}	
 	ft_free_all_word(word);
 	//kill(pid, SIGKILL);
 	return (0);

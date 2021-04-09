@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:18:42 by user42            #+#    #+#             */
-/*   Updated: 2021/04/08 19:06:00 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/09 10:41:06 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int			ft_mi_strcat(char **dst, const char *src, int y, t_data *d)
 			equal = TRUE;
 		na_env = ft_f_mi_strcat(src);
 		if (ft_strcmp(na_env, "?") == 0)
-			dt_env = ft_itoa(d->status);
+			dt_env = ft_itoa(status);
 		else
 			dt_env = ft_env_search(na_env, d->env);
 		free(na_env);

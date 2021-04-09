@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/08 17:36:15 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/09 10:54:03 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define PATH_LEN 512
 
 struct termios orig_termios;
+int	status;
 
 typedef struct	s_hist {
 	char			*data;
@@ -52,7 +53,6 @@ typedef	struct	s_data {
 	int				exit;
 	int				hc;
 	int				ts;
-	int				status;
 }				t_data;
 
 typedef struct	s_parser {
@@ -136,12 +136,12 @@ int				ft_redirection(char *line, int process_num);
 
 int				ft_echo(int fd, t_word *word);
 int				ft_cd(char *path);
-void			ft_pwd(int fd);
-void			ft_env(int fd, t_env *env);
-void			ft_export(t_word *word, t_env **env);
+int			ft_pwd(int fd);
+int			ft_env(int fd, t_env *env);
+int			ft_export(t_word *word, t_env **env);
 int				is_valid_identifier(char *str);
 void			print_declare_x(t_env *env);
 char			*join_env(t_word *word);
-void			ft_unset(t_word *word, t_env **env);
+int			ft_unset(t_word *word, t_env **env);
 
 #endif
