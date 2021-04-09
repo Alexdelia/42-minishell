@@ -141,7 +141,7 @@ int			ft_pwd(int fd);
 int			ft_env(int fd, t_env *env);
 int			ft_export(t_word *word, t_env **env);
 int				is_valid_identifier(char *str);
-void			print_declare_x(t_env *env);
+int			print_declare_x(t_env *env);
 char			*join_env(t_word *word);
 int			ft_unset(t_word *word, t_env **env);
 
