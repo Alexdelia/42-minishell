@@ -22,7 +22,7 @@ int	ft_unset(t_word *word, t_env **env)
 	str = join_env(word);
 	if (is_valid_identifier(str) == 0 || is_included(str, '=') == 1)
 	{
-		ft_mi_error("unset", "not a valid identifier", 1);		
+		ft_mi_error("unset", "not a valid identifier", 1);
 		free(str);
 		return (1);
 	}

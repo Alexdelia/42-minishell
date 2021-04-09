@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 10:40:14 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 12:14:35 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int		process_input(t_data *d, char **l)
 		process_input_arrows(d, l);
 	else if (c == 3)
 	{
+		status = 130;
 		ft_putchar_fd('\n', STDERR);
 		ft_prompt_line();
 	}

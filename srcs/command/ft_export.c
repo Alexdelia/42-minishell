@@ -38,7 +38,7 @@ void	process_name_data(t_env **env, char **split)
 	}
 }
 
-int	no_equal_case(char *str)
+int		no_equal_case(char *str)
 {
 	if (is_valid_identifier(str) == 1)
 	{
@@ -53,7 +53,7 @@ int	no_equal_case(char *str)
 	}
 }
 
-int	unvalid_case(char *str, char **split)
+int		unvalid_case(char *str, char **split)
 {
 	ft_mi_error("export", "not a valid identifier", 1);
 	free(str);
@@ -89,7 +89,7 @@ char	**split_export(char *str)
 	return (split);
 }
 
-int	ft_export(t_word *word, t_env **env)
+int		ft_export(t_word *word, t_env **env)
 {
 	char	*str;
 	char	**split;
