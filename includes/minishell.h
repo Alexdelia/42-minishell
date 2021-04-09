@@ -92,6 +92,7 @@ int				get_index_env(t_env *env, char *str);
 int				get_size_env(t_env *env);
 t_env			*get_env_at_index(t_env *env, int index);
 void			remove_index_env(t_env **env, int i);
+char			**etoa(t_env *env);
 
 /*
 ** word_utils
