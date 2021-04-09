@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/30 18:19:32 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/09 11:24:23 by adelille         ###   ########.fr       */
+/*   Created: 2021/04/09 11:12:19 by adelille          #+#    #+#             */
+/*   Updated: 2021/04/09 11:24:10 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_cd(char *path)
+int	ft_mi_error(char *command, char *elem, char *text, int va_error)
 {
-	if (chdir(path) == -1)
-		return (ft_mi_error("cd", path, "Path not found", 1));
-	return (0);
+	ft_pserc("minishell: ", RED);
+	ft_pserc(command, RED);
+	ft_pserc(":\t\"", RED);
+	ft_pserc(elem, RED);
+	ft_pserc("\" ", RED);
+	ft_pserc(text, RED);
+	ft_pserc("\n", RED);
+	return (va_error);
 }
