@@ -6,13 +6,13 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 10:09:57 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/02 10:27:47 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/09 11:08:43 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(int fd, t_env *env)
+int		ft_env(int fd, t_env *env)
 {
 	while (env)
 	{
@@ -24,4 +24,5 @@ void	ft_env(int fd, t_env *env)
 	}
 	if (fd != STDOUT)
 		close(fd);
+	return (0);
 }
