@@ -6,13 +6,13 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 18:53:30 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/08 14:24:19 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 12:06:11 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	is_inenv(char *str, t_env *env)
+int		is_inenv(char *str, t_env *env)
 {
 	while (env != NULL)
 	{
@@ -23,7 +23,7 @@ int	is_inenv(char *str, t_env *env)
 	return (0);
 }
 
-int	get_index_env(t_env *env, char *str)
+int		get_index_env(t_env *env, char *str)
 {
 	int i;
 
@@ -38,7 +38,7 @@ int	get_index_env(t_env *env, char *str)
 	return (-1);
 }
 
-int	get_size_env(t_env *env)
+int		get_size_env(t_env *env)
 {
 	int	i;
 
@@ -69,7 +69,7 @@ t_env	*get_env_at_index(t_env *env, int index)
 void	remove_index_env(t_env **env, int i)
 {
 	int		l;
-	t_env		*t;
+	t_env	*t;
 
 	l = get_size_env(*env);
 	if (env == NULL || i > l - 1)

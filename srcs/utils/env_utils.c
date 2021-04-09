@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 18:18:16 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/08 13:47:34 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 12:05:05 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_env	*init_env(char **env)
 }
 
 void	free_one_env(t_env *env)
-{	
+{
 	free(env->name);
 	env->name = NULL;
 	free(env->data);
