@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 11:54:24 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/09 12:46:49 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 
 # define PATH_LEN 512
 
-struct termios orig_termios;
 int	status;
 
 typedef struct	s_hist {
@@ -53,6 +52,7 @@ typedef	struct	s_data {
 	int				exit;
 	int				hc;
 	int				ts;
+	struct termios	orig_termios;
 }				t_data;
 
 typedef struct	s_parser {
@@ -128,6 +128,7 @@ void			process_input_newline(t_data *d, char **l);
 void			process_arrow_up(t_data *d, char **l);
 void			process_arrow_down(t_data *d, char **l);
 int				process_input_arrows(t_data *d, char **l);
+void			process_ctrl_d(void);
 int				ft_exec_command(char *line, t_data *d);
 int				ft_redirection(char *line, int process_num);
 
@@ -137,12 +138,12 @@ int				ft_redirection(char *line, int process_num);
 
 int				ft_echo(int fd, t_word *word);
 int				ft_cd(char *path);
-int			ft_pwd(int fd);
-int			ft_env(int fd, t_env *env);
-int			ft_export(t_word *word, t_env **env);
+int				ft_pwd(int fd);
+int				ft_env(int fd, t_env *env);
+int				ft_export(t_word *word, t_env **env);
 int				is_valid_identifier(char *str);
-int			print_declare_x(t_env *env);
+int				print_declare_x(t_env *env);
 char			*join_env(t_word *word);
-int			ft_unset(t_word *word, t_env **env);
+int				ft_unset(t_word *word, t_env **env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 11:20:07 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 11:55:26 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 13:10:28 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ int	ft_unset(t_word *word, t_env **env)
 	if (word == NULL)
 		return (0);
 	str = join_env(word);
+	if (str[0] == '\0')
+	{
+		free(str);
+		return (0);
+	}
 	if (is_valid_identifier(str) == 0 || is_included(str, '=') == 1)
 	{
 		ft_mi_error("unset", "not a valid identifier", 1);

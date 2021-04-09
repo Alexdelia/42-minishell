@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 12:14:35 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 13:01:53 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,7 @@ int		process_input(t_data *d, char **l)
 	else if (c == 27)
 		process_input_arrows(d, l);
 	else if (c == 3)
-	{
-		status = 130;
-		ft_putchar_fd('\n', STDERR);
-		ft_prompt_line();
-	}
+		process_ctrl_d();
 	else if (c == 4)
 		d->exit = 1;
 	if (c == 10 || c == 3 || c == 4)
@@ -48,12 +44,11 @@ void	free_all(t_data *d)
 	free_all_hist(d->hist);
 }
 
-void	enable_raw_mode(void)
+void	enable_raw_mode(t_data *d)
 {
 	struct termios raw;
 
-	tcgetattr(STDIN, &orig_termios);
-	raw = orig_termios;
+	raw = d->orig_termios;
 	raw.c_lflag &= ~(ECHO | ICANON | ISIG);
 	tcsetattr(STDIN, TCSAFLUSH, &raw);
 }
@@ -66,6 +61,7 @@ void	init_data(t_data *d, char **env)
 	d->hc = 0;
 	d->ts = 0;
 	status = 0;
+	tcgetattr(STDIN, &(d->orig_termios));
 }
 
 int		main(int ac, char **av, char **env)
@@ -76,7 +72,7 @@ int		main(int ac, char **av, char **env)
 	init_data(&d, env);
 	if (ac == 1)
 	{
-		enable_raw_mode();
+		enable_raw_mode(&d);
 		l = NULL;
 		ft_prompt_line();
 		while (d.exit == 0)
@@ -85,7 +81,7 @@ int		main(int ac, char **av, char **env)
 	else if (ac == 3 && ft_strcmp(av[1], "-c") == 0)
 		ft_exec_command(av[2], &d);
 	else
-		ft_putstr_fd("\033[0;31mWrong arguments - Please retry\n", STDERR);
+		ft_mi_error("main", "wrong argument(s)", 1);
 	free_all(&d);
-	tcsetattr(STDIN, TCSAFLUSH, &orig_termios);
+	tcsetattr(STDIN, TCSAFLUSH, &(d.orig_termios));
 }

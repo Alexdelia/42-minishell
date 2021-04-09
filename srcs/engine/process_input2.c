@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:34:38 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/06 15:35:02 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 13:02:48 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,11 @@ int		process_input_arrows(t_data *d, char **l)
 			process_arrow_down(d, l);
 	}
 	return (nread);
+}
+
+void	process_ctrl_d(void)
+{
+	status = 130;
+	ft_putchar_fd('\n', STDERR);
+	ft_prompt_line();
 }
