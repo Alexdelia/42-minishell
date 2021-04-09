@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 18:19:32 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/02 10:34:50 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/09 11:24:23 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 int	ft_cd(char *path)
 {
 	if (chdir(path) == -1)
-	{
-		ft_putstr_fd("Error:\t\"", 2);
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd("\" not found\n", 2);
-		return (FALSE);
-	}
-	return (TRUE);
+		return (ft_mi_error("cd", path, "Path not found", 1));
+	return (0);
 }

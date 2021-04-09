@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/31 10:09:57 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/09 11:08:43 by adelille         ###   ########.fr       */
+/*   Created: 2021/04/09 11:12:19 by adelille          #+#    #+#             */
+/*   Updated: 2021/04/09 11:24:10 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-int		ft_env(int fd, t_env *env)
+int	ft_mi_error(char *command, char *elem, char *text, int va_error)
 {
-	while (env)
-	{
-		ft_putstr_fd(env->name, fd);
-		ft_putstr_fd("=", fd);
-		ft_putstr_fd(env->data, fd);
-		ft_putstr_fd("\n", fd);
-		env = env->next;
-	}
-	if (fd != STDOUT)
-		close(fd);
-	return (0);
+	ft_pserc("minishell: ", RED);
+	ft_pserc(command, RED);
+	ft_pserc(":\t\"", RED);
+	ft_pserc(elem, RED);
+	ft_pserc("\" ", RED);
+	ft_pserc(text, RED);
+	ft_pserc("\n", RED);
+	return (va_error);
 }
