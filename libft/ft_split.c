@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 02:30:16 by adelille          #+#    #+#             */
-/*   Updated: 2021/03/20 15:35:11 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/09 12:24:15 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void	*ft_split_by_char(char **split, char const *s, char c)
 	return (split);
 }
 
-char	**ft_split(char const *s, char c)
+char		**ft_split(char const *s, char c)
 {
 	char	**split;
 
