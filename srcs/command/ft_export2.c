@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo2.c                                         :+:      :+:    :+:   */
+/*   ft_export2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 18:57:43 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/07 18:57:45 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 11:21:10 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	print_declare_x(t_env *env)
+int	print_declare_x(t_env *env)
 {
 	while (env != NULL)
 	{
@@ -23,6 +23,7 @@ void	print_declare_x(t_env *env)
 		ft_putstr_fd("\n", STDERR);
 		env = env->next;
 	}
+	return (0);
 }
 
 char	*join_env(t_word *word)
@@ -39,4 +40,27 @@ char	*join_env(t_word *word)
 		word = word->next;
 	}
 	return (str);
+}
+
+int	is_valid_identifier(char *str)
+{
+	if (str[0] == '\0')
+		return (0);
+	if (is_included(str, '-') ||
+		is_included(str, '~') ||
+		is_included(str, '.') ||
+		is_included(str, '^') ||
+		is_included(str, '+') ||
+		is_included(str, '{') ||
+		is_included(str, '}') ||
+		is_included(str, '$') ||
+		is_included(str, '*') ||
+		is_included(str, '#') ||
+		is_included(str, '@') ||
+		is_included(str, ' ') ||
+		is_included(str, '!'))
+		return (0);
+	if (ft_isdigit(str[0]))
+		return (0);
+	return (1);
 }

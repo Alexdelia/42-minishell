@@ -6,33 +6,11 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 12:06:30 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/08 10:38:25 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 11:25:52 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int		is_valid_identifier(char *str)
-{
-	if (str[0] == '\0')
-		return (0);
-	if (is_included(str, '-') ||
-		is_included(str, '~') ||
-		is_included(str, '.') ||
-		is_included(str, '^') ||
-		is_included(str, '+') ||
-		is_included(str, '{') ||
-		is_included(str, '}') ||
-		is_included(str, '$') ||
-		is_included(str, '*') ||
-		is_included(str, '#') ||
-		is_included(str, '@') ||
-		is_included(str, '!'))
-		return (0);
-	if (ft_isdigit(str[0]))
-		return (0);
-	return (1);
-}
 
 void	process_name_data(t_env **env, char **split)
 {
@@ -60,16 +38,19 @@ void	process_name_data(t_env **env, char **split)
 	}
 }
 
-void	no_equal_case(char *str)
+int	no_equal_case(char *str)
 {
 	if (is_valid_identifier(str) == 1)
+	{
 		free(str);
+		return (0);
+	}
 	else
 	{
 		free(str);
-		return (ft_putstr_fd("\033[1;31mNot a valid identifier\n", STDERR));
+		ft_putstr_fd("\033[1;31mNot a valid identifier\n", STDERR);
+		return (1);
 	}
-	return ;
 }
 
 char	**split_export(char *str)
@@ -100,7 +81,7 @@ char	**split_export(char *str)
 	return (split);
 }
 
-void	ft_export(t_word *word, t_env **env)
+int	ft_export(t_word *word, t_env **env)
 {
 	char	*str;
 	char	**split;
@@ -111,8 +92,8 @@ void	ft_export(t_word *word, t_env **env)
 	str = join_env(word);
 	if (str[0] == '#')
 	{
-		print_declare_x(*env);
-		return (free(str));
+		free(str);
+		return (print_declare_x(*env));
 	}
 	if (is_included(str, '=') == 0)
 		return (no_equal_case(str));
@@ -121,10 +102,12 @@ void	ft_export(t_word *word, t_env **env)
 	{
 		free(str);
 		free_tab(split);
-		return (ft_putstr_fd("\033[1;31mNot a valid identifier\n", STDERR));
+		ft_putstr_fd("\033[1;31mNot a valid identifier\n", STDERR);
+		return (1);
 	}
 	else
 		process_name_data(env, split);
 	free(str);
 	free_tab(split);
+	return (0);
 }

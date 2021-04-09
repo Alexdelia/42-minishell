@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 10:54:03 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 11:14:53 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ int			ft_pwd(int fd);
 int			ft_env(int fd, t_env *env);
 int			ft_export(t_word *word, t_env **env);
 int				is_valid_identifier(char *str);
-void			print_declare_x(t_env *env);
+int			print_declare_x(t_env *env);
 char			*join_env(t_word *word);
 int			ft_unset(t_word *word, t_env **env);
 
