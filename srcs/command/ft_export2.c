@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	print_declare_x(t_env *env)
+int		print_declare_x(t_env *env)
 {
 	while (env != NULL)
 	{
@@ -42,7 +42,7 @@ char	*join_env(t_word *word)
 	return (str);
 }
 
-int	is_valid_identifier(char *str)
+int		is_valid_identifier(char *str)
 {
 	if (str[0] == '\0')
 		return (0);
