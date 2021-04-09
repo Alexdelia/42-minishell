@@ -21,7 +21,7 @@ int		ft_parse_exec(t_word *word, t_data *d, int fd)
 	else if (ft_strcmp(word->data, "pwd") == 0)
 		status = ft_pwd(fd);
 	else if (ft_strcmp(word->data, "export") == 0)
-		status = ft_export(word->next, &(d->env));
+		status = ft_export(word->next, &(d->env), fd);
 	else if (ft_strcmp(word->data, "unset") == 0)
 		status = ft_unset(word->next, &(d->env));
 	else if (ft_strcmp(word->data, "env") == 0)
