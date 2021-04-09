@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 11:14:53 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 11:17:21 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ char			*ft_special_convertion(char *str);
 int				ft_prompt_line(void);
 void			put_cursor_backward(int n);
 void			erase_line(char **l);
+int				ft_mi_error(char *command, char *elem, char *text, int va_error);
 
 /*
 ** engine
