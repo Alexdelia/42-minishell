@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:52:29 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/09 16:53:33 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/09 18:19:09 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	main(int ac, char **av, char **envp)
 	av[80][20] = 's';
 	i = 0;
 	(void)ac;
+	char str[]="COUCO\n";
+	write(2, str, 6);
 	while (av[i])
 	{
 		ft_ps(av[i]);

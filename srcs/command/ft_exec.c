@@ -6,13 +6,11 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 14:14:43 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/09 17:16:21 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/09 18:28:45 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <string.h>
-#include <errno.h>
 
 int	ft_exec(char *path, char *str, t_env *env, int fd)
 {
@@ -21,19 +19,26 @@ int	ft_exec(char *path, char *str, t_env *env, int fd)
 	int			pid;
 	struct stat	stats;
 	int			exec_status;
+	/*int		pfd[2];*/
 
 	exec_status = 0;
+	/*pipe(pfd);*/
 	if (stat(path, &stats) == -1)
 		return (ft_mi_error(path, "No such file or directory", 127));
 	envp = etoa(env);
 	av = ft_split(str, ' ');
 	pid = fork();
 	if (pid == 0)
-		execve(path, av, envp);
-	else if (pid != 0)
 	{
+		/*dup2(pfd[1], STDERR);*/
+		execve(path, av, envp);
+	}
+	else
+	{	
 		waitpid(pid, &exec_status, 0);
-		printf("pid: %d\nexec_status: %d\n", pid, exec_status);
+		/*char BUFF[5];
+		read(pfd[0], BUFF, 4);
+		printf("pid: %d\nexec_status: %d\nBUFF: %s\n", pid, exec_status, BUFF);*/
 		free_tab(envp);
 		free_tab(av);
 	}
