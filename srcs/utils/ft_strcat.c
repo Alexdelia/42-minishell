@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:18:42 by user42            #+#    #+#             */
-/*   Updated: 2021/04/09 10:41:06 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/09 11:50:48 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,17 @@ int			ft_mi_strcat(char **dst, const char *src, int y, t_data *d)
 			equal = TRUE;
 		na_env = ft_f_mi_strcat(src);
 		if (ft_strcmp(na_env, "?") == 0)
+		{
 			dt_env = ft_itoa(status);
+			y = ft_copy(dst, y, dt_env);
+			free(dt_env);
+		}
 		else
+		{
 			dt_env = ft_env_search(na_env, d->env);
+			y = ft_copy(dst, y, dt_env);
+		}
 		free(na_env);
-		y = ft_copy(dst, y, dt_env);
 	}
 	return (y);
 }
