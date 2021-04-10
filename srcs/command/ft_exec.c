@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 14:14:43 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/09 17:16:21 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/10 17:59:34 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ int	ft_exec(char *path, char *str, t_env *env, int fd)
 	}
 	if (fd != STDOUT && fd != STDIN)
 		close(fd);
+	if (exec_status <= 255)
+		ft_mi_error(path, "run into an unexpected error", 0);
 	return ((exec_status <= 255 ? exec_status : exec_status / 256));
 }
