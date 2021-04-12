@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int	get_start_index(char *line, int process_num)
+int		get_start_index(char *line, int process_num)
 {
 	int	i;
 
@@ -38,7 +38,7 @@ int	get_start_index(char *line, int process_num)
 	return (i);
 }
 
-int	get_end_index(char *line, int start)
+int		get_end_index(char *line, int start)
 {
 	int	j;
 
@@ -53,7 +53,7 @@ int	get_end_index(char *line, int start)
 	return (j);
 }
 
-static void	ft_error_ml(void)
+void	ft_error_ml(void)
 {
 	ft_pserc("Error: multiligne\n", RED);
 	return ;

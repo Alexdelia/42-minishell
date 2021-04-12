@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:41:22 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 17:28:59 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/12 17:48:06 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	ft_ps_but_one_c(char *str, char c, int fd)
 	{
 		if (str[i] == c)
 			is_c = TRUE;
-		write(1, &str[i], 1);
+		write(1, &str[i], fd);
 		if (is_c == FALSE)
 			i++;
 		while (is_c == TRUE)

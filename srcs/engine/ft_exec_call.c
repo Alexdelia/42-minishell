@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 17:43:57 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/12 18:08:44 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,12 @@ int		ft_parse_exec(t_word *word, t_data *d, int fd)
 	else if (word->data[0] && (word->data[0] == '.'
 			|| word->data[0] == '/'))
 		status = ft_exec(word->data, word->next->data, d->env, fd);
-	else if (ft_statable(&word, d->env) == TRUE)
+	/*else if (ft_statable(&word, d->env) == TRUE)
 		status = ft_exec(word->data, word->next->data, d->env, fd);
-	else if (is_included(word->data, '='))
+	*/else if (is_included(word->data, '='))
 		status = ft_mi_error(word->data, "in-line arg not supported", 127);
 	else
 		status = ft_mi_error(word->data, "command not found", 127);
-	//kill(pid, SIGKILL);
 	return (0);
 }
 
@@ -81,7 +80,6 @@ void	ft_print_word(t_word *word)
 int		ft_exec_command(char *line, t_data *d)
 {
 	int		c;
-	//int		pid;
 	int		fd;
 	int		process_num;
 
@@ -92,14 +90,9 @@ int		ft_exec_command(char *line, t_data *d)
 	process_num = 0;
 	while (process_num < c)
 	{
-		//pid = fork();
 		ft_word_split(d, line, process_num);
-		//if (!(word = ft_word_split(d, line, process_num)))
-		//	return (0);
-		//if (base_p_num > 1)
-		//	fd = ft_redirection(line, base_p_num - process_num);
 		ft_print_word(d->word);
-		fd = ft_parse_exec(d->word, d, fd);	
+		fd = ft_parse_exec(d->word, d, fd);
 		printf("========= NEXT COMMAND =============\n");
 		ft_free_all_word(d->word);
 		d->word = NULL;

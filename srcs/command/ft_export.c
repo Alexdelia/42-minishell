@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 12:06:30 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 15:31:09 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/12 19:02:56 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,17 @@ void	process_name_data(t_env **env, char **split)
 int		no_equal_case(char *str)
 {
 	if (is_valid_identifier(str) == 1)
-	{
-		free(str);
 		return (0);
-	}
 	else
 	{
 		ft_mi_error("export", "not a valid identifier", 1);
-		free(str);
 		return (1);
 	}
 }
 
-int		unvalid_case(char *str, char **split)
+int		unvalid_case(char **split)
 {
 	ft_mi_error("export", "not a valid identifier", 1);
-	free(str);
 	free_tab(split);
 	return (1);
 }
@@ -89,28 +84,37 @@ char	**split_export(char *str)
 	return (split);
 }
 
-int		ft_export(t_word *word, t_env **env, int fd)
+int		treat_one_arg(char *str, t_env **env, int fd)
 {
-	char	*str;
-	char	**split;
+	char **split;
 
-	str = NULL;
-	if (word == NULL)
-		return (print_declare_x(*env, fd));
-	str = join_env(word);
 	if (str[0] == '\0' || str[0] == '#')
-	{
-		free(str);
 		return (print_declare_x(*env, fd));
-	}
 	if (is_included(str, '=') == 0)
 		return (no_equal_case(str));
 	split = split_export(str);
 	if (is_valid_identifier(split[0]) == 0)
-		return (unvalid_case(str, split));
+		return (unvalid_case(split));
 	else
 		process_name_data(env, split);
-	free(str);
 	free_tab(split);
 	return (0);
+}
+
+int		ft_export(t_word *word, t_env **env, int fd)
+{
+	char	**split;
+	int	i;
+	int	ret;
+
+	ret = 0;
+	split = ft_split2(word->data, ' ');
+	i = 0;
+	while (split[i] != NULL)
+	{
+		ret = treat_one_arg(split[i], env, fd);
+		i++;
+	}
+	free_tab(split);
+	return (ret);
 }
