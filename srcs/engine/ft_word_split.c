@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 14:52:09 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/12 16:26:20 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,9 @@ int	get_end_index(char *line, int start)
 	return (j);
 }
 
-static void	ft_error_ml(t_word **word)
+static void	ft_error_ml(void)
 {
 	ft_pserc("Error: multiligne\n", RED);
-	ft_free_all_word(*word);
 	return ;
 }
 
@@ -76,14 +75,14 @@ void	ft_word_split(t_data *d, char *line, int process_num)
 	if (ft_transform(d, clean, TRUE) < 0)
 	{
 		free(clean);
-		return (ft_error_ml(&(d->word)));
+		return (ft_error_ml());
 	}
 	free(clean);
 	end_of_line = ft_strdup(&line[j]);
-	if(ft_transform(d, end_of_line, FALSE) < 0)
+	if (ft_transform(d, end_of_line, FALSE) < 0)
 	{
 		free(end_of_line);
-		return (ft_error_ml(&(d->word)));
+		return (ft_error_ml());
 	}
 	free(end_of_line);
 }

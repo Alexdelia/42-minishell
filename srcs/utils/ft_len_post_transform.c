@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 14:09:08 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 15:02:10 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/12 16:11:27 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int		ft_strlen_post_transform(const char *str, t_data *d)
 	p.y = 0;
 	p.i = 0;
 	ml = FALSE;
-	while (str[p.i] && str[p.i] != ';' && str[p.i] != '|'
+	while (ml == FALSE && str[p.i] && str[p.i] != ';' && str[p.i] != '|'
 		&& str[p.i] != '>' && str[p.i] != '<')
 	{
 		if (str[p.i] == '$')
@@ -109,6 +109,8 @@ int		ft_strlen_post_transform(const char *str, t_data *d)
 			p.i++;
 			p.y++;
 		}
+		if (p.i == -1)
+			ml = TRUE;
 	}
 	if (ml == TRUE)
 		return (-1);

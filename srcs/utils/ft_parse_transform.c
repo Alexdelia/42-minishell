@@ -6,13 +6,13 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:08:56 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 15:04:01 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/12 16:03:45 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	ft_conv_dollar(t_parser *p, t_data *d, char *str, char **res)
+void	ft_conv_dollar(t_parser *p, t_data *d, char *str, char **res)
 {
 	p->y = ft_mi_strcat(res, &str[p->i], p->y, d);
 	while (str[p->i] && str[p->i] != ' ' && str[p->i] != ';'
@@ -22,7 +22,7 @@ static void	ft_conv_dollar(t_parser *p, t_data *d, char *str, char **res)
 		p->i++;
 }
 
-static void	ft_conv_double(t_parser *p, t_data *d, char *str, char **res)
+void	ft_conv_double(t_parser *p, t_data *d, char *str, char **res)
 {
 	int	ml;
 
@@ -54,19 +54,16 @@ static void	ft_conv_double(t_parser *p, t_data *d, char *str, char **res)
 		p->i++;
 }
 
-static void	ft_conv_simple(t_parser *p, char *str, char **res)
+static void	ft_conv_simple(t_parser *p, char *str, char *res)
 {
 	p->i++;
 	while (str[p->i] && str[p->i] != '\'')
 	{
-		(*res)[p->y] = str[p->i];
+		res[p->y] = str[p->i];
 		p->i++;
 		p->y++;
 	}
-	if (!str[p->i])
-		p->i = -1;
-	else
-		p->i++;
+	p->i++;
 }
 
 int			ft_transform(t_data *d, char *str, int first)
@@ -78,7 +75,7 @@ int			ft_transform(t_data *d, char *str, int first)
 	len = ft_strlen_post_transform(str, d);
 	if (len < 0)
 		return (-1);
-	res = (char *)malloc(sizeof(*res) * (len + 1));
+	res = malloc(sizeof(*res) * (len + 1));
 	p.y = 0;
 	p.i = 0;
 	while (str[p.i] && str[p.i] != ';' && str[p.i] != '|'
@@ -89,7 +86,7 @@ int			ft_transform(t_data *d, char *str, int first)
 		else if (str[p.i] == '\"')
 			ft_conv_double(&p, d, str, &res);
 		else if (str[p.i] == '\'')
-			ft_conv_simple(&p, str, &res);
+		ft_conv_simple(&p, str, res);
 		else
 		{
 			if (str[p.i] == '\\')
@@ -103,7 +100,7 @@ int			ft_transform(t_data *d, char *str, int first)
 			p.y++;
 		}
 	}
-	res[p.i] = '\0';
+	res[p.y] = '\0';
 	if (first == TRUE)
 		d->word = ft_new_word(res);
 	else

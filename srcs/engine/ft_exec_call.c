@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 13:37:01 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/12 16:31:33 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int		ft_exec_command(char *line, t_data *d)
 		ft_print_word(d->word);
 		printf("========= NEXT COMMAND =============\n");
 		ft_free_all_word(d->word);
+		d->word = NULL;
 		// fd = ft_parse_exec(word, d, fd);
 		process_num++;
 	}
