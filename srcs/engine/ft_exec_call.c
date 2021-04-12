@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 16:31:33 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/12 17:43:57 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int		ft_parse_exec(t_word *word, t_data *d, int fd)
 		status = ft_mi_error(word->data, "in-line arg not supported", 127);
 	else
 		status = ft_mi_error(word->data, "command not found", 127);
-	ft_free_all_word(word);
 	//kill(pid, SIGKILL);
 	return (0);
 }
@@ -97,15 +96,13 @@ int		ft_exec_command(char *line, t_data *d)
 		ft_word_split(d, line, process_num);
 		//if (!(word = ft_word_split(d, line, process_num)))
 		//	return (0);
-		//ft_ps(word->data);
-		//ft_print_word(word);
 		//if (base_p_num > 1)
 		//	fd = ft_redirection(line, base_p_num - process_num);
 		ft_print_word(d->word);
+		fd = ft_parse_exec(d->word, d, fd);	
 		printf("========= NEXT COMMAND =============\n");
 		ft_free_all_word(d->word);
 		d->word = NULL;
-		// fd = ft_parse_exec(word, d, fd);
 		process_num++;
 	}
 	return (0);
