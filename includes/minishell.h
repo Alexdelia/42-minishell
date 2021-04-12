@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/12 08:31:56 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/12 11:38:44 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct	s_word {
 typedef	struct	s_data {
 	t_hist			*hist;
 	t_env			*env;
+	t_word			*word;
 	int				exit;
 	int				hc;
 	int				ts;
@@ -98,7 +99,7 @@ char			**etoa(t_env *env);
 ** word_utils
 */
 
-t_word			*ft_word_split(t_data *d, char *str, int stop);
+void			ft_word_split(t_data *d, char *str, int stop);
 int				ft_cmd(t_word **word, t_data *d, char *str, int i);
 int				ft_content(t_word **word, t_data *d, char *str, int i);
 t_word			*ft_new_word(char *str);

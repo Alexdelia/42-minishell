@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 08:22:54 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/12 12:24:37 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,20 @@ int		ft_count_process(char *line)
 
 	process_num = 1;
 	i = 0;
-	while (line[i])
+	while (line[i] != '\0')
 	{
 		if (line[i] == '|' || line[i] == ';')
 			process_num++;
-		else if (line[i] == '>' || line[i] == '<')
+		else if (line[i] == '>')
 		{
 			process_num++;
-			if (line[i + 1] && (line[i + 1] == '>' || line[i + 1] == '<'))
+			if (line[i + 1] != '\0' && line[i + 1] == '>')
+				i++;
+		}
+		else if (line[i] == '<')
+		{
+			process_num++;
+			if (line[i + 1] != '\0' && line[i + 1] == '<')
 				i++;
 		}
 		i++;
@@ -62,7 +68,7 @@ int		ft_count_process(char *line)
 
 void	ft_print_word(t_word *word)
 {
-	while (word)
+	while (word != NULL)
 	{
 		ft_ps(word->data);
 		ft_ps("\n");
@@ -72,28 +78,31 @@ void	ft_print_word(t_word *word)
 
 int		ft_exec_command(char *line, t_data *d)
 {
-	int		process_num;
-	int		base_p_num;
+	int		c;
 	//int		pid;
 	int		fd;
-	t_word	*word;
+	int		process_num;
 
 	if (!line[0])
 		return (0);
-	process_num = ft_count_process(line);
-	base_p_num = process_num;
+	c = ft_count_process(line);
 	fd = STDOUT;
-	while (process_num > 0)
+	process_num = 0;
+	while (process_num < c)
 	{
 		//pid = fork();
-		if (!(word = ft_word_split(d, line, base_p_num - process_num)))
-			return (0);
+		ft_word_split(d, line, process_num);
+		//if (!(word = ft_word_split(d, line, process_num)))
+		//	return (0);
 		//ft_ps(word->data);
 		//ft_print_word(word);
 		//if (base_p_num > 1)
 		//	fd = ft_redirection(line, base_p_num - process_num);
-		fd = ft_parse_exec(word, d, fd);
-		process_num--;
+		ft_print_word(d->word);
+		printf("========= NEXT COMMAND =============\n");
+		ft_free_all_word(d->word);
+		// fd = ft_parse_exec(word, d, fd);
+		process_num++;
 	}
 	return (0);
 }
