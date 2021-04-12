@@ -6,13 +6,13 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:10:45 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 11:19:29 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/12 13:44:53 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*static int		ft_cmd_double(t_word **word, t_data *d, char *str, int i)
+static int		ft_cmd_double(t_word **word, t_data *d, char *str, int i)
 {
 	char	*res;
 	int		y;
@@ -88,4 +88,4 @@ int				ft_cmd(t_word **word, t_data *d, char *str, int i)
 	(*word) = ft_new_word(res);
 	free(res);
 	return (i);
-}*/
+}

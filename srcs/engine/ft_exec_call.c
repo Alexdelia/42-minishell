@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 12:24:37 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/12 13:37:01 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int		ft_parse_exec(t_word *word, t_data *d, int fd)
 		status = ft_exec(word->data, word->next->data, d->env, fd);
 	else if (ft_statable(&word, d->env) == TRUE)
 		status = ft_exec(word->data, word->next->data, d->env, fd);
+	else if (is_included(word->data, '='))
+		status = ft_mi_error(word->data, "in-line arg not supported", 127);
 	else
 		status = ft_mi_error(word->data, "command not found", 127);
 	ft_free_all_word(word);
@@ -71,6 +73,7 @@ void	ft_print_word(t_word *word)
 	while (word != NULL)
 	{
 		ft_ps(word->data);
+		ft_ps("|");
 		ft_ps("\n");
 		word = word->next;
 	}
