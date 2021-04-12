@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/09 19:02:03 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/12 08:22:54 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		ft_parse_exec(t_word *word, t_data *d, int fd)
 	else if (word->data[0] && (word->data[0] == '.'
 			|| word->data[0] == '/'))
 		status = ft_exec(word->data, word->next->data, d->env, fd);
-	else if (ft_statable(&word) == TRUE)
+	else if (ft_statable(&word, d->env) == TRUE)
 		status = ft_exec(word->data, word->next->data, d->env, fd);
 	else
 		status = ft_mi_error(word->data, "command not found", 127);
