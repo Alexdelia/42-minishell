@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 13:44:59 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/12 14:52:09 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,34 +53,37 @@ int	get_end_index(char *line, int start)
 	return (j);
 }
 
-/*static t_word	*ft_error_ml(t_word **word)
+static void	ft_error_ml(t_word **word)
 {
 	ft_pserc("Error: multiligne\n", RED);
 	ft_free_all_word(*word);
-	return (NULL);
-}*/
+	return ;
+}
 
 void	ft_word_split(t_data *d, char *line, int process_num)
 {
 	int		i;
 	int		j;
-	char		*s1;
-	char		*s2;
-	(void)d;
+	char	*raw;
+	char	*clean;
+	char	*end_of_line;
+
 	i = get_start_index(line, process_num);
 	j = get_end_index(line, i);
-	s1 = ft_strdup2(line, i, j);
-	s2 = ft_strtrim(s1, " ");
-	free(s1);
-	d->word = ft_new_word(s2);
-	//ft_add_back_word(&(d->word), ft_new_word(str));
-	free(s2);
-	// j = get_end_index(line, process_num);
-	// parse_convert_cmd(t_wor**word, t_data *d, 
-	/*i = ft_cmd(&word, d, str, i);
-	if (i < 0)
-		return (ft_error_ml(&word));
-	i = ft_content(&word, d, str, i + 1);
-	if (i < 0)
-		return (ft_error_ml(&word));*/
+	raw = ft_strdup2(line, i, j);
+	clean = ft_strtrim(raw, " ");
+	free(raw);
+	if (ft_transform(d, clean, TRUE) < 0)
+	{
+		free(clean);
+		return (ft_error_ml(&(d->word)));
+	}
+	free(clean);
+	end_of_line = ft_strdup(&line[j]);
+	if(ft_transform(d, end_of_line, FALSE) < 0)
+	{
+		free(end_of_line);
+		return (ft_error_ml(&(d->word)));
+	}
+	free(end_of_line);
 }

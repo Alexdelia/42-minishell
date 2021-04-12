@@ -8,8 +8,8 @@ LOCA_OBJ_MAIN = $(addprefix ${PATH_OBJS}, $(notdir ${OBJ_MAIN}))
 SRCS = utils/prompt_utils.c engine/ft_word_split.c engine/ft_exec_call.c engine/ft_redirection.c \
 		command/ft_echo.c command/ft_cd.c command/ft_pwd.c command/ft_env.c command/ft_export.c command/ft_export2.c command/ft_unset.c command/ft_exec.c \
 		utils/env_utils.c utils/env_utils2.c utils/env_utils3.c utils/env_utils4.c utils/hist_utils.c utils/hist_utils2.c utils/word_utils.c \
-		utils/word_utils2.c engine/process_input.c engine/process_input2.c utils/ft_strcat.c utils/ft_parser_cmd.c \
-		utils/ft_parser_content.c utils/ft_error.c utils/ft_statable.c
+		utils/word_utils2.c engine/process_input.c engine/process_input2.c utils/ft_strcat.c utils/ft_parse_transform.c \
+		utils/ft_error.c utils/ft_statable.c utils/ft_len_post_transform.c
 
 PATH_SRCS = ./srcs/
 

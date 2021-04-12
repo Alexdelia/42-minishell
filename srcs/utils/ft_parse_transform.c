@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parser_content.c                                :+:      :+:    :+:   */
+/*   ft_parse_transform.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:08:56 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/09 16:58:44 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/12 15:04:01 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,18 @@ static void	ft_conv_simple(t_parser *p, char *str, char **res)
 		p->i++;
 }
 
-int			ft_content(t_word **word, t_data *d, char *str, int i)
+int			ft_transform(t_data *d, char *str, int first)
 {
 	t_parser	p;
 	char		*res;
-	int			ml;
-
-	res = (char *)malloc(sizeof(*res) * (ft_strlen(str) + PATH_LEN));
+	int			len;
+	
+	len = ft_strlen_post_transform(str, d);
+	if (len < 0)
+		return (-1);
+	res = (char *)malloc(sizeof(*res) * (len + 1));
 	p.y = 0;
-	p.i = i;
-	ml = FALSE;
+	p.i = 0;
 	while (str[p.i] && str[p.i] != ';' && str[p.i] != '|'
 		&& str[p.i] != '>' && str[p.i] != '<')
 	{
@@ -94,10 +96,7 @@ int			ft_content(t_word **word, t_data *d, char *str, int i)
 			{
 				p.i++;
 				if (!str[p.i])
-				{
-					ml = TRUE;
 					break;
-				}
 			}
 			res[p.y] = str[p.i];
 			p.i++;
@@ -105,9 +104,10 @@ int			ft_content(t_word **word, t_data *d, char *str, int i)
 		}
 	}
 	res[p.i] = '\0';
-	ft_add_back_word(word, ft_new_word(res));
+	if (first == TRUE)
+		d->word = ft_new_word(res);
+	else
+		ft_add_back_word(&(d->word), ft_new_word(res));
 	free(res);
-	if (ml == TRUE)
-		return (-1);
 	return (p.i);
 }
