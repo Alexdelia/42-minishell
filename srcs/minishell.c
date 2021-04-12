@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 14:56:29 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/12 11:35:40 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	init_data(t_data *d, char **env)
 {
 	d->hist = NULL;
 	d->env = init_env(env);
+	d->word = NULL;
 	d->exit = 0;
 	d->hc = 0;
 	d->ts = 0;

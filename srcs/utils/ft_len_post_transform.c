@@ -1,28 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parser_content.c                                :+:      :+:    :+:   */
+/*   ft_len_post_transform.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/08 13:08:56 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/09 16:58:44 by adelille         ###   ########.fr       */
+/*   Created: 2021/04/12 14:09:08 by adelille          #+#    #+#             */
+/*   Updated: 2021/04/12 16:11:27 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	ft_conv_dollar(t_parser *p, t_data *d, char *str, char **res)
+static void	ft_len_dollar(t_parser *p, t_data *d, const char *str)
 {
-	p->y = ft_mi_strcat(res, &str[p->i], p->y, d);
+	char	*na_env;
+	int		start;
+	
+	start = p->i;
 	while (str[p->i] && str[p->i] != ' ' && str[p->i] != ';'
 		&& str[p->i] != '\'' && str[p->i] != '\"' && str[p->i] != '='
 		&& str[p->i] != '|' && str[p->i] != '>' && str[p->i] != '<'
 		&& str[p->i] != '\\')
 		p->i++;
+	if (start == p->i - 1)
+	{
+		p->y++;
+		return ;
+	}
+	na_env = ft_strdup2((char *)str, start + 1, p->i);
+	p->y += ft_strlen(ft_env_search(na_env, d->env));
+	free(na_env);
 }
 
-static void	ft_conv_double(t_parser *p, t_data *d, char *str, char **res)
+static void	ft_len_double(t_parser *p, t_data *d, const char *str)
 {
 	int	ml;
 
@@ -31,7 +42,7 @@ static void	ft_conv_double(t_parser *p, t_data *d, char *str, char **res)
 	while (str[p->i] && str[p->i] != '\"')
 	{
 		if (str[p->i] == '$')
-			ft_conv_dollar(p, d, str, res);
+			ft_len_dollar(p, d, str);
 		else
 		{
 			if (str[p->i] == '\\')
@@ -43,7 +54,6 @@ static void	ft_conv_double(t_parser *p, t_data *d, char *str, char **res)
 					break;
 				}
 			}
-			(*res)[p->y] = str[p->i];
 			p->i++;
 			p->y++;
 		}
@@ -54,12 +64,11 @@ static void	ft_conv_double(t_parser *p, t_data *d, char *str, char **res)
 		p->i++;
 }
 
-static void	ft_conv_simple(t_parser *p, char *str, char **res)
+static void	ft_len_simple(t_parser *p, const char *str)
 {
 	p->i++;
 	while (str[p->i] && str[p->i] != '\'')
 	{
-		(*res)[p->y] = str[p->i];
 		p->i++;
 		p->y++;
 	}
@@ -69,25 +78,23 @@ static void	ft_conv_simple(t_parser *p, char *str, char **res)
 		p->i++;
 }
 
-int			ft_content(t_word **word, t_data *d, char *str, int i)
+int		ft_strlen_post_transform(const char *str, t_data *d)
 {
 	t_parser	p;
-	char		*res;
 	int			ml;
-
-	res = (char *)malloc(sizeof(*res) * (ft_strlen(str) + PATH_LEN));
+	
 	p.y = 0;
-	p.i = i;
+	p.i = 0;
 	ml = FALSE;
-	while (str[p.i] && str[p.i] != ';' && str[p.i] != '|'
+	while (ml == FALSE && str[p.i] && str[p.i] != ';' && str[p.i] != '|'
 		&& str[p.i] != '>' && str[p.i] != '<')
 	{
 		if (str[p.i] == '$')
-			ft_conv_dollar(&p, d, str, &res);
+			ft_len_dollar(&p, d, str);
 		else if (str[p.i] == '\"')
-			ft_conv_double(&p, d, str, &res);
+			ft_len_double(&p, d, str);
 		else if (str[p.i] == '\'')
-			ft_conv_simple(&p, str, &res);
+			ft_len_simple(&p, str);
 		else
 		{
 			if (str[p.i] == '\\')
@@ -99,15 +106,13 @@ int			ft_content(t_word **word, t_data *d, char *str, int i)
 					break;
 				}
 			}
-			res[p.y] = str[p.i];
 			p.i++;
 			p.y++;
 		}
+		if (p.i == -1)
+			ml = TRUE;
 	}
-	res[p.i] = '\0';
-	ft_add_back_word(word, ft_new_word(res));
-	free(res);
 	if (ml == TRUE)
 		return (-1);
-	return (p.i);
+	return (p.y);
 }
