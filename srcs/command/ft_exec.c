@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 14:14:43 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 08:10:18 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/13 16:16:18 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ int	ft_exec(char *path, char *str, t_env *env, int fd)
 	int			pid;
 	struct stat	stats;
 	int			exec_status;
+	char		c;
 	/*int		pfd[2];*/
 
 	exec_status = 0;
+	c = 'a';
 	/*pipe(pfd);*/
 	if (stat(path, &stats) == -1)
 		return (ft_mi_error(path, "No such file or directory", 127));
@@ -35,6 +37,14 @@ int	ft_exec(char *path, char *str, t_env *env, int fd)
 	}
 	else
 	{	
+		while (c != 'q')
+		{
+			read(STDIN, &c, 1);
+			if (c == 'k')
+				kill(pid, 1);
+			ft_putstr_fd("HELLO\n", STDOUT);
+		}
+		ft_putstr_fd("EXIT LOOP\n", STDOUT);
 		waitpid(pid, &exec_status, 0);
 		/*char BUFF[5];
 		read(pfd[0], BUFF, 4);
