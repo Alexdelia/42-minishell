@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/13 12:20:40 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/13 13:07:58 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ int		main(int ac, char **av, char **env)
 {
 	t_data	d;
 	char	*l;
+	int		term;
 
+	if (TERMCAP && (term = init_term()) == -1)
+		return (-1);
 	init_data(&d, env);
 	if (ac == 1)
 	{

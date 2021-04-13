@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/13 16:04:12 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/13 12:59:24 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@
 # include <fcntl.h>
 # include <termios.h>
 # include <stdlib.h>
+# include <curses.h>
+# include <term.h>
 
 # define STDIN 0
 # define STDOUT 1
 # define STDERR 2
+# define TERMCAP 0
 
 # define PATH_LEN 512
 
@@ -125,6 +128,7 @@ int				ft_prompt_line(void);
 void			put_cursor_backward(int n);
 void			erase_line(char **l);
 int				ft_mi_error(char *command, char *text, int va_error);
+int				init_term(void);
 
 /*
 ** engine
