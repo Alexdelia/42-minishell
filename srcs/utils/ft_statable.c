@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 18:51:00 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/13 17:55:18 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/13 19:53:36 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int			ft_statable(t_word **word, t_env *env)
 	char		*bin_path;
 	char		*va_path;
 	t_parser	p;
-	t_word		*tmp;
 	struct stat	stats;
 
 	p.i = 0;
@@ -74,10 +73,8 @@ int			ft_statable(t_word **word, t_env *env)
 			free(bin_path);
 		else
 		{
-			ft_add_front_word(word, ft_new_word(bin_path));
-			tmp = (*word)->next;
-			(*word)->next = (*word)->next->next;
-			ft_free_one_word(tmp);
+			free((*word)->data);
+			(*word)->data = ft_strdup(bin_path);
 			free(bin_path);
 			ft_ps("OUT\n");
 			return (TRUE);

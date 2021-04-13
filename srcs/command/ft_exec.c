@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 14:14:43 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/13 18:13:30 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/13 19:51:03 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_exec(t_word *word, t_env *env, int fd)
 {
 	char		**av;
 	char		**envp;
+	char		*join_f;
+	char		*join_e;
 	int			pid;
 	struct stat	stats;
 	int			exec_status;
@@ -26,10 +28,14 @@ int	ft_exec(t_word *word, t_env *env, int fd)
 	if (stat(word->data, &stats) == -1)
 		return (ft_mi_error(word->data, "No such file or directory", 127));
 	envp = etoa(env);
+	join_f = ft_strjoin(word->data, " ");
 	if (word->next != NULL)
-		av = ft_split(word->next->data, ' ');
+		join_e = ft_strjoin(join_f, word->next->data);
 	else
-		av = ft_split("", ' ');
+		join_e = ft_strdup(join_f);
+	av = ft_split(join_e, ' ');
+	free(join_f);
+	free(join_e);
 	pid = fork();
 	if (pid == 0)
 	{
