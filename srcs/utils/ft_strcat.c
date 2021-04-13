@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:18:42 by user42            #+#    #+#             */
-/*   Updated: 2021/04/13 10:25:40 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/13 14:25:12 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static int	ft_copy(char **dst, int y, char *dt_env)
 
 int			ft_mi_strcat(char **dst, const char *src, int y, t_data *d)
 {
-	int		i;
 	char	*na_env;
 	char	*dt_env;
 
@@ -58,12 +57,6 @@ int			ft_mi_strcat(char **dst, const char *src, int y, t_data *d)
 	}
 	else
 	{
-		i = 0;
-		while (src[i + 1] && src[i + 1] != ' ' && src[i + 1] != ';'
-			&& src[i + 1] != '\"' && src[i + 1] != '\'' && src[i + 1] != '='
-			&& src[i + 1] != '|' && src[i + 1] != '>' && src[i + 1] != '<'
-			&& src[i + 1] != '\\')
-			i++;
 		na_env = ft_f_mi_strcat(src);
 		if (ft_strcmp(na_env, "?") == 0)
 		{
