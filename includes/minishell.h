@@ -102,9 +102,15 @@ char			**etoa(t_env *env);
 ** word_utils
 */
 
-void			ft_word_split(t_data *d, char *str, int stop);
-int				ft_strlen_post_transform(const char *str, t_data *d);
+int				ft_word_split(t_data *d, char *str, int stop);
+int				ft_strlen_post_transform(const char *str, t_data *d, int ml);
 int				ft_transform(t_data *d, char *str, int first);
+void			ft_conv_simple(t_parser *p, const char *str, char *res);
+void			ft_conv_double(t_parser *p, t_data *d, const char *str, char **res);
+void			ft_conv_dollar(t_parser *p, t_data *d, const char *str, char **res);
+int				ft_len_inner_trans(t_parser *p, const char *str, int ml);
+int				ft_inner_trans(t_parser *p, const char *str, char **res, int ml);
+void			ft_loop_trans(t_parser *p, t_data *d, const char *str, char *res);
 t_word			*ft_new_word(char *str);
 t_word			*ft_get_last_word(t_word *word);
 void			ft_add_back_word(t_word **word, t_word *new);

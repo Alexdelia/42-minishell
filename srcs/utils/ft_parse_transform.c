@@ -6,13 +6,13 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:08:56 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/13 14:55:34 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/13 16:00:53 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_conv_dollar(t_parser *p, t_data *d, char *str, char **res)
+void		ft_conv_dollar(t_parser *p, t_data *d, const char *str, char **res)
 {
 	p->y = ft_mi_strcat(res, &str[p->i], p->y, d);
 	while (str[p->i] && str[p->i] != ' ' && str[p->i] != ';'
@@ -22,7 +22,7 @@ void	ft_conv_dollar(t_parser *p, t_data *d, char *str, char **res)
 		p->i++;
 }
 
-void	ft_conv_double(t_parser *p, t_data *d, char *str, char **res)
+void		ft_conv_double(t_parser *p, t_data *d, const char *str, char **res)
 {
 	int	ml;
 
@@ -34,18 +34,9 @@ void	ft_conv_double(t_parser *p, t_data *d, char *str, char **res)
 			ft_conv_dollar(p, d, str, res);
 		else
 		{
-			if (str[p->i] == '\\')
-			{
-				p->i++;
-				if (!str[p->i])
-				{
-					ml = TRUE;
-					break;
-				}
-			}
-			(*res)[p->y] = str[p->i];
-			p->i++;
-			p->y++;
+			ml = ft_inner_trans(p, str, res, ml);
+			if (ml == TRUE)
+				break ;
 		}
 	}
 	if (!str[p->i] || ml == TRUE)
@@ -54,7 +45,7 @@ void	ft_conv_double(t_parser *p, t_data *d, char *str, char **res)
 		p->i++;
 }
 
-static void	ft_conv_simple(t_parser *p, char *str, char *res)
+void		ft_conv_simple(t_parser *p, const char *str, char *res)
 {
 	p->i++;
 	while (str[p->i] && str[p->i] != '\'')
@@ -71,36 +62,14 @@ int			ft_transform(t_data *d, char *str, int first)
 	t_parser	p;
 	char		*res;
 	int			len;
-	
-	len = ft_strlen_post_transform(str, d);
+
+	len = ft_strlen_post_transform(str, d, FALSE);
 	if (len < 0)
 		return (-1);
 	res = malloc(sizeof(*res) * (len + 1));
 	p.y = 0;
 	p.i = 0;
-	while (str[p.i] && str[p.i] != ';' && str[p.i] != '|'
-		&& str[p.i] != '>' && str[p.i] != '<')
-	{
-		if (str[p.i] == '$')
-			ft_conv_dollar(&p, d, str, &res);
-		else if (str[p.i] == '\"')
-			ft_conv_double(&p, d, str, &res);
-		else if (str[p.i] == '\'')
-		ft_conv_simple(&p, str, res);
-		else
-		{
-			if (str[p.i] == '\\')
-			{
-				p.i++;
-				if (!str[p.i])
-					break;
-			}
-			res[p.y] = str[p.i];
-			p.i++;
-			p.y++;
-		}
-	}
-	res[p.y] = '\0';
+	ft_loop_trans(&p, d, str, res);
 	if (first == TRUE)
 		d->word = ft_new_word(res);
 	else

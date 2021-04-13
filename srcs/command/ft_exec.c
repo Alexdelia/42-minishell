@@ -36,7 +36,7 @@ int	ft_exec(char *path, char *str, t_env *env, int fd)
 		execve(path, av, envp);
 	}
 	else
-	{	
+  {
 		while (c != 'q')
 		{
 			read(STDIN, &c, 1);
