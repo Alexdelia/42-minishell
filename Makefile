@@ -42,6 +42,7 @@ MYLIB = mylib.a
 PATH_LIBFT = ./libft/
 
 LIBFT = libft.a
+	
 
 all:			${NAME}
 
@@ -55,6 +56,10 @@ ${NAME}:		objs_dir ${OBJS} ${OBJ_MAIN}
 objs_dir:
 				mkdir ${PATH_OBJS} 2> /dev/null || true
 
+sed1:
+				sed -i -e 's/TERMCAP 0/TERMCAP 1/g' includes/minishell.h
+sed2:
+				sed -i -e 's/TERMCAP 1/TERMCAP 0/g' includes/minishell.h
 clean:
 				${RM} ${OBJ_MAIN} ${OBJS}
 				make clean -C ${PATH_LIBFT}
@@ -65,7 +70,13 @@ fclean:			clean
 				${RM} ${NAME} ${MYLIB}
 				make fclean -C ${PATH_LIBFT}
 				rm -rf *.dSYM
+				rm -rf includes/minishell.h-e .DS_Store srcs/.DS_Store
 
 re:				fclean all
 
-.PHONY:			all clean fclean re
+termcap:			sed1 re
+
+reset:				sed2 re
+				
+
+.PHONY:			all clean fclean re termcap reset
