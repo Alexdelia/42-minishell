@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 14:14:43 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 08:10:18 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/13 15:56:07 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_exec(char *path, char *str, t_env *env, int fd)
 		execve(path, av, envp);
 	}
 	else
-	{	
+	{
 		waitpid(pid, &exec_status, 0);
 		/*char BUFF[5];
 		read(pfd[0], BUFF, 4);

@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 10:39:17 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/06 16:11:18 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/13 15:28:19 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int		ft_prompt_line(void)
 			y = i;
 		i++;
 	}
-	//ft_putstr_fd(CLEAR_SCREEN_ANSI, STDERR);
 	ft_pserc("➜  ", GRN);
 	ft_pserc("minishell ", "\033[1;36m");
 	ft_pserc(&path[y + 1], BIMAG);
