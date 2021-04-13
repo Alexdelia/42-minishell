@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 18:08:44 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/13 12:01:30 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,28 @@
 int		ft_parse_exec(t_word *word, t_data *d, int fd)
 {
 	if (ft_strcmp(word->data, "echo") == 0)
-		status = ft_echo(fd, word->next);
+		g_status = ft_echo(fd, word->next);
 	else if (ft_strcmp(word->data, "cd") == 0)
-		status = ft_cd(word->next->data);
+		g_status = ft_cd(word->next->data);
 	else if (ft_strcmp(word->data, "pwd") == 0)
-		status = ft_pwd(fd);
+		g_status = ft_pwd(fd);
 	else if (ft_strcmp(word->data, "export") == 0)
-		status = ft_export(word->next, &(d->env), fd);
+		g_status = ft_export(word->next, &(d->env), fd);
 	else if (ft_strcmp(word->data, "unset") == 0)
-		status = ft_unset(word->next, &(d->env));
+		g_status = ft_unset(word->next, &(d->env));
 	else if (ft_strcmp(word->data, "env") == 0)
-		status = ft_env(fd, d->env);
+		g_status = ft_env(fd, d->env);
+	else if (ft_strcmp(word->data, "exit") == 0)
+		g_status = ft_exit(d);
 	else if (word->data[0] && (word->data[0] == '.'
 			|| word->data[0] == '/'))
-		status = ft_exec(word->data, word->next->data, d->env, fd);
+		g_status = ft_exec(word->data, word->next->data, d->env, fd);
 	/*else if (ft_statable(&word, d->env) == TRUE)
-		status = ft_exec(word->data, word->next->data, d->env, fd);
+		g_status = ft_exec(word->data, word->next->data, d->env, fd);
 	*/else if (is_included(word->data, '='))
-		status = ft_mi_error(word->data, "in-line arg not supported", 127);
+		g_status = ft_mi_error(word->data, "in-line arg not supported", 127);
 	else
-		status = ft_mi_error(word->data, "command not found", 127);
+		g_status = ft_mi_error(word->data, "command not found", 127);
 	return (0);
 }
 

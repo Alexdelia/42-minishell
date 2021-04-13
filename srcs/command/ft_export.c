@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 12:06:30 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/12 19:02:56 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/13 09:30:30 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,40 +56,17 @@ int		unvalid_case(char **split)
 	return (1);
 }
 
-char	**split_export(char *str)
-{
-	char	**split;
-	int		l;
-	int		i;
-	int		p;
-
-	l = ft_strlen(str);
-	split = malloc(sizeof(*split) * 4);
-	i = 0;
-	while (str[i] != '=')
-		i++;
-	p = 0;
-	if (i != 0 && str[i - 1] == '+')
-		p = 1;
-	if (i > 0)
-		split[0] = ft_strdup2(str, 0, i - p);
-	else
-		split[0] = ft_strdup("");
-	if (p == 1)
-		split[1] = ft_strdup("+");
-	else
-		split[1] = ft_strdup("");
-	split[2] = ft_strdup2(str, i + 1, l);
-	split[3] = NULL;
-	return (split);
-}
-
-int		treat_one_arg(char *str, t_env **env, int fd)
+int		treat_one_arg(char *str, int i, t_env **env, int fd)
 {
 	char **split;
 
 	if (str[0] == '\0' || str[0] == '#')
-		return (print_declare_x(*env, fd));
+	{
+		if (i == 0)
+			return (print_declare_x(*env, fd));
+		else
+			return (0);
+	}
 	if (is_included(str, '=') == 0)
 		return (no_equal_case(str));
 	split = split_export(str);
@@ -104,15 +81,22 @@ int		treat_one_arg(char *str, t_env **env, int fd)
 int		ft_export(t_word *word, t_env **env, int fd)
 {
 	char	**split;
-	int	i;
-	int	ret;
+	int		i;
+	int		ret;
+	int		tmp;
 
 	ret = 0;
 	split = ft_split2(word->data, ' ');
 	i = 0;
 	while (split[i] != NULL)
 	{
-		ret = treat_one_arg(split[i], env, fd);
+		if ((tmp = treat_one_arg(split[i], i, env, fd)) != 0)
+			ret = tmp;
+		if (split[i][0] == '#')
+		{
+			free_tab(split);
+			return (ret);
+		}
 		i++;
 	}
 	free_tab(split);

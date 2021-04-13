@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/12 15:02:24 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/13 10:21:42 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 # define PATH_LEN 512
 
-int	status;
+int	g_status;
 
 typedef struct	s_hist {
 	char			*data;
@@ -130,7 +130,8 @@ void			process_input_newline(t_data *d, char **l);
 void			process_arrow_up(t_data *d, char **l);
 void			process_arrow_down(t_data *d, char **l);
 int				process_input_arrows(t_data *d, char **l);
-void			process_ctrl_d(void);
+void			process_ctrl_c(void);
+void			process_ctrl_d(t_data *d);
 int				ft_exec_command(char *line, t_data *d);
 int				ft_redirection(char *line, int process_num);
 
@@ -146,8 +147,10 @@ int				ft_export(t_word *word, t_env **env, int fd);
 int				is_valid_identifier(char *str);
 int				print_declare_x(t_env *env, int fd);
 char			*join_env(t_word *word);
+char			**split_export(char *str);
 int				ft_unset(t_word *word, t_env **env);
 int				ft_exec(char *path, char *str, t_env *env, int fd);
 int				ft_statable(t_word **word, t_env *env);
+int				ft_exit(t_data *d);
 
 #endif

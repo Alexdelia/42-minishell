@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/12 11:35:40 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/13 12:20:40 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int		process_input(t_data *d, char **l)
 	else if (c == 27)
 		process_input_arrows(d, l);
 	else if (c == 3)
-		process_ctrl_d();
-	else if (c == 4)
-		d->exit = 1;
-	if (c == 10 || c == 3 || c == 4)
+		process_ctrl_c();
+	else if (c == 4 && *l == NULL)
+		process_ctrl_d(d);
+	if (c == 10 || c == 3)
 	{
 		free(*l);
 		*l = NULL;
@@ -61,7 +61,7 @@ void	init_data(t_data *d, char **env)
 	d->exit = 0;
 	d->hc = 0;
 	d->ts = 0;
-	status = 0;
+	g_status = 0;
 	tcgetattr(STDIN, &(d->orig_termios));
 }
 
@@ -85,4 +85,5 @@ int		main(int ac, char **av, char **env)
 		ft_mi_error("main", "wrong argument(s)", 1);
 	free_all(&d);
 	tcsetattr(STDIN, TCSAFLUSH, &(d.orig_termios));
+	exit(g_status);
 }

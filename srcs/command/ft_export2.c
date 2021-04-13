@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 18:57:43 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 15:25:42 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/13 09:28:56 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,32 @@ int		is_valid_identifier(char *str)
 	if (ft_isdigit(str[0]))
 		return (0);
 	return (1);
+}
+
+char	**split_export(char *str)
+{
+	char	**split;
+	int		l;
+	int		i;
+	int		p;
+
+	l = ft_strlen(str);
+	split = malloc(sizeof(*split) * 4);
+	i = 0;
+	while (str[i] != '=')
+		i++;
+	p = 0;
+	if (i != 0 && str[i - 1] == '+')
+		p = 1;
+	if (i > 0)
+		split[0] = ft_strdup2(str, 0, i - p);
+	else
+		split[0] = ft_strdup("");
+	if (p == 1)
+		split[1] = ft_strdup("+");
+	else
+		split[1] = ft_strdup("");
+	split[2] = ft_strdup2(str, i + 1, l);
+	split[3] = NULL;
+	return (split);
 }

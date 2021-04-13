@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:34:38 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/09 13:02:48 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/13 12:14:20 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,15 @@ int		process_input_arrows(t_data *d, char **l)
 	return (nread);
 }
 
-void	process_ctrl_d(void)
+void	process_ctrl_c(void)
 {
-	status = 130;
+	g_status = 130;
 	ft_putchar_fd('\n', STDERR);
 	ft_prompt_line();
+}
+
+void	process_ctrl_d(t_data *d)
+{
+	d->exit = 1;
+	ft_putstr_fd("exit\n", STDOUT);
 }
