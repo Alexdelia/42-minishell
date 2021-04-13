@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/13 17:51:57 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/13 18:15:25 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdlib.h>
 # include <curses.h>
 # include <term.h>
+# include <signal.h>
 
 # define STDIN 0
 # define STDOUT 1
