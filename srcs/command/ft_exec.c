@@ -12,22 +12,36 @@
 
 #include "minishell.h"
 
-int	ft_exec(char *path, char *str, t_env *env, int fd)
+int	ft_exec(t_word *word, t_env *env, int fd)
 {
 	char		**av;
 	char		**envp;
+	char		*join_f;
+	char		*join_e;
+	int			pid;
 	int		pid;
 	struct stat	stats;
 	int		exec_status;
 
-	exec_status = -1;
-	if (stat(path, &stats) == -1)
-		return (ft_mi_error(path, "No such file or directory", 127));
+	exec_status = 0;
+	/*pipe(pfd);*/
+	if (stat(word->data, &stats) == -1)
+	  return (ft_mi_error(word->data, "No such file or directory", 127));
 	envp = etoa(env);
-	av = ft_split(str, ' ');
+	join_f = ft_strjoin(word->data, " ");
+	if (word->next != NULL)
+		join_e = ft_strjoin(join_f, word->next->data);
+	else
+		join_e = ft_strdup(join_f);
+	av = ft_split(join_e, ' ');
+	free(join_f);
+	free(join_e);
 	pid = fork();
 	if (pid == 0)
-		execve(path, av, envp);
+	{
+		/*dup2(pfd[1], STDERR);*/
+		execve(word->data, av, envp);
+	}
 	else
 	{
 		waitpid(pid, &exec_status, 0);
@@ -36,7 +50,7 @@ int	ft_exec(char *path, char *str, t_env *env, int fd)
 	}
 	if (fd != STDOUT && fd != STDIN)
 		close(fd);
-	if (exec_status <= 255)
-		ft_mi_error(path, "run into an unexpected error", 0);
-	return ((exec_status <= 255 ? exec_status : exec_status / 256));
+	if (exec_status != 0 && exec_status < 256)
+		ft_mi_error(word->data, "run into an unexpected error", 0);
+	return ((exec_status < 256 ? exec_status : exec_status / 256));
 }

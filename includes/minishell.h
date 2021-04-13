@@ -115,6 +115,7 @@ void			ft_loop_trans(t_parser *p, t_data *d, const char *str, char *res);
 t_word			*ft_new_word(char *str);
 t_word			*ft_get_last_word(t_word *word);
 void			ft_add_back_word(t_word **word, t_word *new);
+void			ft_add_front_word(t_word **word, t_word *new);
 void			ft_free_one_word(t_word *word);
 void			ft_free_all_word(t_word *word);
 int				ft_word_search(char *str, t_word *word);
@@ -160,7 +161,7 @@ int				print_declare_x(t_env *env, int fd);
 char			*join_env(t_word *word);
 char			**split_export(char *str);
 int				ft_unset(t_word *word, t_env **env);
-int				ft_exec(char *path, char *str, t_env *env, int fd);
+int				ft_exec(t_word *word, t_env *env, int fd);
 int				ft_statable(t_word **word, t_env *env);
 int				ft_exit(t_data *d);
 
