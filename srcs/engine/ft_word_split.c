@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 16:26:20 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/13 16:04:02 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ int		get_end_index(char *line, int start)
 	return (j);
 }
 
-void	ft_error_ml(void)
+int		ft_error_ml(void)
 {
 	ft_pserc("Error: multiligne\n", RED);
-	return ;
+	return (-1);
 }
 
-void	ft_word_split(t_data *d, char *line, int process_num)
+int		ft_word_split(t_data *d, char *line, int process_num)
 {
 	int		i;
 	int		j;
@@ -85,4 +85,5 @@ void	ft_word_split(t_data *d, char *line, int process_num)
 		return (ft_error_ml());
 	}
 	free(end_of_line);
+	return (0);
 }

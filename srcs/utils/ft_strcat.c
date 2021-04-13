@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:18:42 by user42            #+#    #+#             */
-/*   Updated: 2021/04/13 14:25:12 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/13 15:54:38 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	ft_copy(char **dst, int y, char *dt_env)
 	int i;
 
 	i = 0;
-	while (dt_env[i] && y < PATH_LEN)
+	while (dt_env[i])
 	{
 		(*dst)[y] = dt_env[i];
 		i++;
@@ -59,16 +59,12 @@ int			ft_mi_strcat(char **dst, const char *src, int y, t_data *d)
 	{
 		na_env = ft_f_mi_strcat(src);
 		if (ft_strcmp(na_env, "?") == 0)
-		{
 			dt_env = ft_itoa(g_status);
-			y = ft_copy(dst, y, dt_env);
-			free(dt_env);
-		}
 		else
-		{
 			dt_env = ft_env_search(na_env, d->env);
-			y = ft_copy(dst, y, dt_env);
-		}
+		y = ft_copy(dst, y, dt_env);
+		if (ft_strcmp(na_env, "?") == 0)
+			free(dt_env);
 		free(na_env);
 	}
 	return (y);

@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 14:09:08 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/13 14:55:14 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/13 16:00:21 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,9 @@ static void	ft_len_double(t_parser *p, t_data *d, const char *str)
 			ft_len_dollar(p, d, str);
 		else
 		{
-			if (str[p->i] == '\\')
-			{
-				p->i++;
-				if (!str[p->i])
-				{
-					ml = TRUE;
-					break;
-				}
-			}
-			p->i++;
-			p->y++;
+			ml = ft_len_inner_trans(p, str, ml);
+			if (ml == TRUE)
+				break ;
 		}
 	}
 	if (!str[p->i] || ml == TRUE)
@@ -81,14 +73,12 @@ static void	ft_len_simple(t_parser *p, const char *str)
 		p->i++;
 }
 
-int		ft_strlen_post_transform(const char *str, t_data *d)
+int			ft_strlen_post_transform(const char *str, t_data *d, int ml)
 {
 	t_parser	p;
-	int			ml;
-	
+
 	p.y = 0;
 	p.i = 0;
-	ml = FALSE;
 	while (ml == FALSE && str[p.i] && str[p.i] != ';' && str[p.i] != '|'
 		&& str[p.i] != '>' && str[p.i] != '<')
 	{
@@ -100,17 +90,9 @@ int		ft_strlen_post_transform(const char *str, t_data *d)
 			ft_len_simple(&p, str);
 		else
 		{
-			if (str[p.i] == '\\')
-			{
-				p.i++;
-				if (!str[p.i])
-				{
-					ml = TRUE;
-					break;
-				}
-			}
-			p.i++;
-			p.y++;
+			ml = ft_len_inner_trans(&p, str, ml);
+			if (ml == TRUE)
+				break ;
 		}
 		if (p.i == -1)
 			ml = TRUE;

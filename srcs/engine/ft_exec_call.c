@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/13 12:01:30 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/13 16:05:05 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int		ft_parse_exec(t_word *word, t_data *d, int fd)
 			|| word->data[0] == '/'))
 		g_status = ft_exec(word->data, word->next->data, d->env, fd);
 	/*else if (ft_statable(&word, d->env) == TRUE)
-		g_status = ft_exec(word->data, word->next->data, d->env, fd);
-	*/else if (is_included(word->data, '='))
+		g_status = ft_exec(word->data, word->next->data, d->env, fd);*/
+	else if (is_included(word->data, '='))
 		g_status = ft_mi_error(word->data, "in-line arg not supported", 127);
 	else
 		g_status = ft_mi_error(word->data, "command not found", 127);
@@ -92,10 +92,12 @@ int		ft_exec_command(char *line, t_data *d)
 	process_num = 0;
 	while (process_num < c)
 	{
-		ft_word_split(d, line, process_num);
-		ft_print_word(d->word);
-		fd = ft_parse_exec(d->word, d, fd);
-		printf("========= NEXT COMMAND =============\n");
+		if (ft_word_split(d, line, process_num) == 0)
+		{
+			ft_print_word(d->word);
+			fd = ft_parse_exec(d->word, d, fd);
+			printf("========= NEXT COMMAND =============\n");
+		}
 		ft_free_all_word(d->word);
 		d->word = NULL;
 		process_num++;
