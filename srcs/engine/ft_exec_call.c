@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/13 16:05:05 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/13 17:35:31 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int		ft_parse_exec(t_word *word, t_data *d, int fd)
 		g_status = ft_exit(d);
 	else if (word->data[0] && (word->data[0] == '.'
 			|| word->data[0] == '/'))
-		g_status = ft_exec(word->data, word->next->data, d->env, fd);
-	/*else if (ft_statable(&word, d->env) == TRUE)
-		g_status = ft_exec(word->data, word->next->data, d->env, fd);*/
+		g_status = ft_exec(word, d->env, fd);
+	else if (ft_statable(&word, d->env) == TRUE)
+		g_status = ft_exec(word, d->env, fd);
 	else if (is_included(word->data, '='))
 		g_status = ft_mi_error(word->data, "in-line arg not supported", 127);
 	else
