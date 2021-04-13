@@ -6,11 +6,12 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:52:29 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 13:33:17 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/13 15:30:01 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdio.h>
 
 int	ft_ps(char *str)
 {
@@ -27,11 +28,14 @@ int	main(int ac, char **av, char **envp)
 {
 	int		i;
 
-	av[80][20] = 's';
+	//av[80][20] = 's';
 	i = 0;
 	(void)ac;
-	char str[]="COUCO\n";
-	write(2, str, 6);
+	while (1)
+	{
+		sleep(2);
+		printf("Loop...\n");
+	}
 	while (av[i])
 	{
 		ft_ps(av[i]);
