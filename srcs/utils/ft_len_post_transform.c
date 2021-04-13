@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 14:09:08 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/12 16:11:27 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/13 14:55:14 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	ft_len_dollar(t_parser *p, t_data *d, const char *str)
 {
 	char	*na_env;
 	int		start;
-	
+
 	start = p->i;
 	while (str[p->i] && str[p->i] != ' ' && str[p->i] != ';'
 		&& str[p->i] != '\'' && str[p->i] != '\"' && str[p->i] != '='
@@ -29,7 +29,10 @@ static void	ft_len_dollar(t_parser *p, t_data *d, const char *str)
 		return ;
 	}
 	na_env = ft_strdup2((char *)str, start + 1, p->i);
-	p->y += ft_strlen(ft_env_search(na_env, d->env));
+	if (ft_strcmp(na_env, "?") == 0)
+		p->y += ft_nbrlen(g_status);
+	else
+		p->y += ft_strlen(ft_env_search(na_env, d->env));
 	free(na_env);
 }
 

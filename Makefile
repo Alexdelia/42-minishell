@@ -26,7 +26,7 @@ CC = clang
 
 FLAGS = -Wall -Wextra -Werror
 
-# FLAGS += -g -fsanitize=address
+FLAGS += -g #-fsanitize=address
 
 MAKEFLAGS += --silent
 
