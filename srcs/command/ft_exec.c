@@ -34,8 +34,8 @@ int			ft_exec(t_word *word, t_env *env, int fd)
 	char		**av;
 	char		**envp;
 	int			pid;
+  struct stat stats;
 	int			exec_status;
-	struct stat	stats;
 
 	exec_status = 0;
 	/*pipe(pfd);*/

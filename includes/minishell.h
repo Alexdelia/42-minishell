@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/13 18:15:25 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/14 20:52:08 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void			process_ctrl_c(void);
 void			process_ctrl_d(t_data *d);
 int				ft_exec_command(char *line, t_data *d);
 int				ft_redirection(char *line, int process_num);
+int				get_start_index(char *line, int process_num);
 
 /*
 ** command
