@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 14:14:43 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/13 18:19:57 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/14 20:56:07 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ int	ft_exec(t_word *word, t_env *env, int fd)
 	char		*join_f;
 	char		*join_e;
 	int			pid;
-	int		pid;
 	struct stat	stats;
-	int		exec_status;
+	int			exec_status;
 
 	exec_status = 0;
 	/*pipe(pfd);*/

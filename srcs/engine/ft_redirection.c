@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 11:46:13 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/07 19:35:09 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/14 20:55:36 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ char	*ft_next_word(char *line, int i)
 	int		y;
 
 	y = i;
-	while (line[y] != ' ')
+	while (line[y] && line[y] != ' ')
 		y++;
-	str = (char *)malloc(sizeof(*str) * (y + 1));
+	str = (char *)malloc(sizeof(*str) * (y - i + 1));
 	y = 0;
-	while (line[i] != ' ')
+	while (line[i] && line[i] != ' ')
 	{
 		str[y] = line[i];
 		y++;
@@ -73,7 +73,7 @@ int		ft_redirection(char *line, int process_num)
 			fd = ft_chevron(line, i + 1);
 		if (line[i] == '|' || line[i] == '>')
 		{
-			if (line[i + 1] == '>')
+			if (line[i + 1] && line[i + 1] == '>')
 				i++;
 			process_num--;
 		}
