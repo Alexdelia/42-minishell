@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 11:46:13 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/14 20:55:36 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/14 21:06:26 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_next_word(char *line, int i)
 		y++;
 		i++;
 	}
-	str[y + 1] = '\0';
+	str[y] = '\0';
 	return (str);
 }
 
@@ -77,6 +77,7 @@ int		ft_redirection(char *line, int process_num)
 				i++;
 			process_num--;
 		}
+		i++;
 	}
 	return (fd);
 }
