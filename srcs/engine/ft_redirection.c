@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 11:46:13 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/15 15:13:57 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/15 20:28:07 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ char	*ft_next_word(char *line, int i)
 	int		y;
 
 	y = i;
-	while (line[y] && line[y] != ' ')
+	while (line[y] && line[y] != ' ' && line[y] != ';' && line[y] != '|'
+				&& line[y] != '>' && line[y] != '<')
 		y++;
 	str = (char *)malloc(sizeof(*str) * (y - i + 1));
 	y = 0;
-	while (line[i] && line[i] != ' ')
+	while (line[i] && line[i] != ' ' && line[i] != ';' && line[i] != '|'
+				&& line[i] != '>' && line[i] != '<')
 	{
 		str[y] = line[i];
 		y++;
@@ -34,14 +36,14 @@ char	*ft_next_word(char *line, int i)
 
 int		ft_pipe(char *line, int i)
 {
-	int		fd;
 	char	*bin;
 
 	bin = ft_next_word(line, i + 1);
-	fd = STDOUT;
+	//if (pipe(pfd) == -1);
+	//	ft_mi_error("pipe", "It might explode you know.\n", 0);
 	//
 	free(bin);
-	return (fd);
+	return (0);
 }
 
 int		ft_chevron(char *line, int i)
@@ -49,28 +51,42 @@ int		ft_chevron(char *line, int i)
 	int		fd;
 	char	*file;
 
-	file = ft_next_word(line, i + 1);
 	if (line[i] && line[i] == '>')
-		fd = open(file, O_CREAT | O_APPEND | O_WRONLY, 0775);
+	{
+		file = ft_next_word(line, i + 2);
+		fd = open(file, O_CREAT | O_APPEND | O_RDWR, 0664);
+	}
 	else
-		fd = open(file, O_CREAT | O_WRONLY, 0775);
+	{
+		file = ft_next_word(line, i + 1);
+		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0664);
+	}
+	//ft_ps(file);
+	//ft_ps("\n");
 	free(file);
 	return (fd);
 }
 
-int		ft_redirection(char *line, int process_num)
+int		ft_redirection(char *line, int process_num, int *char_stop)
 {
 	int	fd;
 	int	i;
 
 	i = 0;
 	fd = STDOUT;
+	(*char_stop) = 0;
 	while (line[i] && process_num >= 0)
 	{
 		if (line[i] == '|' && process_num == 0)
+		{
 			fd = ft_pipe(line, i + 1);
+			(*char_stop) = PIPE;
+		}
 		else if (line[i] == '>' && process_num == 0)
+		{
 			fd = ft_chevron(line, i + 1);
+			(*char_stop) = CHEVRON;
+		}
 		if (line[i] == '|' || line[i] == '>')
 		{
 			if (line[i + 1] && line[i + 1] == '>')

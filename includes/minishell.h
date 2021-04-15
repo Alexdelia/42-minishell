@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/15 16:11:17 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/15 20:08:05 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,15 @@
 # include <curses.h>
 # include <term.h>
 
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-# define TERMCAP 0
+# define STDIN		0
+# define STDOUT		1
+# define STDERR		2
+# define TERMCAP	0
 
-# define PATH_LEN 512
+# define PATH_LEN	512
+
+# define CHEVRON	1
+# define PIPE		2
 
 int	g_status;
 
@@ -145,7 +148,7 @@ int				process_input_arrows(t_data *d, char **l);
 void			process_ctrl_c(void);
 void			process_ctrl_d(t_data *d);
 int				ft_exec_command(char *line, t_data *d);
-int				ft_redirection(char *line, int process_num);
+int				ft_redirection(char *line, int process_num, int *char_stop);
 int				get_start_index(char *line, int process_num);
 
 /*
