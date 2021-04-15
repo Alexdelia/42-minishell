@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 11:31:01 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/13 12:13:47 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/15 14:41:11 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ int	ft_exit(t_data *d)
 	int		ret;
 	char	**split;
 
+	if (d->word->next->data[0] == '\0')
+	{
+		d->exit = 1;
+		return (g_status);
+	}
 	if (is_strdigit(d->word->next->data) == 0)
 	{
 		d->exit = 1;

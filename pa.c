@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 15:52:29 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/13 17:56:30 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/15 17:04:01 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int ac, char **av, char **envp)
 {
 	int		i;
 
-	//av[80][20] = 's';
+//	av[80][20] = 's';
 	i = 0;
 	(void)ac;
 	while (1)

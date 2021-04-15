@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:33:14 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/08 14:05:30 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/15 16:05:12 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ void	process_input_newline(t_data *d, char **l)
 	if (*l != NULL)
 	{
 		store_hist(d, *l);
+		tcsetattr(STDIN, TCSAFLUSH, &(d->orig_termios));
 		ft_exec_command(*l, d);
+		enable_raw_mode(d);
 	}
 	ft_prompt_line();
 }
