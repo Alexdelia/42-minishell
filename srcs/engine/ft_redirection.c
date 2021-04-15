@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 11:46:13 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/14 21:06:26 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/15 15:13:57 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int		ft_chevron(char *line, int i)
 
 	file = ft_next_word(line, i + 1);
 	if (line[i] && line[i] == '>')
-		fd = open(file, O_CREAT | O_APPEND | O_WRONLY);
+		fd = open(file, O_CREAT | O_APPEND | O_WRONLY, 0775);
 	else
-		fd = open(file, O_CREAT | O_WRONLY);
+		fd = open(file, O_CREAT | O_WRONLY, 0775);
 	free(file);
 	return (fd);
 }
