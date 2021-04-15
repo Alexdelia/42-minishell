@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/14 20:52:08 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/15 16:11:17 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <stdlib.h>
 # include <curses.h>
 # include <term.h>
-# include <signal.h>
 
 # define STDIN 0
 # define STDOUT 1
@@ -136,6 +135,7 @@ int				init_term(void);
 ** engine
 */
 
+void			enable_raw_mode(t_data *d);
 void			process_input_printable(char **l, char c);
 void			process_input_del(char **l);
 void			process_input_newline(t_data *d, char **l);
