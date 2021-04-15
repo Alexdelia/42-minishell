@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/15 15:02:39 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/15 20:09:29 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,22 @@ int		ft_exec_command(char *line, t_data *d)
 	int		c;
 	int		fd;
 	int		process_num;
+	int		char_stop;
 
 	if (!line[0])
 		return (0);
 	c = ft_count_process(line);
 	fd = STDOUT;
 	process_num = 0;
+	char_stop = 0;
 	while (process_num < c)
 	{
 		if (ft_word_split(d, line, process_num) == 0)
 		{
 			ft_print_word(d->word);//
-			fd = ft_redirection(line, process_num);
+			fd = ft_redirection(line, process_num, &char_stop);
+			if (char_stop == CHEVRON)
+				process_num++;
 			ft_parse_exec(d->word, d, fd);
 			printf("========= NEXT COMMAND =============\n");//
 		}
