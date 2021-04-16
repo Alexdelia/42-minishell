@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:24:02 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/13 13:07:58 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/16 14:18:37 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,24 +68,49 @@ void	init_data(t_data *d, char **env)
 int		main(int ac, char **av, char **env)
 {
 	t_data	d;
-	char	*l;
+	//char	*l;
 	int		term;
-
+	(void)ac;
+	(void)av;
 	if (TERMCAP && (term = init_term()) == -1)
 		return (-1);
 	init_data(&d, env);
-	if (ac == 1)
+	/* create the pipe */
+	int pfd[2];
+	if (pipe(pfd) == -1)
 	{
-		enable_raw_mode(&d);
-		l = NULL;
-		ft_prompt_line();
-		while (d.exit == 0)
-			process_input(&d, &l);
+		printf("pipe failed\n");
+		return 1;
 	}
-	else if (ac == 3 && ft_strcmp(av[1], "-c") == 0)
-		ft_exec_command(av[2], &d);
+	/* create the child */
+	int pid;
+	if ((pid = fork()) < 0)
+	{
+		printf("fork failed\n");
+		return 2;
+	}
+	if (pid == 0)
+	{
+		/* child */
+		close(pfd[1]); /* close the unused write side */
+		dup2(pfd[0], 0); /* connect the read side with stdin */
+		close(pfd[0]); /* close the read side */
+		/* execute the process (wc command) */
+		ft_word_split(&d, "/usr/bin/wc", 0);
+		ft_parse_exec(d.word, &d, STDOUT);
+		ft_free_all_word(d.word);
+	}
 	else
-		ft_mi_error("main", "wrong argument(s)", 1);
+	{
+		/* parent */
+		close(pfd[0]); /* close the unused read side */
+		dup2(pfd[1], 1); /* connect the write side with stdout */
+		close(pfd[1]); /* close the write side */
+		/* execute the process (ls command) */
+		ft_word_split(&d, "/bin/ls", 0);
+		ft_parse_exec(d.word, &d, STDOUT);
+		ft_free_all_word(d.word);
+	}
 	free_all(&d);
 	tcsetattr(STDIN, TCSAFLUSH, &(d.orig_termios));
 	exit(g_status);

@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/15 20:09:29 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/16 13:52:25 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,83 @@ void	ft_print_word(t_word *word)
 	}
 }
 
+void		ft_pipe(char *line, t_data *d, int *process_num, int fd)
+{
+	t_word	*next;
+	int 	pfd[2];
+	int 	pid;
+	int	exec_status;
+
+	(void)fd;
+	exec_status = 0;
+	next = ft_new_word(d->word->data);
+	ft_add_back_word(&next, ft_new_word(d->word->next->data));
+	ft_free_all_word(d->word);
+	d->word = NULL;
+	*process_num = *process_num + 1;
+	ft_word_split(d, line, *process_num);
+	//printf("ENTERING PIPE\n");
+	pid = fork();
+	pipe(pfd);
+	if (pid == 0)
+	{
+		printf("CHILD ARG = \n");
+		ft_print_word(next);
+		close(pfd[0]);
+		dup2(pfd[1], 1);
+		//close(pfd[1]);
+		ft_parse_exec(next, d, fd);
+		exit(1);
+	}
+	else
+	{
+		//close(pfd[1]);
+		//dup2(pfd[0], 0);
+		//close(pfd[0]);
+		waitpid(pid, &exec_status, 0);
+		printf("PARENT ARG = \n");
+		ft_print_word(d->word);
+		ft_parse_exec(d->word, d, fd);
+	}
+	ft_free_all_word(next);
+	next = NULL;
+	//printf("EXITING PIPE\n");
+}
+
+/*void		ft_pipe(char *line, t_data *d, int *process_num, int fd)
+{
+	int     pid;
+	int     pfd[2];
+	//int	exec_status;
+
+	(void)line;
+	(void)d;
+	(void)process_num;
+	(void)fd;
+	pipe(pfd);
+	pid = fork();
+	
+	if (pid == 0)
+	{
+		close(pfd[0]);
+		dup2(pfd[1], 1);
+		close(pfd[1]);
+		//printf("Child is here\n");
+		//sleep(3);
+		exit(1);
+	}
+	else
+	{
+		close(pfd[1]);
+		dup2(pfd[0], 0);
+		close(pfd[0]);
+		//waitpid(pid, &exec_status, 0);
+		//printf("Parent is ready\n");
+	}
+	dup2(1, 1);
+	dup2(0, 0);
+}*/
+
 int		ft_exec_command(char *line, t_data *d)
 {
 	int		c;
@@ -99,8 +176,11 @@ int		ft_exec_command(char *line, t_data *d)
 			ft_print_word(d->word);//
 			fd = ft_redirection(line, process_num, &char_stop);
 			if (char_stop == CHEVRON)
-				process_num++;
-			ft_parse_exec(d->word, d, fd);
+				printf("CHEVRON\n");
+			else if (char_stop == PIPE)
+				ft_pipe(line, d, &process_num, fd);
+			else	
+				ft_parse_exec(d->word, d, fd);
 			printf("========= NEXT COMMAND =============\n");//
 		}
 		ft_free_all_word(d->word);
