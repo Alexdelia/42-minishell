@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/16 13:52:25 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/16 17:48:43 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,23 +99,21 @@ void		ft_pipe(char *line, t_data *d, int *process_num, int fd)
 	pipe(pfd);
 	if (pid == 0)
 	{
-		printf("CHILD ARG = \n");
-		ft_print_word(next);
+		//printf("CHILD ARG = \n");
+		//ft_print_word(d->word);
+		close(pfd[1]);
+		dup2(pfd[0], 0);
 		close(pfd[0]);
-		dup2(pfd[1], 1);
-		//close(pfd[1]);
-		ft_parse_exec(next, d, fd);
-		exit(1);
+		ft_parse_exec(d->word, d, fd);
 	}
 	else
 	{
-		//close(pfd[1]);
-		//dup2(pfd[0], 0);
 		//close(pfd[0]);
-		waitpid(pid, &exec_status, 0);
+		//dup2(pfd[1], 1);
+		//close(pfd[1]);
 		printf("PARENT ARG = \n");
-		ft_print_word(d->word);
-		ft_parse_exec(d->word, d, fd);
+		ft_print_word(next);
+		//ft_parse_exec(next, d, fd);
 	}
 	ft_free_all_word(next);
 	next = NULL;
