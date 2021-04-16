@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/16 17:48:43 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/16 18:02:27 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	ft_print_word(t_word *word)
 	}
 }
 
-void		ft_pipe(char *line, t_data *d, int *process_num, int fd)
+/*void		ft_pipe(char *line, t_data *d, int *process_num, int fd)
 {
 	t_word	*next;
 	int 	pfd[2];
@@ -118,7 +118,7 @@ void		ft_pipe(char *line, t_data *d, int *process_num, int fd)
 	ft_free_all_word(next);
 	next = NULL;
 	//printf("EXITING PIPE\n");
-}
+}*/
 
 /*void		ft_pipe(char *line, t_data *d, int *process_num, int fd)
 {
@@ -153,6 +153,49 @@ void		ft_pipe(char *line, t_data *d, int *process_num, int fd)
 	dup2(1, 1);
 	dup2(0, 0);
 }*/
+
+void		ft_pipe(char *line, t_data *d, int *process_num, int fd)
+{
+	(void)line;
+	(void)process_num;
+	(void)fd;
+	/* create the pipe */
+	int pfd[2];
+	if (pipe(pfd) == -1)
+	{
+		printf("pipe failed\n");
+	}
+	/* create the child */
+	int pid;
+	ft_free_all_word(d->word);
+	if ((pid = fork()) < 0)
+	{
+		printf("fork failed\n");
+	}
+	if (pid == 0)
+	{
+		/* child */
+		close(pfd[1]); /* close the unused write side */
+		dup2(pfd[0], 0); /* connect the read side with stdin */
+		close(pfd[0]); /* close the read side */
+		/* execute the process (wc command) */
+		ft_word_split(d, "/usr/bin/wc", 0);
+		ft_parse_exec(d->word, d, STDOUT);
+		//ft_free_all_word(d->word);
+	}
+	else
+	{
+		/* parent */
+		sleep(1);
+		close(pfd[0]); /* close the unused read side */
+		dup2(pfd[1], 1); /* connect the write side with stdout */
+		close(pfd[1]); /* close the write side */
+		/* execute the process (ls command) */
+		ft_word_split(d, "/bin/ls", 0);
+		ft_parse_exec(d->word, d, STDOUT);
+		//ft_free_all_word(d->word);
+	}
+}
 
 int		ft_exec_command(char *line, t_data *d)
 {
