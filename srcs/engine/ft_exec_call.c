@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/16 13:52:25 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/18 21:34:34 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,80 +81,50 @@ void	ft_print_word(t_word *word)
 
 void		ft_pipe(char *line, t_data *d, int *process_num, int fd)
 {
-	t_word	*next;
-	int 	pfd[2];
-	int 	pid;
-	int	exec_status;
-
-	(void)fd;
-	exec_status = 0;
-	next = ft_new_word(d->word->data);
-	ft_add_back_word(&next, ft_new_word(d->word->next->data));
-	ft_free_all_word(d->word);
-	d->word = NULL;
-	*process_num = *process_num + 1;
-	ft_word_split(d, line, *process_num);
-	//printf("ENTERING PIPE\n");
-	pid = fork();
-	pipe(pfd);
-	if (pid == 0)
-	{
-		printf("CHILD ARG = \n");
-		ft_print_word(next);
-		close(pfd[0]);
-		dup2(pfd[1], 1);
-		//close(pfd[1]);
-		ft_parse_exec(next, d, fd);
-		exit(1);
-	}
-	else
-	{
-		//close(pfd[1]);
-		//dup2(pfd[0], 0);
-		//close(pfd[0]);
-		waitpid(pid, &exec_status, 0);
-		printf("PARENT ARG = \n");
-		ft_print_word(d->word);
-		ft_parse_exec(d->word, d, fd);
-	}
-	ft_free_all_word(next);
-	next = NULL;
-	//printf("EXITING PIPE\n");
-}
-
-/*void		ft_pipe(char *line, t_data *d, int *process_num, int fd)
-{
-	int     pid;
-	int     pfd[2];
-	//int	exec_status;
+	int	pfd[2];
+	int	stats;
+	int	pid1;
+	int	pid2;
 
 	(void)line;
-	(void)d;
 	(void)process_num;
 	(void)fd;
+	ft_free_all_word(d->word);
+	d->word = NULL;
 	pipe(pfd);
-	pid = fork();
-	
-	if (pid == 0)
-	{
-		close(pfd[0]);
-		dup2(pfd[1], 1);
-		close(pfd[1]);
-		//printf("Child is here\n");
-		//sleep(3);
-		exit(1);
-	}
-	else
+	pid1 = fork();
+	pid2 = -1;
+	if (pid1 != 0)
+		pid2 = fork();
+	if (pid1 == 0)
 	{
 		close(pfd[1]);
 		dup2(pfd[0], 0);
 		close(pfd[0]);
-		//waitpid(pid, &exec_status, 0);
-		//printf("Parent is ready\n");
+		ft_word_split(d, "/usr/bin/wc", 0);
+		ft_parse_exec(d->word, d, STDOUT);
+		ft_free_all_word(d->word);
+		ft_pserc("CHILD\n", RED);
 	}
-	dup2(1, 1);
-	dup2(0, 0);
-}*/
+	if (pid2 == 0)
+	{
+		close(pfd[0]);
+		dup2(pfd[1], 1);
+		close(pfd[1]);
+		ft_word_split(d, "/bin/ls", 0);
+		ft_parse_exec(d->word, d, STDOUT);
+		ft_free_all_word(d->word);
+		ft_pserc("PARENT\n", RED);
+	}
+	if (pid2 == 0 || pid1 == 0)
+		exit(g_status);
+	waitpid(pid2, &stats, 0);
+	close(pfd[0]);
+	close(pfd[1]);
+	waitpid(pid1, &stats, 0);
+	ft_pserc("OUT\n", RED);
+	*process_num = *process_num + 1;
+}
 
 int		ft_exec_command(char *line, t_data *d)
 {
