@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/19 14:50:31 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/19 18:59:13 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ int				ft_exec_command(char *line, t_data *d);
 int		ft_parse_exec(t_word *word, t_data *d, int fd);
 int				ft_redirection(char *line, int process_num, int *char_stop);
 int				get_start_index(char *line, int process_num);
+char			*ft_next_word(char *line, int i);
 
 /*
 ** command

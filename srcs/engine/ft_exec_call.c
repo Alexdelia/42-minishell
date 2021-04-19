@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/19 18:16:49 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/19 19:36:33 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		ft_parse_exec(t_word *word, t_data *d, int fd)
 	else if (ft_strcmp(word->data, "exit") == 0)
 		g_status = ft_exit(d);
 	else if (word->data[0] && (word->data[0] == '.'
-			|| word->data[0] == '/'))
+				|| word->data[0] == '/'))
 		g_status = ft_exec(word, d->env, fd);
 	else if (ft_statable(&word, d->env) == TRUE)
 		g_status = ft_exec(word, d->env, fd);
@@ -149,49 +149,88 @@ void	ft_pipe(char *line, t_data *d, int c, int *process_num)
 	//add >> and >
 }
 
+char	*ft_chevron_file(char *line, int process_num)
+{
+	int		i;
+
+	i = 0;
+	while (line[i] && process_num > 1)
+	{
+		if (line[i] == ';' || line[i] == '|' || line[i] == '>' || line[i] == '<')
+		{
+			if (line[i + 1] && ((line[i] == '>' && line[i + 1] == '>')
+					|| (line[i] == '<' && line[i + 1] == '<')))
+				i++;
+			process_num--;
+		}
+		i++;
+	}
+	if (line[i] == ' ')
+		i++;
+	return (ft_next_word(line, i));
+}
+
 void	ft_chevron_process(char *line, t_data *d, int process_num, int n)
 {
-	int	pid[n];
-	int	pfd[n-1][2];
-	int	stats;
-	int 	i;
-	int	fd;
+	int		pid[n];
+	int		pfd[2];
+	int		stats;
+	int		i;
+	int		fd;
+	char	*file;
 
 	ft_free_all_word(d->word);
 	d->word = NULL;
 	i = 0;
-	while (i < n)
+	while (i < n - 1)
 	{
-		pipe(pfd[i]);
+		pipe(pfd);
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
-			if (i < n - 1)
-			{
+			fd = STDOUT;
+			file = ft_chevron_file(line, process_num + i + 2);
+			if (ft_char_stop(line, process_num + i) == '>')
+				fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0664);
+			else if (ft_char_stop(line, process_num + i) == 'C')
+				fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0664);
+			ft_pserc(file, GRN);//
+			ft_pserc("\n", GRN);//
+			ft_pserc(ft_itoa(fd), GRN);//
+			ft_pserc("\n", GRN);//
+			free(file);
+			ft_putstr_fd("hello\n", fd);//
+			/*	if (i < n - 1)
+				{
 				close(pfd[i][0]);
 				dup2(pfd[i][1], 1);
-			}
-			if (i > 0)
-			{
-				fd = open(...);
+				}
+				if (i > 0)
+				{
 				close(pfd[i - 1][1]);
 				dup2(pfd[i - 1][0], fd);
-			}
+				}*/
+			if (i > 0 && i < n - 1)
+				ft_putstr_fd("\0", fd);
 			if (i == 0)
 			{
-				ft_word_split(d, line, process_num + i);
+				dup2(fd, STDOUT);
+				//dup2(pfd[1], STDOUT);
+				//dup2(pfd[0], fd);
+				ft_word_split(d, line, process_num);
 				ft_parse_exec(d->word, d, STDOUT);
 				ft_free_all_word(d->word);
+				close(pfd[0]);
+				close(pfd[1]);
 			}
+			close(fd);
 			exit(g_status);
 		}
 		else
 		{
 			waitpid(pid[i], &stats, 0);
-			if (i > 0)
-				close(pfd[i - 1][0]);
-			if (i < n - 1)
-				close(pfd[i][1]);
+			close(pfd[0]);
+			close(pfd[1]);
 		}
 		i++;
 	}
@@ -220,7 +259,7 @@ void	ft_chevron(char *line, t_data *d, int c, int *process_num)
 	(void)line;
 	(void)d;
 	n = ft_chevron_count(line, c, *process_num);
-	ft_chevron_process(line, d, process_num, n);
+	ft_chevron_process(line, d, *process_num, n);
 	*process_num = *process_num + n - 1;
 }
 

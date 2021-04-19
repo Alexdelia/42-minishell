@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 11:46:13 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/16 10:08:57 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/19 19:06:16 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_next_word(char *line, int i)
 	return (0);
 }*/
 
-int		ft_chevron(char *line, int i)
+/*int		ft_chevron(char *line, int i)
 {
 	int		fd;
 	char	*file;
@@ -65,7 +65,7 @@ int		ft_chevron(char *line, int i)
 	//ft_ps("\n");
 	free(file);
 	return (fd);
-}
+}*/
 
 int		ft_redirection(char *line, int process_num, int *char_stop)
 {
@@ -84,7 +84,7 @@ int		ft_redirection(char *line, int process_num, int *char_stop)
 		}
 		else if (line[i] == '>' && process_num == 0)
 		{
-			fd = ft_chevron(line, i + 1);
+			// fd = ft_chevron(line, i + 1);
 			(*char_stop) = CHEVRON;
 		}
 		if (line[i] == '|' || line[i] == '>')
