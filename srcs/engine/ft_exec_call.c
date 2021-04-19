@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/19 19:36:33 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/19 22:39:24 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ void	ft_chevron_process(char *line, t_data *d, int process_num, int n)
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
+			ft_pserc("LOOP\n", RED);
 			fd = STDOUT;
 			file = ft_chevron_file(line, process_num + i + 2);
 			if (ft_char_stop(line, process_num + i) == '>')
@@ -199,7 +200,6 @@ void	ft_chevron_process(char *line, t_data *d, int process_num, int n)
 			ft_pserc(ft_itoa(fd), GRN);//
 			ft_pserc("\n", GRN);//
 			free(file);
-			ft_putstr_fd("hello\n", fd);//
 			/*	if (i < n - 1)
 				{
 				close(pfd[i][0]);
@@ -210,10 +210,11 @@ void	ft_chevron_process(char *line, t_data *d, int process_num, int n)
 				close(pfd[i - 1][1]);
 				dup2(pfd[i - 1][0], fd);
 				}*/
-			if (i > 0 && i < n - 1)
+			if (i < n - 2)
 				ft_putstr_fd("\0", fd);
-			if (i == 0)
+			if (i == n - 2)
 			{
+				ft_pserc("IN\n", RED);
 				dup2(fd, STDOUT);
 				//dup2(pfd[1], STDOUT);
 				//dup2(pfd[0], fd);
