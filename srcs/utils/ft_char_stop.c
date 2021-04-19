@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 14:31:45 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/19 15:12:49 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/19 15:28:39 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,16 @@ char	ft_char_stop(char *line, int process_num)
 				if (line[i] && line[i + 1] && line[i] == '>'
 						&& line[i + 1] == '>')
 					return ('C');
+				if (line[i] && line[i + 1] && line[i] == '<'
+						&& line[i + 1] == '<')
+					return ('R');
 				return (line[i]);
 			}
 			if (line[i] && line[i + 1] && line[i] == '>'
 					&& line[i + 1] == '>')
+				i++;
+			if (line[i] && line[i + 1] && line[i] == '<'
+					&& line[i + 1] == '<')
 				i++;
 			process_num--;
 		}
