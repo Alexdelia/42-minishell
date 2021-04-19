@@ -139,7 +139,7 @@ void		ft_pipe(char *line, t_data *d, int *process_num, int n)
 		dup2(pfd[i][1], 1);
 		close(pfd[i - 1][1]);
 		dup2(pfd[i - 1][0], 0);
-		ft_word_split(d, line, *process_num + 1);
+		ft_word_split(d, line, *process_num + i);
 		ft_parse_exec(d->word, d, STDOUT);
 		ft_free_all_word(d->word);
 		exit(g_status);
@@ -159,7 +159,7 @@ void		ft_pipe(char *line, t_data *d, int *process_num, int n)
 		/* NO EXIT TO CLOSE*/
 		close(pfd[i - 1][1]);
 		dup2(pfd[i - 1][0], 0);
-		ft_word_split(d, line, *process_num + 1);
+		ft_word_split(d, line, *process_num + i);
 		ft_parse_exec(d->word, d, STDOUT);
 		ft_free_all_word(d->word);
 		exit(g_status);
@@ -170,7 +170,7 @@ void		ft_pipe(char *line, t_data *d, int *process_num, int n)
 		close(pfd[i - 1][0]);
 		/*NO ENTRTY TO WAIT FOR*/
 	}
-	*process_num = *process_num + 2;
+	*process_num = *process_num + i;
 }
 
 
