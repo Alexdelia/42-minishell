@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/19 22:39:24 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/19 22:47:13 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,24 +181,19 @@ void	ft_chevron_process(char *line, t_data *d, int process_num, int n)
 
 	ft_free_all_word(d->word);
 	d->word = NULL;
-	i = 0;
-	while (i < n - 1)
+	i = 1; // Start at one, can be change if you want to stick to pipe. but change all line with: //CH . if you break it I will be able to redo it, np :3
+	while (i < n) //CH
 	{
 		pipe(pfd);
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
-			ft_pserc("LOOP\n", RED);
-			fd = STDOUT;
-			file = ft_chevron_file(line, process_num + i + 2);
-			if (ft_char_stop(line, process_num + i) == '>')
+			fd = STDOUT; // IMPORTANT
+			file = ft_chevron_file(line, process_num + i + 1); //CH 
+			if (ft_char_stop(line, process_num + i - 1) == '>') //CH
 				fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0664);
-			else if (ft_char_stop(line, process_num + i) == 'C')
+			else if (ft_char_stop(line, process_num + i - 1) == 'C') //CH
 				fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0664);
-			ft_pserc(file, GRN);//
-			ft_pserc("\n", GRN);//
-			ft_pserc(ft_itoa(fd), GRN);//
-			ft_pserc("\n", GRN);//
 			free(file);
 			/*	if (i < n - 1)
 				{
@@ -210,11 +205,10 @@ void	ft_chevron_process(char *line, t_data *d, int process_num, int n)
 				close(pfd[i - 1][1]);
 				dup2(pfd[i - 1][0], fd);
 				}*/
-			if (i < n - 2)
-				ft_putstr_fd("\0", fd);
-			if (i == n - 2)
+			if (i < n - 1) //CH
+				ft_putstr_fd("\0", fd); // IMPORTANT
+			if (i == n - 1) //CH
 			{
-				ft_pserc("IN\n", RED);
 				dup2(fd, STDOUT);
 				//dup2(pfd[1], STDOUT);
 				//dup2(pfd[0], fd);
