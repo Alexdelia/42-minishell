@@ -186,17 +186,20 @@ int		ft_exec_command(char *line, t_data *d)
 	c = ft_count_process(line);
 	fd = STDOUT;
 	process_num = 0;
-	char_stop = 0;
 	while (process_num < c)
 	{
 		if (ft_word_split(d, line, process_num) == 0)
 		{
 			ft_print_word(d->word);
-			fd = ft_redirection(line, process_num, &char_stop);
-			if (char_stop == CHEVRON)
-				printf("CHEVRON\n");
-			else if (char_stop == PIPE)
-				ft_pipe(line, d, &process_num, 4);
+			char_stop = ft_char_stop(line, process_num);
+			printf("char_stop=%c|\n", char_stop);
+			if (char_stop == '|')
+			else if (char_stop == '>' || char_stop == 'C')
+				ft_mi_error("", "> and >> are work-in-progress", 127);
+			else if (char_stop == '<')
+				ft_mi_error("", "< is work-in-progress", 127);
+			else if (char_stop == 'R')
+				ft_mi_error("", "<< is not supported", 127);
 			else
 				ft_parse_exec(d->word, d, fd);
 			printf("========= NEXT COMMAND =============\n");//
