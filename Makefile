@@ -9,7 +9,7 @@ SRCS = utils/prompt_utils.c engine/ft_word_split.c engine/ft_exec_call.c engine/
 		command/ft_echo.c command/ft_cd.c command/ft_pwd.c command/ft_env.c command/ft_export.c command/ft_export2.c command/ft_unset.c command/ft_exec.c command/ft_exit.c \
 		utils/env_utils.c utils/env_utils2.c utils/env_utils3.c utils/env_utils4.c utils/hist_utils.c utils/hist_utils2.c utils/word_utils.c \
 		utils/word_utils2.c engine/process_input.c engine/process_input2.c utils/ft_strcat.c utils/ft_parse_transform.c \
-		utils/ft_error.c utils/ft_statable.c utils/ft_len_post_transform.c utils/ft_transform_utils.c
+		utils/ft_error.c utils/ft_statable.c utils/ft_len_post_transform.c utils/ft_transform_utils.c utils/ft_char_stop.c
 
 PATH_SRCS = ./srcs/
 
