@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/18 21:34:34 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/19 09:56:23 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,52 +79,100 @@ void	ft_print_word(t_word *word)
 	}
 }
 
-void		ft_pipe(char *line, t_data *d, int *process_num, int fd)
+void		ft_pipe(char *line, t_data *d, int *process_num, int n)
 {
-	int	pfd[2];
+	int	pid[n];
+	int	pfd[n-1][2];
 	int	stats;
-	int	pid1;
-	int	pid2;
+	int i;
 
-	(void)line;
-	(void)process_num;
-	(void)fd;
 	ft_free_all_word(d->word);
 	d->word = NULL;
-	pipe(pfd);
-	pid1 = fork();
-	pid2 = -1;
-	if (pid1 != 0)
-		pid2 = fork();
-	if (pid1 == 0)
+
+	i = 0;
+	pipe(pfd[i]);
+	pid[i] = fork();
+	if (pid[i] == 0)
 	{
-		close(pfd[1]);
-		dup2(pfd[0], 0);
-		close(pfd[0]);
-		ft_word_split(d, "/usr/bin/wc", 0);
+		close(pfd[i][0]);
+		dup2(pfd[i][1], 1);
+		/* NO ENTRY TO CLOSE*/
+		ft_word_split(d, line, *process_num + i);
 		ft_parse_exec(d->word, d, STDOUT);
 		ft_free_all_word(d->word);
-		ft_pserc("CHILD\n", RED);
-	}
-	if (pid2 == 0)
-	{
-		close(pfd[0]);
-		dup2(pfd[1], 1);
-		close(pfd[1]);
-		ft_word_split(d, "/bin/ls", 0);
-		ft_parse_exec(d->word, d, STDOUT);
-		ft_free_all_word(d->word);
-		ft_pserc("PARENT\n", RED);
-	}
-	if (pid2 == 0 || pid1 == 0)
 		exit(g_status);
-	waitpid(pid2, &stats, 0);
-	close(pfd[0]);
-	close(pfd[1]);
-	waitpid(pid1, &stats, 0);
-	ft_pserc("OUT\n", RED);
-	*process_num = *process_num + 1;
+	}
+	else
+	{
+		waitpid(pid[i], &stats, 0);
+		/* NO EXIT TO WAIT FOR*/
+		close(pfd[i][1]);
+	}
+
+	i = 1;
+	pipe(pfd[i]);
+	pid[i] = fork();
+	if (pid[i] == 0)
+	{
+		close(pfd[i][0]);
+		dup2(pfd[i][1], 1);
+		close(pfd[i - 1][1]);
+		dup2(pfd[i - 1][0], 0);
+		ft_word_split(d, line, *process_num + i);
+		ft_parse_exec(d->word, d, STDOUT);
+		ft_free_all_word(d->word);
+		exit(g_status);
+	}
+	else
+	{
+		waitpid(pid[i], &stats, 0);
+		close(pfd[i - 1][0]);
+		close(pfd[i][1]);
+	}
+
+	i = 2;
+	pipe(pfd[i]);
+	pid[i] = fork();
+	if (pid[i] == 0)
+	{
+		close(pfd[i][0]);
+		dup2(pfd[i][1], 1);
+		close(pfd[i - 1][1]);
+		dup2(pfd[i - 1][0], 0);
+		ft_word_split(d, line, *process_num + 1);
+		ft_parse_exec(d->word, d, STDOUT);
+		ft_free_all_word(d->word);
+		exit(g_status);
+	}
+	else
+	{
+		waitpid(pid[i], &stats, 0);
+		close(pfd[i - 1][0]);
+		close(pfd[i][1]);
+	}
+
+	i = 3;
+	pid[i] = fork();
+	/* NO PIPE TO INIT */
+	if (pid[i] == 0)
+	{
+		/* NO EXIT TO CLOSE*/
+		close(pfd[i - 1][1]);
+		dup2(pfd[i - 1][0], 0);
+		ft_word_split(d, line, *process_num + 1);
+		ft_parse_exec(d->word, d, STDOUT);
+		ft_free_all_word(d->word);
+		exit(g_status);
+	}
+	else
+	{
+		waitpid(pid[i], &stats, 0);
+		close(pfd[i - 1][0]);
+		/*NO ENTRTY TO WAIT FOR*/
+	}
+	*process_num = *process_num + 2;
 }
+
 
 int		ft_exec_command(char *line, t_data *d)
 {
@@ -143,13 +191,13 @@ int		ft_exec_command(char *line, t_data *d)
 	{
 		if (ft_word_split(d, line, process_num) == 0)
 		{
-			ft_print_word(d->word);//
+			ft_print_word(d->word);
 			fd = ft_redirection(line, process_num, &char_stop);
 			if (char_stop == CHEVRON)
 				printf("CHEVRON\n");
 			else if (char_stop == PIPE)
-				ft_pipe(line, d, &process_num, fd);
-			else	
+				ft_pipe(line, d, &process_num, 4);
+			else
 				ft_parse_exec(d->word, d, fd);
 			printf("========= NEXT COMMAND =============\n");//
 		}
