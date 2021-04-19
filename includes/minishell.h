@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/15 20:08:05 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/19 14:50:31 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void			ft_free_all_word(t_word *word);
 int				ft_word_search(char *str, t_word *word);
 int				ft_mi_strcat(char **dst, const char *src, int y, t_data *d);
 char			*ft_special_convertion(char *str);
+char			ft_char_stop(char *line, int process_num);
 
 /*
 ** prompt_utils
@@ -148,6 +149,7 @@ int				process_input_arrows(t_data *d, char **l);
 void			process_ctrl_c(void);
 void			process_ctrl_d(t_data *d);
 int				ft_exec_command(char *line, t_data *d);
+int		ft_parse_exec(t_word *word, t_data *d, int fd);
 int				ft_redirection(char *line, int process_num, int *char_stop);
 int				get_start_index(char *line, int process_num);
 

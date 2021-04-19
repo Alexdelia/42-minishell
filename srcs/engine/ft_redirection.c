@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 11:46:13 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/15 20:28:07 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/16 10:08:57 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_next_word(char *line, int i)
 	return (str);
 }
 
-int		ft_pipe(char *line, int i)
+/*int		ft_pipe(char *line, int i)
 {
 	char	*bin;
 
@@ -44,7 +44,7 @@ int		ft_pipe(char *line, int i)
 	//
 	free(bin);
 	return (0);
-}
+}*/
 
 int		ft_chevron(char *line, int i)
 {
@@ -79,7 +79,7 @@ int		ft_redirection(char *line, int process_num, int *char_stop)
 	{
 		if (line[i] == '|' && process_num == 0)
 		{
-			fd = ft_pipe(line, i + 1);
+			// fd = ft_pipe(line, i + 1);
 			(*char_stop) = PIPE;
 		}
 		else if (line[i] == '>' && process_num == 0)

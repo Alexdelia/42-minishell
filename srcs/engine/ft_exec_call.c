@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/15 20:09:29 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/19 17:20:19 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,171 @@ void	ft_print_word(t_word *word)
 	}
 }
 
+/*
+void		ft_pipe(char *line, t_data *d, int *process_num, int n)
+{
+	int	pid[n];
+	int	pfd[n-1][2];
+	int	stats;
+	int i;
+
+	ft_free_all_word(d->word);
+	d->word = NULL;
+
+	i = 0;
+	pipe(pfd[i]);
+	pid[i] = fork();
+	if (pid[i] == 0)
+	{
+		close(pfd[i][0]);
+		dup2(pfd[i][1], 1);
+		//NO ENTRY TO CLOSE
+		ft_word_split(d, line, *process_num + i);
+		ft_parse_exec(d->word, d, STDOUT);
+		ft_free_all_word(d->word);
+		exit(g_status);
+	}
+	else
+	{
+		waitpid(pid[i], &stats, 0);
+		//NO EXIT TO WAIT FOR
+		close(pfd[i][1]);
+	}
+
+	i = 1;
+	pipe(pfd[i]);
+	pid[i] = fork();
+	if (pid[i] == 0)
+	{
+		close(pfd[i][0]);
+		dup2(pfd[i][1], 1);
+		close(pfd[i - 1][1]);
+		dup2(pfd[i - 1][0], 0);
+		ft_word_split(d, line, *process_num + i);
+		ft_parse_exec(d->word, d, STDOUT);
+		ft_free_all_word(d->word);
+		exit(g_status);
+	}
+	else
+	{
+		waitpid(pid[i], &stats, 0);
+		close(pfd[i - 1][0]);
+		close(pfd[i][1]);
+	}
+
+	i = 2;
+	pipe(pfd[i]);
+	pid[i] = fork();
+	if (pid[i] == 0)
+	{
+		close(pfd[i][0]);
+		dup2(pfd[i][1], 1);
+		close(pfd[i - 1][1]);
+		dup2(pfd[i - 1][0], 0);
+		ft_word_split(d, line, *process_num + i);
+		ft_parse_exec(d->word, d, STDOUT);
+		ft_free_all_word(d->word);
+		exit(g_status);
+	}
+	else
+	{
+		waitpid(pid[i], &stats, 0);
+		close(pfd[i - 1][0]);
+		close(pfd[i][1]);
+	}
+
+	i = 3;
+	pid[i] = fork();
+	//NO PIPE TO INIT
+	if (pid[i] == 0)
+	{
+		//NO EXIT TO CLOSE
+		close(pfd[i - 1][1]);
+		dup2(pfd[i - 1][0], 0);
+		ft_word_split(d, line, *process_num + i);
+		ft_parse_exec(d->word, d, STDOUT);
+		ft_free_all_word(d->word);
+		exit(g_status);
+	}
+	else
+	{
+		waitpid(pid[i], &stats, 0);
+		close(pfd[i - 1][0]);
+		//NO ENTRTY TO WAIT FOR
+	}
+	*process_num = *process_num + i;
+}*/
+
+void	ft_pipe_process(char *line, t_data *d, int process_num, int n)
+{
+	int	pid[n];
+	int	pfd[n-1][2];
+	int	stats;
+	int i;
+
+	ft_free_all_word(d->word);
+	d->word = NULL;
+	i = 0;
+	while (i < n)
+	{
+		pipe(pfd[i]);
+		pid[i] = fork();
+		if (pid[i] == 0)
+		{
+			if (i < n - 1)
+			{
+				close(pfd[i][0]);
+				dup2(pfd[i][1], 1);
+			}
+			if (i > 0)
+			{
+				close(pfd[i - 1][1]);
+				dup2(pfd[i - 1][0], 0);
+			}
+			ft_word_split(d, line, process_num + i);
+			ft_parse_exec(d->word, d, STDOUT);
+			ft_free_all_word(d->word);
+			exit(g_status);
+		}
+		else
+		{
+			waitpid(pid[i], &stats, 0);
+			if (i > 0)
+				close(pfd[i - 1][0]);
+			if (i < n - 1)
+				close(pfd[i][1]);
+		}
+		i++;
+	}	
+}
+
+int		ft_pipe_count(char *line, int c, int process_num)
+{
+	int		n;
+	char	char_stop;
+
+	n = 1;
+	char_stop = '|';
+	while (process_num < c && char_stop == '|')
+	{
+		if ((char_stop = ft_char_stop(line, process_num)) == '|')
+			n++;
+		process_num++;
+	}
+	return (n);
+}
+
+void	ft_pipe(char *line, t_data *d, int c, int *process_num)
+{
+	int n;
+
+	n = ft_pipe_count(line, c, *process_num);
+	printf("pipe count = %d\n", n);
+	ft_pipe_process(line, d, *process_num, n);	
+	*process_num = *process_num + n - 1;
+	//add >> and >
+}
+
 int		ft_exec_command(char *line, t_data *d)
 {
 	int		c;
@@ -91,16 +256,23 @@ int		ft_exec_command(char *line, t_data *d)
 	c = ft_count_process(line);
 	fd = STDOUT;
 	process_num = 0;
-	char_stop = 0;
 	while (process_num < c)
 	{
 		if (ft_word_split(d, line, process_num) == 0)
 		{
 			ft_print_word(d->word);//
-			fd = ft_redirection(line, process_num, &char_stop);
-			if (char_stop == CHEVRON)
-				process_num++;
-			ft_parse_exec(d->word, d, fd);
+			char_stop = ft_char_stop(line, process_num);
+			printf("char_stop=%c\n", char_stop);//
+			if (char_stop == '|')
+				ft_pipe(line, d, c, &process_num);
+			else if (char_stop == '>' || char_stop == 'C')
+				ft_mi_error(d->word->data, "> and >> are work-in-progress", 127);
+			else if (char_stop == '<')
+				ft_mi_error(d->word->data, "< is work-in-progress", 127);
+			else if (char_stop == 'R')
+				ft_mi_error(d->word->data, "<< not supported", 127);
+			else
+				ft_parse_exec(d->word, d, fd);
 			printf("========= NEXT COMMAND =============\n");//
 		}
 		ft_free_all_word(d->word);
