@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/19 09:56:23 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/19 17:20:19 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,8 +223,8 @@ int		ft_pipe_count(char *line, int c, int process_num)
 	char	char_stop;
 
 	n = 1;
-	char_stop = -1;
-	while (process_num < c && char_stop != '|')
+	char_stop = '|';
+	while (process_num < c && char_stop == '|')
 	{
 		if ((char_stop = ft_char_stop(line, process_num)) == '|')
 			n++;
