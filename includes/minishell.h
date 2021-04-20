@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/20 15:34:50 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/20 16:10:18 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ int				ft_parse_exec(t_word *word, t_data *d);
 int				get_start_index(char *line, int process_num);
 char			*ft_next_word(char *line, int i);
 int				ft_chevron_count(char *line, int process_num);
+int				ft_r_chevron_count(char *line, int process_num);
 int				ft_fd(char *line, int process_num, int type);
 
 /*

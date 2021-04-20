@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/20 15:54:10 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/20 16:14:36 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_pipe_process(char *line, t_data *d, int process_num, int n)
 	int		pfd[n - 1][2];
 	int		stats;
 	int		i;
-	int		fd;
+	int		fd[2];
 	char	char_stop;
 	int		k;
 
@@ -93,11 +93,20 @@ void	ft_pipe_process(char *line, t_data *d, int process_num, int n)
 				dup2(pfd[i][1], 1);
 			}
 			char_stop = ft_char_stop(line, process_num + i);
-			if (i == n - 1 && (char_stop == '>' || char_stop == 'R'))
+			if (i == n - 1 && (char_stop == '>' || char_stop == 'C'))
 			{
 				k = ft_chevron_count(line, process_num + i);
-				fd = ft_fd(line, process_num + i + k, 0);
-				dup2(fd, STDOUT);
+				fd[1] = ft_fd(line, process_num + i + k, 0);
+				dup2(fd[1], STDOUT);
+			}
+			else if (i == n -1 && char_stop == '<')
+			{
+				k = ft_r_chevron_count(line, process_num + i);
+				fd[0] = ft_fd(line, process_num + i + k, 1);
+				dup2(fd[0], STDIN);
+				k = ft_chevron_count(line, process_num + i + k -1);
+				fd[1] = ft_fd(line, process_num + i + k, 0);
+				dup2(fd[1], STDOUT);
 			}
 			if (i > 0)
 			{
@@ -107,8 +116,10 @@ void	ft_pipe_process(char *line, t_data *d, int process_num, int n)
 			ft_word_split(d, line, process_num + i);
 			ft_parse_exec(d->word, d);
 			ft_free_all_word(d->word);
-			if (i == n - 1 && (char_stop == '>' || char_stop == 'R'))
-				close(fd);
+			if (i == n - 1 && (char_stop == '>' || char_stop == 'C'))
+				close(fd[1]);
+			if (i == n - 1 && char_stop == '<')
+				close(fd[0]);
 			exit(g_status);
 		}
 		else
@@ -155,7 +166,21 @@ void	ft_pipe(char *line, t_data *d, int *process_num)
 	if (char_stop == '>' || char_stop == 'C')
 	{
 		n = ft_chevron_count(line, *process_num);
-		printf("chevron count =%d\n", n);
+		//printf("chevron count =%d\n", n);
+		i = 0;
+		while (i < n - 2)
+		{
+			fd = ft_fd(line, *process_num + i + 2, 0);
+			ft_putstr_fd("\0", fd);
+			close(fd);
+			i++;
+		}
+		*process_num = *process_num + n - 1;
+	}
+	else if (char_stop == '<')
+	{
+		n = ft_r_chevron_count(line, *process_num);
+		n = ft_chevron_count(line, *process_num + n - 1);
 		i = 0;
 		while (i < n - 2)
 		{
