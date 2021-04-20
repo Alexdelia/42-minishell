@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/20 11:31:02 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/20 15:37:49 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	ft_pipe_process(char *line, t_data *d, int process_num, int n)
 			if (i == n - 1 && (char_stop == '>' || char_stop == 'R'))
 			{
 				k = ft_chevron_count(line, process_num + i);
-				fd = ft_fd(line, process_num + i + k);
+				fd = ft_fd(line, process_num + i + k, 0);
 				dup2(fd, STDOUT);
 			}
 			if (i > 0)
@@ -159,7 +159,7 @@ void	ft_pipe(char *line, t_data *d, int *process_num)
 		i = 0;
 		while (i < n - 2)
 		{
-			fd = ft_fd(line, *process_num + i + 2);
+			fd = ft_fd(line, *process_num + i + 2, 0);
 			ft_putstr_fd("\0", fd);
 			close(fd);
 			i++;
@@ -190,11 +190,38 @@ char	*ft_next_word(char *line, int i)
 	return (str);
 }
 
-int		ft_fd(char *line, int process_num)
+int		ft_file_fd(char *line, int i, int tmp, int type)
+{
+	struct stat	stats;
+	char		*file;
+	int			fd;
+	
+	file = ft_next_word(line, i);
+	if (type == 0)
+	{
+		fd = STDOUT;
+		if (ft_char_stop(line, tmp - 2) == '>')
+			fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0664);
+		else if (ft_char_stop(line, tmp - 2) == 'C')
+			fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0664);
+	}
+	else
+	{
+		if (stat(file, &stats) == -1)
+			fd = STDIN;
+		else
+			if (ft_char_stop(line, tmp - 2) == '<')
+				fd = open(file, O_RDONLY);
+			else
+				fd = STDIN;
+	}
+	free(file);
+	return (fd);
+}
+
+int		ft_fd(char *line, int process_num, int type)
 {
 	int		i;
-	char	*file;
-	int		fd;
 	int		tmp;
 
 	tmp = process_num;
@@ -213,14 +240,7 @@ int		ft_fd(char *line, int process_num)
 	}
 	while (line[i] && line[i] == ' ')
 		i++;
-	file = ft_next_word(line, i);
-	fd = STDOUT;
-	if (ft_char_stop(line, tmp - 2) == '>')
-		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0664);
-	else if (ft_char_stop(line, tmp - 2) == 'C')
-		fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0664);
-	free(file);
-	return (fd);
+	return (ft_file_fd(line, i, tmp, type));
 }
 
 void	ft_chevron_process(char *line, t_data *d, int process_num, int n)
@@ -238,7 +258,7 @@ void	ft_chevron_process(char *line, t_data *d, int process_num, int n)
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
-			fd = ft_fd(line, process_num + i + 1);
+			fd = ft_fd(line, process_num + i + 1, 0);
 			if (i < n - 1)
 				ft_putstr_fd("\0", fd);
 			if (i == n - 1)
@@ -285,6 +305,70 @@ void	ft_chevron(char *line, t_data *d, int *process_num)
 	*process_num = *process_num + n - 1;
 }
 
+void	ft_r_chevron_process(char *line, t_data *d, int process_num, int n)
+{
+	int		pid[n];
+	int		stats;
+	int		i;
+	int		fd;
+
+	ft_free_all_word(d->word);
+	d->word = NULL;
+	i = 1;
+	while (i < n)
+	{
+		pid[i] = fork();
+		if (pid[i] == 0)
+		{
+			fd = ft_fd(line, process_num + i + 1, 1);
+			if (i < n - 1)
+				ft_putstr_fd("\0", fd);
+			if (i == n - 1)
+			{
+				dup2(fd, STDIN);
+				ft_word_split(d, line, process_num);
+				ft_parse_exec(d->word, d);
+				ft_free_all_word(d->word);
+			}
+			close(fd);
+			exit(g_status);
+		}
+		else
+			waitpid(pid[i], &stats, 0);
+		i++;
+	}
+}
+
+int		ft_r_chevron_count(char *line, int process_num)
+{
+	int		n;
+	char	char_stop;
+	int		c;
+
+	c = ft_count_process(line);
+	n = 1;
+	char_stop = '<';
+	while (process_num < c && char_stop == '<')
+	{
+		char_stop = ft_char_stop(line, process_num);
+		if (char_stop == '<')
+			n++;
+		process_num++;
+	}
+	return (n);
+}
+
+void	ft_reverse_chevron(char *line, t_data *d, int *process_num)
+{
+	int n;
+
+	n = ft_r_chevron_count(line, *process_num);
+	ft_r_chevron_process(line, d, *process_num, n);
+	*process_num = *process_num + n - 1;
+	n = ft_chevron_count(line, *process_num);
+	*process_num = *process_num + n - 1;
+}
+
 int		ft_exec_command(char *line, t_data *d)
 {
 	int		c;
@@ -311,7 +395,7 @@ int		ft_exec_command(char *line, t_data *d)
 			else if (char_stop == '>' || char_stop == 'C')
 				ft_chevron(line, d, &process_num);
 			else if (char_stop == '<')
-				ft_mi_error(d->word->data, "< is work-in-progress", 127);
+				ft_reverse_chevron(line, d, &process_num);
 			else if (char_stop == 'R')
 				ft_mi_error(d->word->data, "<< not supported", 127);
 			else
