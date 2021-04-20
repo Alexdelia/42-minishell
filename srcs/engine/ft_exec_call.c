@@ -138,7 +138,9 @@ void	ft_pipe(char *line, t_data *d, int c, int *process_num)
 	char_stop = ft_char_stop(line, *process_num);
 	if (char_stop == '>' || char_stop == 'C')
 	{
-
+		n = ft_chevron_count(line, c, *process_num);
+		printf("chevron count =%d\n", n);
+		*process_num = *process_num + n - 1;
 	}
 }
 
