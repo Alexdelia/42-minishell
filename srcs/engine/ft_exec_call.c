@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/20 15:37:49 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/20 15:54:10 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,16 +305,45 @@ void	ft_chevron(char *line, t_data *d, int *process_num)
 	*process_num = *process_num + n - 1;
 }
 
+int		ft_r_b_chevron_process(char *line, t_data *d, int process_num)
+{
+	int		i;
+	int		fd;
+	int		n;
+
+	n = ft_chevron_count(line, process_num);
+	ft_free_all_word(d->word);
+	d->word = NULL;
+	i = 1;
+	while (i < n)
+	{
+		fd = ft_fd(line, process_num + i + 1, 0);
+		if (i < n - 1)
+			ft_putstr_fd("\0", fd);
+		if (i == n - 1)
+		{
+			dup2(fd, STDOUT);
+			return (fd);
+		}
+		close(fd);
+		i++;
+	}
+	return (STDOUT);
+}
+
 void	ft_r_chevron_process(char *line, t_data *d, int process_num, int n)
 {
 	int		pid[n];
 	int		stats;
 	int		i;
 	int		fd;
+	int		fd_out;
 
 	ft_free_all_word(d->word);
 	d->word = NULL;
 	i = 1;
+	fd = STDIN;
+	fd_out = STDOUT;
 	while (i < n)
 	{
 		pid[i] = fork();
@@ -326,9 +355,13 @@ void	ft_r_chevron_process(char *line, t_data *d, int process_num, int n)
 			if (i == n - 1)
 			{
 				dup2(fd, STDIN);
+				if (ft_char_stop(line, process_num + i) == '>'
+						|| ft_char_stop(line, process_num + i == 'C'))
+					fd_out = ft_r_b_chevron_process(line, d, process_num + i);
 				ft_word_split(d, line, process_num);
 				ft_parse_exec(d->word, d);
 				ft_free_all_word(d->word);
+				close(fd_out);
 			}
 			close(fd);
 			exit(g_status);
