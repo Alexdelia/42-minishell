@@ -74,6 +74,10 @@ void	ft_pipe_process(char *line, t_data *d, int process_num, int n)
 	int	pfd[n-1][2];
 	int	stats;
 	int i;
+	int fd;
+	char char_stop;
+	char	*file;
+	int	k;
 
 	ft_free_all_word(d->word);
 	d->word = NULL;
@@ -89,6 +93,21 @@ void	ft_pipe_process(char *line, t_data *d, int process_num, int n)
 				close(pfd[i][0]);
 				dup2(pfd[i][1], 1);
 			}
+			char_stop = ft_char_stop(line, process_num + i);
+			if (i == n - 1 && (char_stop == '>' || char_stop == 'R'))
+			{
+				k = ft_chevron_count(line, process_num + i);
+				file = ft_chevron_file(line, process_num + i + k);
+				if (ft_char_stop(line, process_num + i + k - 2) == '>')
+					fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0664);
+				else if (ft_char_stop(line, process_num + i + k - 2) == 'C')
+					fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0664);
+				else
+					fd = STDOUT;
+				printf("file=%s| fd=%d\n", file, fd);
+				free(file);
+				dup2(fd, STDOUT);
+			}
 			if (i > 0)
 			{
 				close(pfd[i - 1][1]);
@@ -97,6 +116,8 @@ void	ft_pipe_process(char *line, t_data *d, int process_num, int n)
 			ft_word_split(d, line, process_num + i);
 			ft_parse_exec(d->word, d);
 			ft_free_all_word(d->word);
+			if (i == n - 1 && (char_stop == '>' || char_stop == 'R'))
+				close(fd);
 			exit(g_status);
 		}
 		else
@@ -111,11 +132,13 @@ void	ft_pipe_process(char *line, t_data *d, int process_num, int n)
 	}	
 }
 
-int		ft_pipe_count(char *line, int c, int process_num)
+int		ft_pipe_count(char *line, int process_num)
 {
 	int		n;
 	char	char_stop;
+	int		c;
 
+	c = ft_count_process(line);
 	n = 1;
 	char_stop = '|';
 	while (process_num < c && char_stop == '|')
@@ -127,19 +150,37 @@ int		ft_pipe_count(char *line, int c, int process_num)
 	return (n);
 }
 
-void	ft_pipe(char *line, t_data *d, int c, int *process_num)
+void	ft_pipe(char *line, t_data *d, int *process_num)
 {
 	int		n;
 	char	char_stop;
+	int		i;
+	int		fd;
+	char	*file;
 
-	n = ft_pipe_count(line, c, *process_num);
+	n = ft_pipe_count(line, *process_num);
 	ft_pipe_process(line, d, *process_num, n);	
 	*process_num = *process_num + n - 1;
 	char_stop = ft_char_stop(line, *process_num);
 	if (char_stop == '>' || char_stop == 'C')
 	{
-		n = ft_chevron_count(line, c, *process_num);
+		n = ft_chevron_count(line, *process_num);
 		printf("chevron count =%d\n", n);
+		i = 0;
+		while (i < n - 2)
+		{
+			fd = STDOUT;
+			file = ft_chevron_file(line, *process_num + i + 2);
+			if (ft_char_stop(line, *process_num + i) == '>')
+				fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0664);
+			else if (ft_char_stop(line, *process_num + i) == 'C')
+				fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0664);
+			printf("file=%s| fd=%d\n", file, fd);
+			free(file);
+			ft_putstr_fd("\0", fd);
+			close(fd);
+			i++;
+		}
 		*process_num = *process_num + n - 1;
 	}
 }
@@ -228,11 +269,13 @@ void	ft_chevron_process(char *line, t_data *d, int process_num, int n)
 	}
 }
 
-int		ft_chevron_count(char *line, int c, int process_num)
+int		ft_chevron_count(char *line, int process_num)
 {
 	int		n;
 	char	char_stop;
+	int		c;
 
+	c = ft_count_process(line);
 	n = 1;
 	char_stop = '>';
 	while (process_num < c && (char_stop == '>' || char_stop == 'C'))
@@ -245,12 +288,12 @@ int		ft_chevron_count(char *line, int c, int process_num)
 	return (n);
 }
 
-void	ft_chevron(char *line, t_data *d, int c, int *process_num)
+void	ft_chevron(char *line, t_data *d, int *process_num)
 {
 	int n;
 	(void)line;
 	(void)d;
-	n = ft_chevron_count(line, c, *process_num);
+	n = ft_chevron_count(line, *process_num);
 	ft_chevron_process(line, d, *process_num, n);
 	*process_num = *process_num + n - 1;
 }
@@ -277,9 +320,9 @@ int		ft_exec_command(char *line, t_data *d)
 			char_stop = ft_char_stop(line, process_num);
 			printf("char_stop=%c\n", char_stop);//
 			if (char_stop == '|')
-				ft_pipe(line, d, c, &process_num);
+				ft_pipe(line, d, &process_num);
 			else if (char_stop == '>' || char_stop == 'C')
-				ft_chevron(line, d, c, &process_num);
+				ft_chevron(line, d, &process_num);
 			else if (char_stop == '<')
 				ft_mi_error(d->word->data, "< is work-in-progress", 127);
 			else if (char_stop == 'R')
