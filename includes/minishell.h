@@ -124,7 +124,6 @@ char			ft_char_stop(char *line, int process_num);
 void			ft_print_word(t_word *word);
 int				ft_parse_case(t_data *d, char *line, int c);
 
-
 /*
 ** prompt_utils
 */
@@ -153,7 +152,7 @@ int				ft_parse_exec(t_word *word, t_data *d);
 int				get_start_index(char *line, int process_num);
 char			*ft_next_word(char *line, int i);
 int				ft_chevron_count(char *line, int process_num);
-char			*ft_chevron_file(char *line, int process_num);
+int				ft_fd(char *line, int process_num);
 
 /*
 ** command
