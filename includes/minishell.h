@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/20 09:54:45 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/20 11:23:57 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ int				ft_mi_strcat(char **dst, const char *src, int y, t_data *d);
 char			*ft_special_convertion(char *str);
 char			ft_char_stop(char *line, int process_num);
 void			ft_print_word(t_word *word);
+int				ft_parse_case(t_data *d, char *line, int c);
+
 
 /*
 ** prompt_utils

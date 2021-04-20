@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/19 22:47:13 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/20 11:23:03 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,8 @@ int		ft_exec_command(char *line, t_data *d)
 	c = ft_count_process(line);
 	fd = STDOUT;
 	process_num = 0;
+	if (ft_parse_case(d, line, c) == FALSE)
+		return (0);
 	while (process_num < c)
 	{
 		if (ft_word_split(d, line, process_num) == 0)
