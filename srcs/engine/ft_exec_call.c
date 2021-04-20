@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/20 11:23:03 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/20 11:31:02 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ char	*ft_chevron_file(char *line, int process_num)
 		}
 		i++;
 	}
-	if (line[i] == ' ')
+	while (line[i] && line[i] == ' ')
 		i++;
 	return (ft_next_word(line, i));
 }
