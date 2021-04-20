@@ -6,25 +6,23 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 18:57:43 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/13 09:28:56 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/20 10:05:25 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		print_declare_x(t_env *env, int fd)
+int		print_declare_x(t_env *env)
 {
 	while (env != NULL)
 	{
-		ft_putstr_fd("declare -x ", fd);
-		ft_putstr_fd(env->name, fd);
-		ft_putstr_fd("=", fd);
-		ft_putstr_fd(env->data, fd);
-		ft_putstr_fd("\n", fd);
+		ft_putstr_fd("declare -x ", STDOUT);
+		ft_putstr_fd(env->name, STDOUT);
+		ft_putstr_fd("=", STDOUT);
+		ft_putstr_fd(env->data, STDOUT);
+		ft_putstr_fd("\n", STDOUT);
 		env = env->next;
 	}
-	if (fd != STDOUT)
-		close(fd);
 	return (0);
 }
 

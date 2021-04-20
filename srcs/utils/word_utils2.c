@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 19:01:36 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/13 17:51:40 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/20 09:56:50 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,16 @@ void	ft_add_front_word(t_word **word, t_word *new)
 		if (*word)
 			new->next = *word;
 		*word = new;
+	}
+}
+
+void	ft_print_word(t_word *word)
+{
+	while (word != NULL)
+	{
+		ft_ps(word->data);
+		ft_ps("|");
+		ft_ps("\n");
+		word = word->next;
 	}
 }

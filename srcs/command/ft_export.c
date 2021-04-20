@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 12:06:30 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/13 09:30:30 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/20 10:05:31 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ int		unvalid_case(char **split)
 	return (1);
 }
 
-int		treat_one_arg(char *str, int i, t_env **env, int fd)
+int		treat_one_arg(char *str, int i, t_env **env)
 {
 	char **split;
 
 	if (str[0] == '\0' || str[0] == '#')
 	{
 		if (i == 0)
-			return (print_declare_x(*env, fd));
+			return (print_declare_x(*env));
 		else
 			return (0);
 	}
@@ -78,7 +78,7 @@ int		treat_one_arg(char *str, int i, t_env **env, int fd)
 	return (0);
 }
 
-int		ft_export(t_word *word, t_env **env, int fd)
+int		ft_export(t_word *word, t_env **env)
 {
 	char	**split;
 	int		i;
@@ -90,7 +90,7 @@ int		ft_export(t_word *word, t_env **env, int fd)
 	i = 0;
 	while (split[i] != NULL)
 	{
-		if ((tmp = treat_one_arg(split[i], i, env, fd)) != 0)
+		if ((tmp = treat_one_arg(split[i], i, env)) != 0)
 			ret = tmp;
 		if (split[i][0] == '#')
 		{

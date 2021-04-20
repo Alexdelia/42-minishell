@@ -12,27 +12,27 @@
 
 #include "../includes/minishell.h"
 
-int		ft_parse_exec(t_word *word, t_data *d, int fd)
+int		ft_parse_exec(t_word *word, t_data *d)
 {
 	if (ft_strcmp(word->data, "echo") == 0)
-		g_status = ft_echo(fd, word->next);
+		g_status = ft_echo(word->next);
 	else if (ft_strcmp(word->data, "cd") == 0)
 		g_status = ft_cd(word->next->data);
 	else if (ft_strcmp(word->data, "pwd") == 0)
-		g_status = ft_pwd(fd);
+		g_status = ft_pwd();
 	else if (ft_strcmp(word->data, "export") == 0)
-		g_status = ft_export(word->next, &(d->env), fd);
+		g_status = ft_export(word->next, &(d->env));
 	else if (ft_strcmp(word->data, "unset") == 0)
 		g_status = ft_unset(word->next, &(d->env));
 	else if (ft_strcmp(word->data, "env") == 0)
-		g_status = ft_env(fd, d->env);
+		g_status = ft_env(d->env);
 	else if (ft_strcmp(word->data, "exit") == 0)
 		g_status = ft_exit(d);
 	else if (word->data[0] && (word->data[0] == '.'
 				|| word->data[0] == '/'))
-		g_status = ft_exec(word, d->env, fd);
+		g_status = ft_exec(word, d->env);
 	else if (ft_statable(&word, d->env) == TRUE)
-		g_status = ft_exec(word, d->env, fd);
+		g_status = ft_exec(word, d->env);
 	else if (is_included(word->data, '='))
 		g_status = ft_mi_error(word->data, "in-line arg not supported", 127);
 	else
@@ -68,17 +68,6 @@ int		ft_count_process(char *line)
 	return (process_num);
 }
 
-void	ft_print_word(t_word *word)
-{
-	while (word != NULL)
-	{
-		ft_ps(word->data);
-		ft_ps("|");
-		ft_ps("\n");
-		word = word->next;
-	}
-}
-
 void	ft_pipe_process(char *line, t_data *d, int process_num, int n)
 {
 	int	pid[n];
@@ -106,7 +95,7 @@ void	ft_pipe_process(char *line, t_data *d, int process_num, int n)
 				dup2(pfd[i - 1][0], 0);
 			}
 			ft_word_split(d, line, process_num + i);
-			ft_parse_exec(d->word, d, STDOUT);
+			ft_parse_exec(d->word, d);
 			ft_free_all_word(d->word);
 			exit(g_status);
 		}
@@ -140,13 +129,39 @@ int		ft_pipe_count(char *line, int c, int process_num)
 
 void	ft_pipe(char *line, t_data *d, int c, int *process_num)
 {
-	int n;
+	int		n;
+	char	char_stop;
 
 	n = ft_pipe_count(line, c, *process_num);
-	printf("pipe count = %d\n", n);
 	ft_pipe_process(line, d, *process_num, n);	
 	*process_num = *process_num + n - 1;
-	//add >> and >
+	char_stop = ft_char_stop(line, *process_num);
+	if (char_stop == '>' || char_stop == 'C')
+	{
+
+	}
+}
+
+char	*ft_next_word(char *line, int i)
+{
+	char	*str;
+	int		y;
+
+	y = i;
+	while (line[y] && line[y] != ' ' && line[y] != ';' && line[y] != '|'
+				&& line[y] != '>' && line[y] != '<')
+		y++;
+	str = (char *)malloc(sizeof(*str) * (y - i + 1));
+	y = 0;
+	while (line[i] && line[i] != ' ' && line[i] != ';' && line[i] != '|'
+				&& line[i] != '>' && line[i] != '<')
+	{
+		str[y] = line[i];
+		y++;
+		i++;
+	}
+	str[y] = '\0';
+	return (str);
 }
 
 char	*ft_chevron_file(char *line, int process_num)
@@ -173,7 +188,6 @@ char	*ft_chevron_file(char *line, int process_num)
 void	ft_chevron_process(char *line, t_data *d, int process_num, int n)
 {
 	int		pid[n];
-	int		pfd[2];
 	int		stats;
 	int		i;
 	int		fd;
@@ -181,57 +195,38 @@ void	ft_chevron_process(char *line, t_data *d, int process_num, int n)
 
 	ft_free_all_word(d->word);
 	d->word = NULL;
-	i = 1; // Start at one, can be change if you want to stick to pipe. but change all line with: //CH . if you break it I will be able to redo it, np :3
-	while (i < n) //CH
+	i = 1;
+	while (i < n)
 	{
-		pipe(pfd);
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
-			fd = STDOUT; // IMPORTANT
-			file = ft_chevron_file(line, process_num + i + 1); //CH 
-			if (ft_char_stop(line, process_num + i - 1) == '>') //CH
+			fd = STDOUT;
+			file = ft_chevron_file(line, process_num + i + 1);
+			if (ft_char_stop(line, process_num + i - 1) == '>')
 				fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0664);
-			else if (ft_char_stop(line, process_num + i - 1) == 'C') //CH
+			else if (ft_char_stop(line, process_num + i - 1) == 'C')
 				fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0664);
 			free(file);
-			/*	if (i < n - 1)
-				{
-				close(pfd[i][0]);
-				dup2(pfd[i][1], 1);
-				}
-				if (i > 0)
-				{
-				close(pfd[i - 1][1]);
-				dup2(pfd[i - 1][0], fd);
-				}*/
-			if (i < n - 1) //CH
-				ft_putstr_fd("\0", fd); // IMPORTANT
-			if (i == n - 1) //CH
+			if (i < n - 1)
+				ft_putstr_fd("\0", fd);
+			if (i == n - 1)
 			{
 				dup2(fd, STDOUT);
-				//dup2(pfd[1], STDOUT);
-				//dup2(pfd[0], fd);
 				ft_word_split(d, line, process_num);
-				ft_parse_exec(d->word, d, STDOUT);
+				ft_parse_exec(d->word, d);
 				ft_free_all_word(d->word);
-				close(pfd[0]);
-				close(pfd[1]);
 			}
 			close(fd);
 			exit(g_status);
 		}
 		else
-		{
 			waitpid(pid[i], &stats, 0);
-			close(pfd[0]);
-			close(pfd[1]);
-		}
 		i++;
 	}
 }
 
-int	ft_chevron_count(char *line, int c, int process_num)
+int		ft_chevron_count(char *line, int c, int process_num)
 {
 	int		n;
 	char	char_stop;
@@ -286,7 +281,7 @@ int		ft_exec_command(char *line, t_data *d)
 			else if (char_stop == 'R')
 				ft_mi_error(d->word->data, "<< not supported", 127);
 			else
-				ft_parse_exec(d->word, d, fd);
+				ft_parse_exec(d->word, d);
 			printf("========= NEXT COMMAND =============\n");//
 		}
 		ft_free_all_word(d->word);

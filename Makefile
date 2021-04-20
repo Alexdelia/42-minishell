@@ -5,7 +5,7 @@ MAIN = ./srcs/minishell.c
 OBJ_MAIN = ${MAIN:.c=.o}
 LOCA_OBJ_MAIN = $(addprefix ${PATH_OBJS}, $(notdir ${OBJ_MAIN}))
 
-SRCS = utils/prompt_utils.c engine/ft_word_split.c engine/ft_exec_call.c engine/ft_redirection.c \
+SRCS = utils/prompt_utils.c engine/ft_word_split.c engine/ft_exec_call.c \
 		command/ft_echo.c command/ft_cd.c command/ft_pwd.c command/ft_env.c command/ft_export.c command/ft_export2.c command/ft_unset.c command/ft_exec.c command/ft_exit.c \
 		utils/env_utils.c utils/env_utils2.c utils/env_utils3.c utils/env_utils4.c utils/hist_utils.c utils/hist_utils2.c utils/word_utils.c \
 		utils/word_utils2.c engine/process_input.c engine/process_input2.c utils/ft_strcat.c utils/ft_parse_transform.c \

@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 14:14:43 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/15 17:25:21 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/20 10:13:25 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static	void	wait_and_signal(int *exec_status, int pid)
 	signal(SIGQUIT, SIG_DFL);
 }
 
-int				ft_exec(t_word *word, t_env *env, int fd)
+int				ft_exec(t_word *word, t_env *env)
 {
 	char		**av;
 	char		**envp;
@@ -83,7 +83,5 @@ int				ft_exec(t_word *word, t_env *env, int fd)
 		free_tab(envp);
 		free_tab(av);
 	}
-	if (fd != STDOUT && fd != STDIN)
-		close(fd);
 	return (return_value(exec_status, word->data));
 }

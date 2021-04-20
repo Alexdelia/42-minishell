@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/19 18:59:13 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/20 09:54:45 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,6 @@
 # define TERMCAP	0
 
 # define PATH_LEN	512
-
-# define CHEVRON	1
-# define PIPE		2
 
 int	g_status;
 
@@ -124,6 +121,7 @@ int				ft_word_search(char *str, t_word *word);
 int				ft_mi_strcat(char **dst, const char *src, int y, t_data *d);
 char			*ft_special_convertion(char *str);
 char			ft_char_stop(char *line, int process_num);
+void			ft_print_word(t_word *word);
 
 /*
 ** prompt_utils
@@ -149,8 +147,7 @@ int				process_input_arrows(t_data *d, char **l);
 void			process_ctrl_c(void);
 void			process_ctrl_d(t_data *d);
 int				ft_exec_command(char *line, t_data *d);
-int		ft_parse_exec(t_word *word, t_data *d, int fd);
-int				ft_redirection(char *line, int process_num, int *char_stop);
+int				ft_parse_exec(t_word *word, t_data *d);
 int				get_start_index(char *line, int process_num);
 char			*ft_next_word(char *line, int i);
 
@@ -158,17 +155,17 @@ char			*ft_next_word(char *line, int i);
 ** command
 */
 
-int				ft_echo(int fd, t_word *word);
+int				ft_echo(t_word *word);
 int				ft_cd(char *path);
-int				ft_pwd(int fd);
-int				ft_env(int fd, t_env *env);
-int				ft_export(t_word *word, t_env **env, int fd);
+int				ft_pwd(void);
+int				ft_env(t_env *env);
+int				ft_export(t_word *word, t_env **env);
 int				is_valid_identifier(char *str);
-int				print_declare_x(t_env *env, int fd);
+int				print_declare_x(t_env *env);
 char			*join_env(t_word *word);
 char			**split_export(char *str);
 int				ft_unset(t_word *word, t_env **env);
-int				ft_exec(t_word *word, t_env *env, int fd);
+int				ft_exec(t_word *word, t_env *env);
 int				ft_statable(t_word **word, t_env *env);
 int				ft_exit(t_data *d);
 
