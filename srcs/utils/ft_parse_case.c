@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 11:12:00 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/21 15:19:24 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/21 16:24:08 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int		ft_parse_case(t_data *d, char *line, int c)
 {
+	int		status;
 	int		i;
 	int		process_num;
 	char	char_stop;
@@ -23,7 +24,8 @@ int		ft_parse_case(t_data *d, char *line, int c)
 	char_stop = 0;
 	while (process_num < c)
 	{
-		if(ft_word_split(d, line, process_num) == 0)
+		status = ft_word_split(d, line, process_num);
+		if(status == 0)
 		{
 			if (!d->word->data[0])
 			{
@@ -54,6 +56,8 @@ int		ft_parse_case(t_data *d, char *line, int c)
 		ft_free_all_word(d->word);
 		d->word = NULL;
 		process_num++;
+		if (status == -1)
+			return (FALSE);
 	}
 	return (TRUE);
 }
