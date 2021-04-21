@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/21 14:17:10 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/21 15:03:15 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ int		ft_file_fd(char *line, int i, int tmp, int type)
 	struct stat	stats;
 	char		*file;
 	int			fd;
-	
+
 	file = ft_next_word(line, i);
 	if (type == 0)
 	{
@@ -235,7 +235,7 @@ int		ft_file_fd(char *line, int i, int tmp, int type)
 		if (stat(file, &stats) == -1)
 		{
 			ft_mi_error(file, "file doesn't exist", 0);
-			fd = STDIN;
+			fd = -2;
 		}
 		else
 			if (ft_char_stop(line, tmp - 2) == '<')
@@ -327,9 +327,18 @@ int		ft_chevron_count(char *line, int process_num)
 void	ft_chevron(char *line, t_data *d, int *process_num)
 {
 	int n;
+	int	fd;
 
 	n = ft_chevron_count(line, *process_num);
 	ft_chevron_process(line, d, *process_num, n);
+	*process_num = *process_num + n - 1;
+	if (ft_char_stop(line, *process_num) == '<')
+	{
+		fd = ft_fd(line, *process_num + 2, 1);
+		if (fd != -2)
+			close(fd);
+	}
+	n = ft_r_chevron_count(line, *process_num);
 	*process_num = *process_num + n - 1;
 }
 
@@ -374,10 +383,12 @@ void	ft_r_chevron_process(char *line, t_data *d, int process_num, int n)
 	fd_out = STDOUT;
 	while (i < n)
 	{
+		fd = ft_fd(line, process_num + i + 1, 1);
+		if (fd == -2)
+			return ;
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
-			fd = ft_fd(line, process_num + i + 1, 1);
 			if (i < n - 1)
 				ft_putstr_fd("\0", fd);
 			if (i == n - 1)
@@ -395,7 +406,10 @@ void	ft_r_chevron_process(char *line, t_data *d, int process_num, int n)
 			exit(g_status);
 		}
 		else
+		{
 			waitpid(pid[i], &stats, 0);
+			close(fd);
+		}
 		i++;
 	}
 }
