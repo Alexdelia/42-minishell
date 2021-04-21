@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 11:12:00 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/20 11:27:12 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/21 15:11:09 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,15 @@ int		ft_parse_case(t_data *d, char *line, int c)
 				else if (char_stop == '|')
 					return (ft_mi_error("syntax error near  unexpected token",
 						"'|'", FALSE));
+				else if (char_stop == '>')
+					return (ft_mi_error("syntax error near  unexpected token",
+						"'>'", FALSE));
+				else if (char_stop == 'C')
+					return (ft_mi_error("syntax error near  unexpected token",
+						"'>>'", FALSE));
+				else if (char_stop == '<')
+					return (ft_mi_error("syntax error near  unexpected token",
+						"'<'", FALSE));
 			}	
 		}
 		ft_free_all_word(d->word);
