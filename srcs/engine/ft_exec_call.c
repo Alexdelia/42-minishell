@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/20 16:14:36 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/21 14:17:10 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,10 @@ int		ft_file_fd(char *line, int i, int tmp, int type)
 	else
 	{
 		if (stat(file, &stats) == -1)
+		{
+			ft_mi_error(file, "file doesn't exist", 0);
 			fd = STDIN;
+		}
 		else
 			if (ft_char_stop(line, tmp - 2) == '<')
 				fd = open(file, O_RDONLY);
