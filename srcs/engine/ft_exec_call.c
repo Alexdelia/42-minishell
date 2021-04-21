@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/21 15:03:15 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/21 15:47:30 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -462,9 +462,9 @@ int		ft_exec_command(char *line, t_data *d)
 	{
 		if (ft_word_split(d, line, process_num) == 0)
 		{
-			ft_print_word(d->word);//
+			//ft_print_word(d->word);//
 			char_stop = ft_char_stop(line, process_num);
-			printf("char_stop=%c\n", char_stop);//
+			//printf("char_stop=%c\n", char_stop);//
 			if (char_stop == '|')
 				ft_pipe(line, d, &process_num);
 			else if (char_stop == '>' || char_stop == 'C')
@@ -475,8 +475,8 @@ int		ft_exec_command(char *line, t_data *d)
 				ft_mi_error(d->word->data, "<< not supported", 127);
 			else
 				ft_parse_exec(d->word, d);
-			printf("========= NEXT COMMAND =============\n");//
 		}
+		//printf("============== NEXT COMMAND ===============\n");
 		ft_free_all_word(d->word);
 		d->word = NULL;
 		process_num++;
