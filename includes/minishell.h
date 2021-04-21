@@ -147,7 +147,7 @@ void			process_arrow_down(t_data *d, char **l);
 int				process_input_arrows(t_data *d, char **l);
 void			process_ctrl_c(void);
 void			process_ctrl_d(t_data *d);
-int				ft_exec_command(char *line, t_data *d);
+void			ft_exec_command(char *line, t_data *d);
 int				ft_parse_exec(t_word *word, t_data *d);
 int				get_start_index(char *line, int process_num);
 char			*ft_next_word(char *line, int i);
