@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/21 15:03:15 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/21 15:26:28 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ int		ft_file_fd(char *line, int i, int tmp, int type)
 	{
 		if (stat(file, &stats) == -1)
 		{
-			ft_mi_error(file, "file doesn't exist", 0);
+			ft_mi_error(file, "No such file or directory", 0);
 			fd = -2;
 		}
 		else
