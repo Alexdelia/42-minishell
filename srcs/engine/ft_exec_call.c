@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 09:49:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/21 15:26:28 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/21 16:09:38 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ int		ft_file_fd(char *line, int i, int tmp, int type)
 	{
 		if (stat(file, &stats) == -1)
 		{
-			ft_mi_error(file, "No such file or directory", 0);
+			g_status = ft_mi_error(file, "No such file or directory", 1);
 			fd = -2;
 		}
 		else
@@ -457,7 +457,10 @@ int		ft_exec_command(char *line, t_data *d)
 	fd = STDOUT;
 	process_num = 0;
 	if (ft_parse_case(d, line, c) == FALSE)
+	{
+		g_status = 1;
 		return (0);
+	}
 	while (process_num < c)
 	{
 		if (ft_word_split(d, line, process_num) == 0)
