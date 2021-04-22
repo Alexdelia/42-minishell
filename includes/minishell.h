@@ -103,14 +103,19 @@ char			**etoa(t_env *env);
 */
 
 int				ft_word_split(t_data *d, char *str, int stop);
+int				get_start_index(char *line, int process_num);
 int				ft_strlen_post_transform(const char *str, t_data *d, int ml);
 int				ft_transform(t_data *d, char *str, int first);
 void			ft_conv_simple(t_parser *p, const char *str, char *res);
-void			ft_conv_double(t_parser *p, t_data *d, const char *str, char **res);
-void			ft_conv_dollar(t_parser *p, t_data *d, const char *str, char **res);
+void			ft_conv_double(t_parser *p, t_data *d,
+				const char *str, char **res);
+void			ft_conv_dollar(t_parser *p, t_data *d,
+				const char *str, char **res);
 int				ft_len_inner_trans(t_parser *p, const char *str, int ml);
-int				ft_inner_trans(t_parser *p, const char *str, char **res, int ml);
-void			ft_loop_trans(t_parser *p, t_data *d, const char *str, char *res);
+int				ft_inner_trans(t_parser *p, const char *str,
+				char **res, int ml);
+void			ft_loop_trans(t_parser *p, t_data *d,
+				const char *str, char *res);
 t_word			*ft_new_word(char *str);
 t_word			*ft_get_last_word(t_word *word);
 void			ft_add_back_word(t_word **word, t_word *new);
@@ -120,9 +125,7 @@ void			ft_free_all_word(t_word *word);
 int				ft_word_search(char *str, t_word *word);
 int				ft_mi_strcat(char **dst, const char *src, int y, t_data *d);
 char			*ft_special_convertion(char *str);
-char			ft_char_stop(char *line, int process_num);
 void			ft_print_word(t_word *word);
-int				ft_parse_case(t_data *d, char *line, int c);
 
 /*
 ** prompt_utils
@@ -149,11 +152,13 @@ void			process_ctrl_c(void);
 void			process_ctrl_d(t_data *d);
 void			ft_exec_command(char *line, t_data *d);
 int				ft_parse_exec(t_word *word, t_data *d);
-int				get_start_index(char *line, int process_num);
-char			*ft_next_word(char *line, int i);
-int				ft_chevron_count(char *line, int process_num);
-int				ft_r_chevron_count(char *line, int process_num);
-int				ft_fd(char *line, int process_num, int type);
+char			ft_char_stop(char *line, int process_num);
+void			move_word(char *line, t_data *d, int process_num, int n);
+int				**init_pfd(int c);
+void			free_pfd(int **pfd, int c);
+int				ft_count_process(char *line);
+int				ft_fd_out(char *line, int process_num, char char_stop);
+int				ft_fd_in(char *line, int process_num, char char_stop);
 
 /*
 ** command

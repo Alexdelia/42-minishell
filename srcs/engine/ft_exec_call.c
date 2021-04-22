@@ -40,40 +40,11 @@ int			ft_parse_exec(t_word *word, t_data *d)
 	return (0);
 }
 
-int			ft_count_process(char *line)
-{
-	int i;
-	int	process_num;
-
-	process_num = 1;
-	i = 0;
-	while (line[i] != '\0')
-	{
-		if (line[i] == '|' || line[i] == ';')
-			process_num++;
-		else if (line[i] == '>')
-		{
-			process_num++;
-			if (line[i + 1] != '\0' && line[i + 1] == '>')
-				i++;
-		}
-		else if (line[i] == '<')
-		{
-			process_num++;
-			if (line[i + 1] != '\0' && line[i + 1] == '<')
-				i++;
-		}
-		i++;
-	}
-	return (process_num);
-}
-
 void		ft_pipe(char *line, t_data *d, int process_num, int **pfd)
 {
 	int		pid;
 	int		stats;
 
-	(void)line;
 	pipe(pfd[process_num]);
 	pid = fork();
 	if (pid == 0)
@@ -85,7 +56,10 @@ void		ft_pipe(char *line, t_data *d, int process_num, int **pfd)
 			close(pfd[process_num - 1][1]);
 			dup2(pfd[process_num - 1][0], 0);
 		}
-		ft_parse_exec(d->word, d);
+		if (process_num == 0 || (ft_char_stop(line, process_num - 1) != '>'
+			&& ft_char_stop(line, process_num - 1) != 'C'
+			&& ft_char_stop(line, process_num - 1) != '<'))
+			ft_parse_exec(d->word, d);
 		exit(g_status);
 	}
 	else
@@ -94,7 +68,155 @@ void		ft_pipe(char *line, t_data *d, int process_num, int **pfd)
 		if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
 			close(pfd[process_num - 1][0]);
 		close(pfd[process_num][1]);
-		printf("=== WORD EXECUTED IN CHILD ===\n");
+	}
+}
+
+int			ft_chevron_count(char *line, int process_num)
+{
+	int		n;
+	int		ret;
+	char	char_stop;
+
+	char_stop = ft_char_stop(line, process_num);
+	ret = -1;
+	n = -1;
+	while (char_stop != ';' && char_stop != '|' && char_stop != '\0')
+	{
+		char_stop = ft_char_stop(line, process_num);
+		n++;
+		if (char_stop == '>' || char_stop == 'C')
+			ret = n;
+		//printf("*** char_stop = %c | ret = %d ***\n", char_stop, ret);
+		process_num++;
+	}
+	return (ret);
+}
+
+int			ft_reverse_count(char *line, int process_num)
+{
+	int		n;
+	int		ret;
+	char	char_stop;
+
+	char_stop = ft_char_stop(line, process_num);
+	ret = -1;
+	n = -1;
+	while (char_stop != ';' && char_stop != '|' && char_stop != '\0')
+	{
+		char_stop = ft_char_stop(line, process_num);
+		n++;
+		if (char_stop == '<')
+			ret = n;
+		//printf("*** char_stop = %c | ret = %d ***\n", char_stop, ret);
+		process_num++;
+	}
+	return (ret);
+}
+
+void		ft_chevron(char *line, t_data *d, int process_num, int **pfd)
+{
+	int		pid;
+	int		stats;
+	int		fd[2];
+	int		n;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
+		{
+			close(pfd[process_num - 1][1]);
+			dup2(pfd[process_num - 1][0], 0);
+		}
+		if (ft_char_stop(line, process_num + 1) == '>'
+			|| ft_char_stop(line, process_num + 1) == 'C')
+		{
+			fd[1] = ft_fd_out(line, process_num,
+				ft_char_stop(line, process_num));
+			close(fd[1]);
+		}
+		if (process_num == 0 || (ft_char_stop(line, process_num - 1) != '>'
+			&& ft_char_stop(line, process_num - 1) != 'C'
+			&& ft_char_stop(line, process_num - 1) != '<'))
+		{
+			n = ft_chevron_count(line, process_num);
+			//printf("*** CHEVRON COUNT = %d ***\n", n);//
+			fd[1] = ft_fd_out(line, process_num + n,
+				ft_char_stop(line, process_num + n));
+			n = ft_reverse_count(line, process_num);
+			//printf("*** INSIDE REVERSE COUNT = %d ***\n", n);//
+			if (n != -1)
+			{
+				fd[0] = ft_fd_in(line, process_num + n,
+					ft_char_stop(line, process_num + n));
+				dup2(fd[0], STDIN);
+			}
+			dup2(fd[1], STDOUT);
+			ft_parse_exec(d->word, d);
+			if (n != -1)
+				close(fd[0]);
+			close(fd[1]);
+		}
+		exit(g_status);
+	}
+	else
+	{
+		waitpid(pid, &stats, 0);
+		if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
+			close(pfd[process_num - 1][0]);
+	}
+}
+
+void		ft_reverse(char *line, t_data *d, int process_num, int **pfd)
+{
+	int		pid;
+	int		stats;
+	int		fd[2];
+	int		n;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
+		{
+			close(pfd[process_num - 1][1]);
+			dup2(pfd[process_num - 1][0], 0);
+		}
+		if (ft_char_stop(line, process_num + 1) == '<')
+		{
+			fd[0] = ft_fd_in(line, process_num,
+				ft_char_stop(line, process_num));
+			close(fd[0]);
+		}
+		if (process_num == 0 || (ft_char_stop(line, process_num - 1) != '<'
+			&& ft_char_stop(line, process_num - 1) != '>'
+			&& ft_char_stop(line, process_num - 1) != 'C'))
+		{
+			n = ft_reverse_count(line, process_num);
+			//printf("*** REVERSE COUNT = %d ***\n", n);//
+			fd[0] = ft_fd_in(line, process_num + n,
+				ft_char_stop(line, process_num + n));
+			n = ft_chevron_count(line, process_num);
+			//printf("*** INSIDE CHEVRON COUNT = %d ***\n", n);//
+			if (n != -1)
+			{
+				fd[1] = ft_fd_out(line, process_num + n,
+					ft_char_stop(line, process_num + n));
+				dup2(fd[1], STDOUT);
+			}
+			dup2(fd[0], STDIN);
+			ft_parse_exec(d->word, d);
+			close(fd[0]);
+			if (n != -1)
+				close(fd[1]);
+		}
+		exit(g_status);
+	}
+	else
+	{
+		waitpid(pid, &stats, 0);
+		if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
+			close(pfd[process_num - 1][0]);
 	}
 }
 
@@ -111,7 +233,10 @@ void		ft_semi(char *line, t_data *d, int process_num, int **pfd)
 			close(pfd[process_num - 1][1]);
 			dup2(pfd[process_num - 1][0], 0);
 		}
-		ft_parse_exec(d->word, d);
+		if (process_num == 0 || (ft_char_stop(line, process_num - 1) != '>'
+			&& ft_char_stop(line, process_num - 1) != 'C'
+			&& ft_char_stop(line, process_num - 1) != '<'))
+			ft_parse_exec(d->word, d);
 		exit(g_status);
 	}
 	else
@@ -119,7 +244,6 @@ void		ft_semi(char *line, t_data *d, int process_num, int **pfd)
 		waitpid(pid, &stats, 0);
 		if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
 			close(pfd[process_num - 1][0]);
-		printf("=== WORD EXECUTED IN CHILD ===\n");
 	}
 }
 
@@ -127,57 +251,77 @@ void		ft_exec_word(char *line, t_data *d, int process_num, int **pfd)
 {
 	char	char_stop;
 
-	(void)pfd;
+	//printf("=========== PROCESS %d ================\n", process_num);//
 	char_stop = ft_char_stop(line, process_num);
-	ft_print_word(d->word);
-	printf("char_stop=%c\n", char_stop);
+	//ft_print_word(d->word);//
+	//printf("*** char_stop = %c ***\n", char_stop);//
 	if (char_stop == '|')
 		ft_pipe(line, d, process_num, pfd);
 	else if (char_stop == '>' || char_stop == 'C')
-	{
-		ft_parse_exec(d->word, d);
-		printf("=== WORD EXECUTED IN PARENT ===\n");
-	}
+		ft_chevron(line, d, process_num, pfd);
 	else if (char_stop == ';' || char_stop == '\0')
 		ft_semi(line, d, process_num, pfd);
-	else if (char_stop == '<' || char_stop == 'R')
-	{
-		ft_mi_error(d->word->data, "< and << not supported", 127);
-		printf("=== WORD NOT EXECUTED ===\n");
-	}
-	else
-	{
-		ft_mi_error(d->word->data, "separator not recognized", 127);
-		printf("=== WORD NOT EXECUTED ===\n");
-	}
+	else if (char_stop == '<')
+		ft_reverse(line, d, process_num, pfd);
 }
 
-int			**init_pfd(int c)
+int			redir_errone(char *line, t_data *d, int process_num, int char_stop)
 {
-	int i;
-	int **pfd;
-
-	pfd = malloc(sizeof(*pfd) * c);
-	i = 0;
-	while (i < c)
+	if (char_stop == 'R')
+		return (g_status = ft_mi_error("redirection", "<< not supported", 1));
+	if (char_stop == ';' && d->word->data[0] == '\0')
 	{
-		pfd[i] = malloc(sizeof(**pfd) * 2);
-		i++;
+		return (g_status = ft_mi_error("redirection",
+			"syntax error near unexpected token `;'", 258));
 	}
-	return (pfd);
+	if (char_stop == '|' && d->word->data[0] == '\0')
+	{
+		return (g_status = ft_mi_error("redirection",
+			"syntax error near unexpected token `|'", 258));
+	}
+	if (char_stop == '>' || char_stop == '<')
+	{
+		move_word(line, d, process_num, 1);
+		if (d->word->data[0] == '\0')
+		{
+			move_word(line, d, process_num, -1);
+			return (g_status = ft_mi_error("redirection",
+					"syntax error near unexpected token `newline'", 258));
+		}
+		move_word(line, d, process_num, -1);
+	}
+	if (process_num > 0 && char_stop == '\0' && d->word->data[0] == '\0'
+		&& ft_char_stop(line, process_num - 1) == '|')
+	{
+		return (g_status = ft_mi_error("redirection",
+			"Error: multiligne", 1));
+	}
+	return (0);
 }
 
-void		free_pfd(int **pfd, int c)
+int			redir_errall(char *line, t_data *d, int c)
 {
-	int i;
+	int		process_num;
+	char	char_stop;
 
-	i = 0;
-	while (i < c)
+	process_num = 0;
+	while (process_num < c)
 	{
-		free(pfd[i]);
-		i++;
+		char_stop = ft_char_stop(line, process_num);
+		if (ft_word_split(d, line, process_num) == 0)
+		{
+			if (redir_errone(line, d, process_num, char_stop) != 0)
+			{
+				ft_free_all_word(d->word);
+				d->word = NULL;
+				return (1);
+			}
+		}
+		ft_free_all_word(d->word);
+		d->word = NULL;
+		process_num++;
 	}
-	free(pfd);
+	return (0);
 }
 
 void		ft_exec_command(char *line, t_data *d)
@@ -189,11 +333,14 @@ void		ft_exec_command(char *line, t_data *d)
 	if (!line[0])
 		return ;
 	c = ft_count_process(line);
+	if (redir_errall(line, d, c) == 1)
+		return ;
 	pfd = init_pfd(c);
 	process_num = 0;
 	while (process_num < c)
 	{
-		if (ft_word_split(d, line, process_num) == 0)
+		if (ft_word_split(d, line, process_num) == 0
+			&& d->word->data[0] != '\0')
 			ft_exec_word(line, d, process_num, pfd);
 		ft_free_all_word(d->word);
 		d->word = NULL;
