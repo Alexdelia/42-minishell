@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/20 16:10:18 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/23 08:33:48 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 # include <curses.h>
 # include <term.h>
 
-# define STDIN		0
-# define STDOUT		1
-# define STDERR		2
-# define TERMCAP	0
+# define STDIN 0
+# define STDOUT	1
+# define STDERR	2
+# define TERMCAP 0
 
 # define PATH_LEN	512
 
