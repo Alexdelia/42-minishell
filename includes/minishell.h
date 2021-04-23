@@ -31,7 +31,7 @@
 
 # define PATH_LEN	512
 
-int	g_status;
+unsigned char	g_status;
 
 typedef struct	s_hist {
 	char			*data;
@@ -79,14 +79,10 @@ void			process_ctrl_c(void);
 void			process_ctrl_d(t_data *d);
 void			ft_exec_command(char *line, t_data *d);
 int				ft_parse_exec(t_word *word, t_data *d);
-char			ft_char_stop(char *line, int process_num);
-void			move_word(char *line, t_data *d, int process_num, int n);
-int				**init_pfd(int c);
-void			free_pfd(int **pfd, int c);
-int				ft_count_process(char *line);
-int				ft_fd_out(char *line, int process_num, char char_stop);
-int				ft_fd_in(char *line, int process_num);
-int				ft_fd_in_mute(char *line, int process_num);
+void			ft_pipe(char *line, t_data *d, int process_num, int **pfd);
+void			ft_chevron(char *line, t_data *d, int *process_num, int **pfd);
+void			ft_reverse(char *line, t_data *d, int *process_num, int **pfd);
+void			ft_semi(char *line, t_data *d, int process_num, int **pfd);
 
 /*
 ** command
@@ -105,6 +101,25 @@ int				ft_unset(t_word *word, t_env **env);
 int				ft_exec(t_word *word, t_env *env);
 int				ft_statable(t_word **word, t_env *env);
 int				ft_exit(t_data *d);
+
+/*
+** engine utils
+*/
+
+int				ft_fd_out(char *line, int process_num, char char_stop);
+int				ft_fd_in(char *line, int process_num);
+int				ft_fd_in_mute(char *line, int process_num);
+char			ft_char_stop(char *line, int process_num);
+void			move_word(char *line, t_data *d, int process_num, int n);
+int				**init_pfd(int c);
+void			free_pfd(int **pfd, int c);
+int				ft_count_process(char *line);
+int				ft_chevron_count(char *line, int process_num);
+int				ft_reverse_count(char *line, int process_num);
+int				ft_backward_count(char *line, int process_num);
+int				forward_to_semi(char *line, int process_num);
+void			ft_exec_move(char *line, t_data *d, int process_num, int k);
+int				redir_errall(char *line, t_data *d, int c);
 
 /*
 ** prompt_utils

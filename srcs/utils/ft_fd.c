@@ -66,8 +66,6 @@ int			ft_fd_out(char *line, int process_num, char char_stop)
 
 	i = ft_fd_index(line, process_num + 1);
 	file = ft_next_word(line, i);
-	//printf("*** char_stop = %c ***\n", char_stop);
-	//printf("*** STDOUT file = %s ***\n", file);
 	fd = STDOUT;
 	if (char_stop == '>')
 		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0664);
@@ -86,8 +84,6 @@ int			ft_fd_in(char *line, int process_num)
 
 	i = ft_fd_index(line, process_num + 1);
 	file = ft_next_word(line, i);
-	//printf("*** char_stop = %c ***\n", char_stop);
-	//printf("*** STDIN file = %s ***\n", file);
 	if (stat(file, &stats) == -1)
 	{
 		fd = -1;
