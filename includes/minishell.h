@@ -86,6 +86,7 @@ void			free_pfd(int **pfd, int c);
 int				ft_count_process(char *line);
 int				ft_fd_out(char *line, int process_num, char char_stop);
 int				ft_fd_in(char *line, int process_num, char char_stop);
+int				ft_fd_in_mute(char *line, int process_num, char char_stop);
 
 /*
 ** command
