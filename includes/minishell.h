@@ -65,6 +65,57 @@ typedef struct	s_parser {
 }				t_parser;
 
 /*
+** engine
+*/
+
+void			enable_raw_mode(t_data *d);
+void			process_input_printable(char **l, char c);
+void			process_input_del(char **l);
+void			process_input_newline(t_data *d, char **l);
+void			process_arrow_up(t_data *d, char **l);
+void			process_arrow_down(t_data *d, char **l);
+int				process_input_arrows(t_data *d, char **l);
+void			process_ctrl_c(void);
+void			process_ctrl_d(t_data *d);
+void			ft_exec_command(char *line, t_data *d);
+int				ft_parse_exec(t_word *word, t_data *d);
+char			ft_char_stop(char *line, int process_num);
+void			move_word(char *line, t_data *d, int process_num, int n);
+int				**init_pfd(int c);
+void			free_pfd(int **pfd, int c);
+int				ft_count_process(char *line);
+int				ft_fd_out(char *line, int process_num, char char_stop);
+int				ft_fd_in(char *line, int process_num, char char_stop);
+
+/*
+** command
+*/
+
+int				ft_echo(t_word *word);
+int				ft_cd(char *path);
+int				ft_pwd(void);
+int				ft_env(t_env *env);
+int				ft_export(t_word *word, t_env **env);
+int				is_valid_identifier(char *str);
+int				print_declare_x(t_env *env);
+char			*join_env(t_word *word);
+char			**split_export(char *str);
+int				ft_unset(t_word *word, t_env **env);
+int				ft_exec(t_word *word, t_env *env);
+int				ft_statable(t_word **word, t_env *env);
+int				ft_exit(t_data *d);
+
+/*
+** prompt_utils
+*/
+
+int				ft_prompt_line(void);
+void			put_cursor_backward(int n);
+void			erase_line(char **l);
+int				ft_mi_error(char *command, char *text, int va_error);
+int				init_term(void);
+
+/*
 ** hist_utils
 */
 
@@ -126,56 +177,5 @@ int				ft_word_search(char *str, t_word *word);
 int				ft_mi_strcat(char **dst, const char *src, int y, t_data *d);
 char			*ft_special_convertion(char *str);
 void			ft_print_word(t_word *word);
-
-/*
-** prompt_utils
-*/
-
-int				ft_prompt_line(void);
-void			put_cursor_backward(int n);
-void			erase_line(char **l);
-int				ft_mi_error(char *command, char *text, int va_error);
-int				init_term(void);
-
-/*
-** engine
-*/
-
-void			enable_raw_mode(t_data *d);
-void			process_input_printable(char **l, char c);
-void			process_input_del(char **l);
-void			process_input_newline(t_data *d, char **l);
-void			process_arrow_up(t_data *d, char **l);
-void			process_arrow_down(t_data *d, char **l);
-int				process_input_arrows(t_data *d, char **l);
-void			process_ctrl_c(void);
-void			process_ctrl_d(t_data *d);
-void			ft_exec_command(char *line, t_data *d);
-int				ft_parse_exec(t_word *word, t_data *d);
-char			ft_char_stop(char *line, int process_num);
-void			move_word(char *line, t_data *d, int process_num, int n);
-int				**init_pfd(int c);
-void			free_pfd(int **pfd, int c);
-int				ft_count_process(char *line);
-int				ft_fd_out(char *line, int process_num, char char_stop);
-int				ft_fd_in(char *line, int process_num, char char_stop);
-
-/*
-** command
-*/
-
-int				ft_echo(t_word *word);
-int				ft_cd(char *path);
-int				ft_pwd(void);
-int				ft_env(t_env *env);
-int				ft_export(t_word *word, t_env **env);
-int				is_valid_identifier(char *str);
-int				print_declare_x(t_env *env);
-char			*join_env(t_word *word);
-char			**split_export(char *str);
-int				ft_unset(t_word *word, t_env **env);
-int				ft_exec(t_word *word, t_env *env);
-int				ft_statable(t_word **word, t_env *env);
-int				ft_exit(t_data *d);
 
 #endif
