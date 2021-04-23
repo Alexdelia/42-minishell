@@ -31,7 +31,7 @@
 
 # define PATH_LEN	512
 
-unsigned char	g_status;
+int	g_status;
 
 typedef struct	s_hist {
 	char			*data;

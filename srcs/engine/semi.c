@@ -34,6 +34,10 @@ void		ft_semi(char *line, t_data *d, int process_num, int **pfd)
 	else
 	{
 		waitpid(pid, &stats, 0);
+		if (stats > 255)
+			g_status = stats / 256;
+		else
+			g_status = stats;
 		if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
 			close(pfd[process_num - 1][0]);
 	}
