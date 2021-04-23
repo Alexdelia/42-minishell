@@ -40,10 +40,19 @@ int			ft_parse_exec(t_word *word, t_data *d)
 	return (0);
 }
 
+void		ft_pipe_parent(char *line, int process_num, int **pfd, int pid)
+{
+	int		stats;
+
+	waitpid(pid, &stats, 0);
+	if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
+		close(pfd[process_num - 1][0]);
+	close(pfd[process_num][1]);
+}
+
 void		ft_pipe(char *line, t_data *d, int process_num, int **pfd)
 {
 	int		pid;
-	int		stats;
 
 	//printf("*** FT_PIPE ***\n");//
 	pipe(pfd[process_num]);
@@ -64,12 +73,7 @@ void		ft_pipe(char *line, t_data *d, int process_num, int **pfd)
 		exit(g_status);
 	}
 	else
-	{
-		waitpid(pid, &stats, 0);
-		if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
-			close(pfd[process_num - 1][0]);
-		close(pfd[process_num][1]);
-	}
+		ft_pipe_parent(line, process_num, pfd, pid);
 }
 
 int			ft_chevron_count(char *line, int process_num)
@@ -127,7 +131,7 @@ int			ft_backward_count(char *line, int process_num)
 		if (char_stop == '>' || char_stop == 'C' || char_stop == '<')
 			n++;
 		else if (char_stop == '\0' || char_stop == ';' || char_stop == '|')
-			return (n);	
+			return (n);
 		process_num--;
 	}
 	return (n);
@@ -150,13 +154,56 @@ int			forward_to_semi(char *line, int process_num)
 	return (n);
 }
 
+void		ft_exec_move(char *line, t_data *d, int process_num, int k)
+{
+	move_word(line, d, process_num, -k);
+	ft_parse_exec(d->word, d);
+	move_word(line, d, process_num, k);
+}
+
+void		ft_chevron_parent(char *line, int process_num, int **pfd, int pid)
+{
+	int		stats;
+
+	waitpid(pid, &stats, 0);
+	if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
+		close(pfd[process_num - 1][0]);
+}
+
+void		ft_chevron_back(char *line, t_data *d, int process_num, int **pfd)
+{
+	int		k;
+	int		n;
+
+	k = ft_backward_count(line, process_num);
+	//printf("*** BACKWARD COUNT = %d ***\n", k);
+	n = ft_chevron_count(line, process_num - k);
+	//printf("*** INTERNAL CHEVRON COUNT = %d ***\n", n);
+	pfd[process_num][1] = ft_fd_out(line, process_num - k + n,
+		ft_char_stop(line, process_num - k + n));
+	n = ft_reverse_count(line, process_num - k);
+	//printf("*** INTERNAL REVERSE COUNT = %d ***\n", n);
+	if (n != -1)
+	{
+		pfd[process_num][0] = ft_fd_in(line, process_num - k + n);
+		if (pfd[process_num][0] == -1)
+		{
+			close(pfd[process_num][1]);
+			exit(g_status);
+		}
+		dup2(pfd[process_num][0], STDIN);
+	}
+	dup2(pfd[process_num][1], STDOUT);
+	ft_exec_move(line, d, process_num, k);
+	if (n != -1)
+		close(pfd[process_num][0]);
+	close(pfd[process_num][1]);
+}
+
 void		ft_chevron(char *line, t_data *d, int *process_num, int **pfd)
 {
 	int		pid;
-	int		stats;
-	int		fd[2];
 	int		n;
-	int 	k;
 
 	//printf("*** FT_CHEVRON ***\n");//
 	pid = fork();
@@ -167,56 +214,67 @@ void		ft_chevron(char *line, t_data *d, int *process_num, int **pfd)
 			close(pfd[*process_num - 1][1]);
 			dup2(pfd[*process_num - 1][0], 0);
 		}
-		fd[1] = ft_fd_out(line, *process_num,
+		pfd[*process_num][1] = ft_fd_out(line, *process_num,
 			ft_char_stop(line, *process_num));
-		close(fd[1]);
+		close(pfd[*process_num][1]);
 		n = ft_chevron_count(line, *process_num);
 		if (n == 0)
-		{
-			k = ft_backward_count(line, *process_num);
-			//printf("*** BACKWARD COUNT = %d ***\n", k);
-			n = ft_chevron_count(line, *process_num - k);
-			//printf("*** INTERNAL CHEVRON COUNT = %d ***\n", n);
-			fd[1] = ft_fd_out(line, *process_num - k + n,
-				ft_char_stop(line, *process_num - k + n));
-			n = ft_reverse_count(line, *process_num - k);
-			//printf("*** INTERNAL REVERSE COUNT = %d ***\n", n);
-			if (n != -1)
-			{
-				fd[0] = ft_fd_in(line, *process_num - k + n,
-					ft_char_stop(line, *process_num - k + n));
-				if (fd[0] == -1)
-				{
-					close(fd[1]);
-					exit(g_status);
-				}
-				dup2(fd[0], STDIN);
-			}
-			dup2(fd[1], STDOUT);
-			move_word(line, d, *process_num, -k);
-			ft_parse_exec(d->word, d);
-			move_word(line, d, *process_num, k);
-			if (n != -1)
-				close(fd[0]);
-			close(fd[1]);
-		}
+			ft_chevron_back(line, d, *process_num, pfd);
 		exit(g_status);
 	}
 	else
+		ft_chevron_parent(line, *process_num, pfd, pid);
+}
+
+void		ft_reverse_parent(char *line, int *process_num, int **pfd, int pid)
+{
+	int		stats;
+
+	waitpid(pid, &stats, 0);
+	if (*process_num > 0 && ft_char_stop(line, *process_num - 1) == '|')
+		close(pfd[*process_num - 1][0]);
+	pfd[*process_num][0] = ft_fd_in_mute(line, *process_num);
+	if (pfd[*process_num][0] == -1)
+		*process_num = *process_num + forward_to_semi(line, *process_num);
+	else
+		close(pfd[*process_num][0]);
+}
+
+void		ft_reverse_back(char *line, t_data *d, int process_num, int **pfd)
+{
+	int		n;
+	int		k;
+
+	k = ft_backward_count(line, process_num);
+	//printf("*** BACKWARD COUNT = %d ***\n", k);
+	n = ft_chevron_count(line, process_num - k);
+	//printf("*** INTERNAL CHEVRON COUNT = %d ***\n", n);
+	if (n != -1)
 	{
-		waitpid(pid, &stats, 0);
-		if (*process_num > 0 && ft_char_stop(line, *process_num - 1) == '|')
-			close(pfd[*process_num - 1][0]);
+		pfd[process_num][1] = ft_fd_out(line, process_num - k + n,
+			ft_char_stop(line, process_num - k + n));
+		dup2(pfd[process_num][1], STDOUT);
 	}
+	n = ft_reverse_count(line, process_num - k);
+	//printf("*** INTERNAL REVERSE COUNT = %d ***\n", n);
+	pfd[process_num][0] = ft_fd_in(line, process_num - k + n);
+	if (pfd[process_num][0] == -1)
+	{
+		if (n != -1)
+			close(pfd[process_num][1]);
+		exit(g_status);
+	}
+	dup2(pfd[process_num][0], STDIN);
+	ft_exec_move(line, d, process_num, k);
+	close(pfd[process_num][0]);
+	if (n != -1)
+		close(pfd[process_num][1]);
 }
 
 void		ft_reverse(char *line, t_data *d, int *process_num, int **pfd)
 {
 	int		pid;
-	int		stats;
-	int		fd[2];
 	int		n;
-	int 	k;
 
 	//printf("*** FT_REVERSE ***\n");//
 	pid = fork();
@@ -227,59 +285,17 @@ void		ft_reverse(char *line, t_data *d, int *process_num, int **pfd)
 			close(pfd[*process_num - 1][1]);
 			dup2(pfd[*process_num - 1][0], 0);
 		}
-		fd[0] = ft_fd_in(line, *process_num,
-			ft_char_stop(line, *process_num));
-		if (fd[0] == -1)
+		pfd[*process_num][0] = ft_fd_in(line, *process_num);
+		if (pfd[*process_num][0] == -1)
 			exit(g_status);
-		close(fd[0]);
-		n = ft_reverse_count(line, *process_num);		
+		close(pfd[*process_num][0]);
+		n = ft_reverse_count(line, *process_num);
 		if (n == 0)
-		{
-			k = ft_backward_count(line, *process_num);
-			//printf("*** BACKWARD COUNT = %d ***\n", k);
-			n = ft_chevron_count(line, *process_num - k);
-			//printf("*** INTERNAL CHEVRON COUNT = %d ***\n", n);
-			if (n != -1)
-			{
-				fd[1] = ft_fd_out(line, *process_num - k + n,
-					ft_char_stop(line, *process_num - k + n));
-				dup2(fd[1], STDOUT);
-			}
-			n = ft_reverse_count(line, *process_num - k);
-			//printf("*** INTERNAL REVERSE COUNT = %d ***\n", n);
-			fd[0] = ft_fd_in(line, *process_num - k + n,
-				ft_char_stop(line, *process_num - k + n));
-			if (fd[0] == -1)
-			{
-				if (n != -1)
-					close(fd[1]);				
-				exit(g_status);
-			}
-			dup2(fd[0], STDIN);
-			move_word(line, d, *process_num, -k);
-			ft_parse_exec(d->word, d);
-			move_word(line, d, *process_num, k);
-			close(fd[0]);
-			if (n != -1)
-				close(fd[1]);
-		}
+			ft_reverse_back(line, d, *process_num, pfd);
 		exit(g_status);
 	}
 	else
-	{
-		waitpid(pid, &stats, 0);
-		if (*process_num > 0 && ft_char_stop(line, *process_num - 1) == '|')
-			close(pfd[*process_num - 1][0]);
-		fd[0] = ft_fd_in_mute(line, *process_num, ft_char_stop(line, *process_num));
-		if (fd[0] == -1)
-		{
-			//printf("*** PROCESS FORWARD BY %d ***\n", forward_to_semi(line, *process_num));//
-			*process_num = *process_num + forward_to_semi(line, *process_num);
-		}
-		else
-			close(fd[0]);
-	}
-	//printf("*** END OF FT_REVERSE ***\n");//
+		ft_reverse_parent(line, process_num, pfd, pid);
 }
 
 void		ft_semi(char *line, t_data *d, int process_num, int **pfd)
@@ -328,6 +344,22 @@ void		ft_exec_word(char *line, t_data *d, int *process_num, int **pfd)
 		ft_reverse(line, d, process_num, pfd);
 }
 
+int			token_error(char *line, t_data *d, int process_num, int char_stop)
+{
+	if (char_stop == '>' || char_stop == '<')
+	{
+		move_word(line, d, process_num, 1);
+		if (d->word->data[0] == '\0')
+		{
+			move_word(line, d, process_num, -1);
+			return (g_status = ft_mi_error("redirection",
+					"syntax error near unexpected token `newline'", 258));
+		}
+		move_word(line, d, process_num, -1);
+	}
+	return (0);
+}
+
 int			redir_errone(char *line, t_data *d, int process_num, int char_stop)
 {
 	if (char_stop == 'R')
@@ -342,17 +374,8 @@ int			redir_errone(char *line, t_data *d, int process_num, int char_stop)
 		return (g_status = ft_mi_error("redirection",
 			"syntax error near unexpected token `|'", 258));
 	}
-	if (char_stop == '>' || char_stop == '<')
-	{
-		move_word(line, d, process_num, 1);
-		if (d->word->data[0] == '\0')
-		{
-			move_word(line, d, process_num, -1);
-			return (g_status = ft_mi_error("redirection",
-					"syntax error near unexpected token `newline'", 258));
-		}
-		move_word(line, d, process_num, -1);
-	}
+	if (token_error(line, d, process_num, char_stop) != 0)
+		return (1);
 	if (process_num > 0 && char_stop == '\0' && d->word->data[0] == '\0'
 		&& ft_char_stop(line, process_num - 1) == '|')
 	{

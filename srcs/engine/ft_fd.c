@@ -77,14 +77,13 @@ int			ft_fd_out(char *line, int process_num, char char_stop)
 	return (fd);
 }
 
-int			ft_fd_in(char *line, int process_num, char char_stop)
+int			ft_fd_in(char *line, int process_num)
 {
 	int			fd;
 	char		*file;
 	int			i;
 	struct stat	stats;
 
-	(void)char_stop;
 	i = ft_fd_index(line, process_num + 1);
 	file = ft_next_word(line, i);
 	//printf("*** char_stop = %c ***\n", char_stop);
@@ -100,14 +99,13 @@ int			ft_fd_in(char *line, int process_num, char char_stop)
 	return (fd);
 }
 
-int			ft_fd_in_mute(char *line, int process_num, char char_stop)
+int			ft_fd_in_mute(char *line, int process_num)
 {
 	int			fd;
 	char		*file;
 	int			i;
 	struct stat	stats;
 
-	(void)char_stop;
 	i = ft_fd_index(line, process_num + 1);
 	file = ft_next_word(line, i);
 	if (stat(file, &stats) == -1)
