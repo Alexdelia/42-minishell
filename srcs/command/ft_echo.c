@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:41:22 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/20 10:10:01 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/24 12:22:56 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,31 +49,40 @@ static int	ft_ps_but_one_c(char *str, char c, int fd)
 	return (i);
 }
 
+int			ft_pass_n(char *word, int i)
+{
+	int	y;
+
+	y = i;
+	while (word[i])
+	{
+		while (word[i] && word[i] == ' ')
+			i++;
+		y = i;
+		if (word[i] && word[i] == '-')
+		{
+			i++;
+			while (word[i] && word[i] == 'n')
+				i++;
+		}
+		if (word[i] != ' ')
+			return (y);
+	}
+	return (y);
+}
+
 int			ft_echo(t_word *word)
 {
+	int	nl;
 	int	i;
 
-	i = 0;
-	if (word->data[0] == '-')
-	{
-		i++;
-		while (word->data[i] && word->data[i] == 'n')
-			i++;
-		if (word->data[i] != ' ')
-			i = 0;
-		else
-			i++;
-	}
+	nl = FALSE;
+	i = ft_pass_n(word->data, 0);
+	if (i > 0)
+		nl = TRUE;
 	ft_ps_but_one_c(&word->data[i], ' ', STDOUT);
-	i = 0;
-	if (word->data[0] == '-')
-	{
-		i++;
-		while (word->data[i] && word->data[i] == 'n')
-			i++;
-		if (!word->data[i] || word->data[i] == ' ')
-			return (0);
-	}
+	if (nl == TRUE)
+		return (0);
 	ft_putstr_fd("\n", STDOUT);
 	return (0);
 }
