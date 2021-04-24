@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:41:22 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/24 12:22:56 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/24 13:37:50 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ int			ft_pass_n(char *word, int i)
 	{
 		while (word[i] && word[i] == ' ')
 			i++;
-		y = i;
 		if (word[i] && word[i] == '-')
 		{
+			y = i;
 			i++;
 			while (word[i] && word[i] == 'n')
 				i++;
