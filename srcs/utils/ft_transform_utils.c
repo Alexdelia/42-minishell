@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 15:29:24 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/13 15:51:05 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/25 14:02:12 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,27 @@ void	ft_loop_trans(t_parser *p, t_data *d, const char *str, char *res)
 			ft_conv_simple(p, str, res);
 		else
 		{
-			if (str[p->i] == '\\')
+			if (str[p->i] == ' ')
+			{
+				while (str[p->i] && str[p->i + 1] && str[p->i + 1] == ' ')
+					p->i++;
+				if (!str[p->i + 1] || (str[p->i + 1]
+						&& (str[p->i + 1] == '|' || str[p->i + 1] == ';'
+						|| str[p->i + 1] == '>' || str[p->i + 1] == '<')))
+					break ;
+			}
+			if (str[p->i] && str[p->i] == '\\')
 			{
 				p->i++;
 				if (!str[p->i])
 					break ;
 			}
-			res[p->y] = str[p->i];
-			p->i++;
-			p->y++;
+			if (str[p->i])
+			{
+				res[p->y] = str[p->i];
+				p->i++;
+				p->y++;
+			}
 		}
 	}
 	res[p->y] = '\0';
