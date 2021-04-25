@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:57:41 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/25 12:45:49 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/25 13:00:04 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,20 @@ char		ft_char_stop(char *line, int process_num)
 		if (line[i] == '\"')
 		{
 			i++;
-			while (line[i] && line[i] != '\"')
+			while (line[i] && (line[i] != '\"' || (line[i - 1]
+					&& line[i - 1] == '\\' && line[i] == '\"')))
 				i++;
 		}
 		else if (line[i] == '\'')
 		{
 			i++;
-			while (line[i] && line[i] != '\'')
+			while (line[i] && (line[i] != '\'' || (line[i - 1]
+					&& line[i - 1] == '\\' && line[i] == '\'')))
 				i++;
 		}
-		else if (line[i] == ';' || line[i] == '|' || line[i] == '>'
-			|| line[i] == '<')
+		else if (line[i] && (line[i] == ';' || line[i] == '|'
+			|| line[i] == '>' || line[i] == '<')
+			&& (!line[i - 1] || (line[i - 1] && line[i - 1] != '\\')))
 		{
 			if (process_num == 0)
 			{
