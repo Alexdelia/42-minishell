@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 21:46:11 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/25 11:59:33 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/25 12:18:04 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ static int	ft_redir_quote(char *line, int i)
 
 static int	ft_redir_char_stop(char *line, int i)
 {
-	i++;
 	if (line[i + 1] && line[i] == '>' && line[i + 1] == '>')
 		i++;
 	if (line[i + 1] && line[i] == '<' && line[i + 1] == '<')
 		return (ft_syntax_error(line, i, 2));
+	i++;
 	while (line[i] && line[i] == ' ')
 		i++;
 	if (line[i] && (line[i] == ';' || line[i] == '|'
@@ -63,8 +63,8 @@ static int	ft_redir_loop(char *line)
 		i = ft_redir_quote(line, i);
 		if (i == -1)
 			return (TRUE);
-		else if (line[i] == ';' || line[i] == '|'
-				|| line[i] == '>' || line[i] == '<')
+		else if (line[i] && (line[i] == ';' || line[i] == '|'
+				|| line[i] == '>' || line[i] == '<'))
 		{
 			i = ft_redir_char_stop(line, i);
 			if (i == -1)
