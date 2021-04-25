@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 12:57:41 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/25 13:00:04 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/25 14:20:45 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,54 +44,4 @@ void		free_pfd(int **pfd, int c)
 		i++;
 	}
 	free(pfd);
-}
-
-static int	ft_is_double_c(char *line, int i, char c)
-{
-	if (line[i] && line[i + 1] && line[i] == c && line[i + 1] == c)
-		return (TRUE);
-	return (FALSE);
-}
-
-char		ft_char_stop(char *line, int process_num)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '\"')
-		{
-			i++;
-			while (line[i] && (line[i] != '\"' || (line[i - 1]
-					&& line[i - 1] == '\\' && line[i] == '\"')))
-				i++;
-		}
-		else if (line[i] == '\'')
-		{
-			i++;
-			while (line[i] && (line[i] != '\'' || (line[i - 1]
-					&& line[i - 1] == '\\' && line[i] == '\'')))
-				i++;
-		}
-		else if (line[i] && (line[i] == ';' || line[i] == '|'
-			|| line[i] == '>' || line[i] == '<')
-			&& (!line[i - 1] || (line[i - 1] && line[i - 1] != '\\')))
-		{
-			if (process_num == 0)
-			{
-				if (ft_is_double_c(line, i, '>') == TRUE)
-					return ('C');
-				if (ft_is_double_c(line, i, '<') == TRUE)
-					return ('R');
-				return (line[i]);
-			}
-			if (ft_is_double_c(line, i, '>') == TRUE
-					|| ft_is_double_c(line, i, '<') == TRUE)
-				i++;
-			process_num--;
-		}
-		i++;
-	}
-	return ('\0');
 }
