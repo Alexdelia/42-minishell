@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   ft_count_process.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/30 18:19:32 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/24 11:52:34 by adelille         ###   ########.fr       */
+/*   Created: 2021/04/25 14:22:30 by adelille          #+#    #+#             */
+/*   Updated: 2021/04/25 14:25:44 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_cd(char *path)
+int			ft_count_process(char *line)
 {
-	ft_pserc("CD\nPath: ", RED);
-	ft_pserc(path, RED);
-	ft_pserc("\n", RED);
-	if (chdir(path) == -1)
-		return (ft_mi_error("cd", "No such file or directory", 1));
-	ft_pwd();
-	return (0);
+	int	process_num;
+
+	process_num = 1;
+	while (ft_char_stop(line, process_num) != '\0')
+		process_num++;
+	return (process_num + 1);
 }

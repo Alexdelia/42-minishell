@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 21:46:41 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/23 21:46:42 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/23 22:36:42 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ void		ft_chevron_parent(char *line, int process_num, int **pfd, int pid)
 	int		stats;
 
 	waitpid(pid, &stats, 0);
+	if (stats > 255)
+		g_status = stats / 256;
+	else
+		g_status = stats;
 	if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
 		close(pfd[process_num - 1][0]);
 }
