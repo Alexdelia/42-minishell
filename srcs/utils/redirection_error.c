@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 21:46:11 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/25 12:18:04 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/25 12:53:45 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static int	ft_redir_quote(char *line, int i)
 	if (line[i] == '\"')
 	{
 		i++;
-		while (line[i] && line[i] != '\"')
+		while (line[i] && (line[i] != '\"' || (line[i - 1]
+				&& line[i - 1] == '\\' && line[i] == '\"')))
 			i++;
 		if (!line[i])
 			return (-1);
@@ -25,7 +26,8 @@ static int	ft_redir_quote(char *line, int i)
 	else if (line[i] == '\'')
 	{
 		i++;
-		while (line[i] && line[i] != '\'')
+		while (line[i] && (line[i] != '\'' || (line[i - 1]
+				&& line[i - 1] == '\\' && line[i] == '\'')))
 			i++;
 		if (!line[i])
 			return (-1);
@@ -64,7 +66,8 @@ static int	ft_redir_loop(char *line)
 		if (i == -1)
 			return (TRUE);
 		else if (line[i] && (line[i] == ';' || line[i] == '|'
-				|| line[i] == '>' || line[i] == '<'))
+				|| line[i] == '>' || line[i] == '<')
+				&& (!line[i - 1] || (line[i - 1] && line[i - 1] != '\\')))
 		{
 			i = ft_redir_char_stop(line, i);
 			if (i == -1)
