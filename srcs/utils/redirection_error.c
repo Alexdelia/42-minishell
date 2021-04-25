@@ -6,74 +6,90 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 21:46:11 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/23 21:46:13 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/25 12:53:45 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int			token_error(char *line, t_data *d, int process_num, int char_stop)
+static int	ft_redir_quote(char *line, int i)
 {
-	if (char_stop == '>' || char_stop == '<')
+	if (line[i] == '\"')
 	{
-		move_word(line, d, process_num, 1);
-		if (d->word->data[0] == '\0')
-		{
-			move_word(line, d, process_num, -1);
-			return (g_status = ft_mi_error("redirection",
-					"syntax error near unexpected token `newline'", 258));
-		}
-		move_word(line, d, process_num, -1);
+		i++;
+		while (line[i] && (line[i] != '\"' || (line[i - 1]
+				&& line[i - 1] == '\\' && line[i] == '\"')))
+			i++;
+		if (!line[i])
+			return (-1);
 	}
-	return (0);
+	else if (line[i] == '\'')
+	{
+		i++;
+		while (line[i] && (line[i] != '\'' || (line[i - 1]
+				&& line[i - 1] == '\\' && line[i] == '\'')))
+			i++;
+		if (!line[i])
+			return (-1);
+	}
+	return (i);
 }
 
-int			redir_errone(char *line, t_data *d, int process_num, int char_stop)
+static int	ft_redir_char_stop(char *line, int i)
 {
-	if (char_stop == 'R')
-		return (g_status = ft_mi_error("redirection", "<< not supported", 1));
-	if (char_stop == ';' && d->word->data[0] == '\0')
+	if (line[i + 1] && line[i] == '>' && line[i + 1] == '>')
+		i++;
+	if (line[i + 1] && line[i] == '<' && line[i + 1] == '<')
+		return (ft_syntax_error(line, i, 2));
+	i++;
+	while (line[i] && line[i] == ' ')
+		i++;
+	if (line[i] && (line[i] == ';' || line[i] == '|'
+				|| line[i] == '>' || line[i] == '<'))
+		return (ft_syntax_error(line, i, 0));
+	if (!line[i])
+		return (ft_syntax_error(line, i - 1, -1));
+	i--;
+	return (i);
+}
+
+static int	ft_redir_loop(char *line)
+{
+	int	ml;
+	int	i;
+
+	ml = FALSE;
+	i = 0;
+	while (line[i])
 	{
-		return (g_status = ft_mi_error("redirection",
-			"syntax error near unexpected token `;'", 258));
+		i = ft_redir_quote(line, i);
+		if (i == -1)
+			return (TRUE);
+		else if (line[i] && (line[i] == ';' || line[i] == '|'
+				|| line[i] == '>' || line[i] == '<')
+				&& (!line[i - 1] || (line[i - 1] && line[i - 1] != '\\')))
+		{
+			i = ft_redir_char_stop(line, i);
+			if (i == -1)
+				return (-1);
+		}
+		i++;
 	}
-	if (char_stop == '|' && d->word->data[0] == '\0')
+	return (ml);
+}
+
+int			redir_errall(char *line)
+{
+	int	ml;
+
+	ml = ft_redir_loop(line);
+	if (ml == TRUE)
 	{
-		return (g_status = ft_mi_error("redirection",
-			"syntax error near unexpected token `|'", 258));
-	}
-	if (token_error(line, d, process_num, char_stop) != 0)
+		g_status = 1;
+		ft_pserc("minishell: Error: multiligne\n", RED);
 		return (1);
-	if (process_num > 0 && char_stop == '\0' && d->word->data[0] == '\0'
-		&& ft_char_stop(line, process_num - 1) == '|')
-	{
-		return (g_status = ft_mi_error("redirection",
-			"Error: multiligne", 1));
 	}
-	return (0);
-}
-
-int			redir_errall(char *line, t_data *d, int c)
-{
-	int		process_num;
-	char	char_stop;
-
-	process_num = 0;
-	while (process_num < c)
-	{
-		char_stop = ft_char_stop(line, process_num);
-		if (ft_word_split(d, line, process_num) == 0)
-		{
-			if (redir_errone(line, d, process_num, char_stop) != 0)
-			{
-				ft_free_all_word(d->word);
-				d->word = NULL;
-				return (1);
-			}
-		}
-		ft_free_all_word(d->word);
-		d->word = NULL;
-		process_num++;
-	}
+	else if (ml == -1)
+		return (1);
 	return (0);
 }
