@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 14:19:55 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/25 14:20:13 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/25 14:29:36 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ static int	ft_char_quote(char *line, int i)
 	return (i);
 }
 
+static char	ft_char_return(char *line, int i)
+{
+	if (ft_is_double_c(line, i, '>') == TRUE)
+		return ('C');
+	if (ft_is_double_c(line, i, '<') == TRUE)
+		return ('R');
+	return (line[i]);
+}
+
 char		ft_char_stop(char *line, int process_num)
 {
 	int	i;
@@ -56,13 +65,7 @@ char		ft_char_stop(char *line, int process_num)
 				&& (!line[i - 1] || (line[i - 1] && line[i - 1] != '\\')))
 		{
 			if (process_num == 0)
-			{
-				if (ft_is_double_c(line, i, '>') == TRUE)
-					return ('C');
-				if (ft_is_double_c(line, i, '<') == TRUE)
-					return ('R');
-				return (line[i]);
-			}
+				return (ft_char_return(line, i));
 			if (ft_is_double_c(line, i, '>') == TRUE
 					|| ft_is_double_c(line, i, '<') == TRUE)
 				i++;
