@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 18:17:39 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/25 11:41:56 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/21 18:17:41 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void		ft_exec_command(char *line, t_data *d)
 	if (!line[0])
 		return ;
 	c = ft_count_process(line);
-	if (redir_errall(line) == 1)
+	if (redir_errall(line, d, c) == 1)
 		return ;
 	pfd = init_pfd(c);
 	process_num = 0;

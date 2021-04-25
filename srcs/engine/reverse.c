@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 21:46:50 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/23 22:38:12 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/23 21:46:51 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@ void		ft_reverse_parent(char *line, int *process_num, int **pfd, int pid)
 	int		stats;
 
 	waitpid(pid, &stats, 0);
-	if (stats > 255)
-		g_status = stats / 256;
-	else
-		g_status = stats;
 	if (*process_num > 0 && ft_char_stop(line, *process_num - 1) == '|')
 		close(pfd[*process_num - 1][0]);
 	pfd[*process_num][0] = ft_fd_in_mute(line, *process_num);

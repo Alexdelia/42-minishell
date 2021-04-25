@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/25 11:58:39 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/23 08:33:48 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,7 @@ int				ft_reverse_count(char *line, int process_num);
 int				ft_backward_count(char *line, int process_num);
 int				forward_to_semi(char *line, int process_num);
 void			ft_exec_move(char *line, t_data *d, int process_num, int k);
-int				redir_errall(char *line);
-int				ft_syntax_error(char *line, int i, int way);
+int				redir_errall(char *line, t_data *d, int c);
 
 /*
 ** prompt_utils
