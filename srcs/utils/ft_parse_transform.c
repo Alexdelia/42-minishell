@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:08:56 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/23 23:09:44 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/13 16:00:53 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,6 @@ void		ft_conv_simple(t_parser *p, const char *str, char *res)
 	p->i++;
 }
 
-char		*ft_tild(t_data *d, char *res)
-{
-	if (ft_strcmp(res, "~") == 0)
-		return (ft_env_search("HOME", d->env));
-	return (res);
-}
-
 int			ft_transform(t_data *d, char *str, int first)
 {
 	t_parser	p;
@@ -78,9 +71,9 @@ int			ft_transform(t_data *d, char *str, int first)
 	p.i = 0;
 	ft_loop_trans(&p, d, str, res);
 	if (first == TRUE)
-		d->word = ft_new_word(ft_tild(d, res));
+		d->word = ft_new_word(res);
 	else
-		ft_add_back_word(&(d->word), ft_new_word(ft_tild(d, res)));
+		ft_add_back_word(&(d->word), ft_new_word(res));
 	free(res);
 	return (p.i);
 }

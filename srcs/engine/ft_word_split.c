@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/25 12:07:28 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/20 09:41:44 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,18 @@ int		ft_word_split(t_data *d, char *line, int process_num)
 	raw = ft_strdup2(line, i, j);
 	clean = ft_strtrim(raw, " ");
 	free(raw);
-	ft_transform(d, clean, TRUE);
+	if (ft_transform(d, clean, TRUE) < 0)
+	{
+		free(clean);
+		return (ft_error_ml());
+	}
 	free(clean);
 	end_of_line = ft_strdup(&line[j]);
-	ft_transform(d, end_of_line, FALSE);
+	if (ft_transform(d, end_of_line, FALSE) < 0)
+	{
+		free(end_of_line);
+		return (ft_error_ml());
+	}
 	free(end_of_line);
 	return (0);
 }
