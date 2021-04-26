@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 18:17:39 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/25 11:41:56 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/26 08:49:45 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,14 @@ void		ft_exec_word(char *line, t_data *d, int *process_num, int **pfd)
 {
 	char		char_stop;
 
+	printf("========process_num = %d========\n", *process_num);
 	char_stop = ft_char_stop(line, *process_num);
 	if (char_stop == ';' || char_stop == '\0')
 		ft_semi(line, d, *process_num, pfd);
 	else if (char_stop == '|')
 		ft_pipe(line, d, *process_num, pfd);
 	else if (char_stop == '>' || char_stop == 'C')
-		ft_chevron(line, d, process_num, pfd);
+		ft_chevron(line, d, *process_num, pfd);
 	else if (char_stop == '<')
 		ft_reverse(line, d, process_num, pfd);
 }

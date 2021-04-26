@@ -12,24 +12,6 @@
 
 #include "../includes/minishell.h"
 
-void		ft_reverse_parent(char *line, int *process_num, int **pfd, int pid)
-{
-	int		stats;
-
-	waitpid(pid, &stats, 0);
-	if (stats > 255)
-		g_status = stats / 256;
-	else
-		g_status = stats;
-	if (*process_num > 0 && ft_char_stop(line, *process_num - 1) == '|')
-		close(pfd[*process_num - 1][0]);
-	pfd[*process_num][0] = ft_fd_in_mute(line, *process_num);
-	if (pfd[*process_num][0] == -1)
-		*process_num = *process_num + forward_to_semi(line, *process_num);
-	else
-		close(pfd[*process_num][0]);
-}
-
 void		ft_reverse_back(char *line, t_data *d, int process_num, int **pfd)
 {
 	int		n;
@@ -49,7 +31,7 @@ void		ft_reverse_back(char *line, t_data *d, int process_num, int **pfd)
 	{
 		if (n != -1)
 			close(pfd[process_num][1]);
-		exit(g_status);
+		return ;
 	}
 	dup2(pfd[process_num][0], STDIN);
 	ft_exec_move(line, d, process_num, k);
@@ -58,28 +40,68 @@ void		ft_reverse_back(char *line, t_data *d, int process_num, int **pfd)
 		close(pfd[process_num][1]);
 }
 
-void		ft_reverse(char *line, t_data *d, int *process_num, int **pfd)
+void		ft_reverse_parent(char *line, int *process_num, int **pfd, int pid)
+{
+	int		stats;
+
+	waitpid(pid, &stats, 0);
+	if (stats > 255)
+		g_status = stats / 256;
+	else
+		g_status = stats;
+	close(pfd[*process_num - 1][0]);
+	pfd[*process_num][0] = ft_fd_in_mute(line, *process_num);
+	if (pfd[*process_num][0] == -1)
+		*process_num = *process_num + forward_to_semi(line, *process_num);
+	else
+		close(pfd[*process_num][0]);
+}
+
+void		ft_reverse_pipe(char *line, t_data *d, int *process_num, int **pfd)
 {
 	int		pid;
-	int		n;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		if (*process_num > 0 && ft_char_stop(line, *process_num - 1) == '|')
-		{
-			close(pfd[*process_num - 1][1]);
-			dup2(pfd[*process_num - 1][0], 0);
-		}
+		close(pfd[*process_num - 1][1]);
+		dup2(pfd[*process_num - 1][0], 0);
 		pfd[*process_num][0] = ft_fd_in(line, *process_num);
 		if (pfd[*process_num][0] == -1)
 			exit(g_status);
 		close(pfd[*process_num][0]);
-		n = ft_reverse_count(line, *process_num);
-		if (n == 0)
+		if (ft_reverse_count(line, *process_num) == 0)
 			ft_reverse_back(line, d, *process_num, pfd);
 		exit(g_status);
 	}
 	else
 		ft_reverse_parent(line, process_num, pfd, pid);
+}
+
+void		ft_reverse(char *line, t_data *d, int *process_num, int **pfd)
+{
+	int saved_stdout;
+	int	saved_stdin;
+
+	saved_stdin = dup(STDIN);
+	saved_stdout = dup(STDOUT);
+	if (*process_num > 0 && ft_char_stop(line, *process_num - 1) == '|')
+		ft_reverse_pipe(line, d, process_num, pfd);
+	else
+	{
+		pfd[*process_num][0] = ft_fd_in(line, *process_num);
+		if (pfd[*process_num][0] == -1)
+		{
+			*process_num = *process_num + forward_to_semi(line, *process_num);
+			return ;
+		}
+		else
+			close(pfd[*process_num][0]);
+		if (ft_reverse_count(line, *process_num) == 0)
+			ft_reverse_back(line, d, *process_num, pfd);
+	}
+	dup2(saved_stdin, STDIN);
+	dup2(saved_stdout, STDOUT);
+	close(saved_stdin);
+	close(saved_stdout);
 }

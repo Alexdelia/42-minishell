@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/25 11:58:39 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/26 08:50:01 by nicolases        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void			process_ctrl_d(t_data *d);
 void			ft_exec_command(char *line, t_data *d);
 int				ft_parse_exec(t_word *word, t_data *d);
 void			ft_pipe(char *line, t_data *d, int process_num, int **pfd);
-void			ft_chevron(char *line, t_data *d, int *process_num, int **pfd);
+void			ft_chevron(char *line, t_data *d, int process_num, int **pfd);
 void			ft_reverse(char *line, t_data *d, int *process_num, int **pfd);
 void			ft_semi(char *line, t_data *d, int process_num, int **pfd);
 

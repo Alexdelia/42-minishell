@@ -12,28 +12,22 @@
 
 #include "../includes/minishell.h"
 
-static void	ft_end_semi(char *line, t_data *d, int process_num, int **pfd)
+void		ft_semi_in_pipe(char *line, t_data *d, int process_num, int **pfd)
 {
-	if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
-	{
-		close(pfd[process_num - 1][1]);
-		dup2(pfd[process_num - 1][0], 0);
-	}
-	if (process_num == 0 || (ft_char_stop(line, process_num - 1) != '>'
-				&& ft_char_stop(line, process_num - 1) != 'C'
-				&& ft_char_stop(line, process_num - 1) != '<'))
-		ft_parse_exec(d->word, d);
-	exit(g_status);
-}
-
-void		ft_semi(char *line, t_data *d, int process_num, int **pfd)
-{
-	int		pid;
 	int		stats;
+	int		pid;
 
 	pid = fork();
 	if (pid == 0)
-		ft_end_semi(line, d, process_num, pfd);
+	{
+		close(pfd[process_num - 1][1]);
+		dup2(pfd[process_num - 1][0], 0);
+		if (process_num == 0 || (ft_char_stop(line, process_num - 1) != '>'
+			&& ft_char_stop(line, process_num - 1) != 'C'
+			&& ft_char_stop(line, process_num - 1) != '<'))
+			ft_parse_exec(d->word, d);
+		exit(g_status);
+	}
 	else
 	{
 		waitpid(pid, &stats, 0);
@@ -41,7 +35,19 @@ void		ft_semi(char *line, t_data *d, int process_num, int **pfd)
 			g_status = stats / 256;
 		else
 			g_status = stats;
-		if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
-			close(pfd[process_num - 1][0]);
+		close(pfd[process_num - 1][0]);
+	}
+}
+
+void		ft_semi(char *line, t_data *d, int process_num, int **pfd)
+{
+	if (process_num > 0 && ft_char_stop(line, process_num - 1) == '|')
+		ft_semi_in_pipe(line, d, process_num, pfd);
+	else
+	{
+		if (process_num == 0 || (ft_char_stop(line, process_num - 1) != '>'
+			&& ft_char_stop(line, process_num - 1) != 'C'
+			&& ft_char_stop(line, process_num - 1) != '<'))
+			ft_parse_exec(d->word, d);
 	}
 }
