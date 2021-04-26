@@ -50,10 +50,8 @@ void		ft_exec_word(char *line, t_data *d, int *process_num, int **pfd)
 		ft_semi(line, d, *process_num, pfd);
 	else if (char_stop == '|')
 		ft_pipe(line, d, *process_num, pfd);
-	else if (char_stop == '>' || char_stop == 'C')
-		ft_chevron(line, d, *process_num, pfd);
-	else if (char_stop == '<')
-		ft_reverse(line, d, process_num, pfd);
+	else if (char_stop == '>' || char_stop == 'C' || char_stop == '<')
+		ft_chevron(line, d, process_num, pfd);
 }
 
 void		ft_exec_command(char *line, t_data *d)

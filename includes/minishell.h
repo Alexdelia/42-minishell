@@ -80,8 +80,7 @@ void			process_ctrl_d(t_data *d);
 void			ft_exec_command(char *line, t_data *d);
 int				ft_parse_exec(t_word *word, t_data *d);
 void			ft_pipe(char *line, t_data *d, int process_num, int **pfd);
-void			ft_chevron(char *line, t_data *d, int process_num, int **pfd);
-void			ft_reverse(char *line, t_data *d, int *process_num, int **pfd);
+void			ft_chevron(char *line, t_data *d, int *process_num, int **pfd);
 void			ft_semi(char *line, t_data *d, int process_num, int **pfd);
 
 /*
@@ -116,9 +115,7 @@ void			free_pfd(int **pfd, int c);
 int				ft_count_process(char *line);
 int				ft_chevron_count(char *line, int process_num);
 int				ft_reverse_count(char *line, int process_num);
-int				ft_backward_count(char *line, int process_num);
 int				forward_to_semi(char *line, int process_num);
-void			ft_exec_move(char *line, t_data *d, int process_num, int k);
 int				redir_errall(char *line);
 int				ft_syntax_error(char *line, int i, int way);
 

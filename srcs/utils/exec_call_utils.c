@@ -12,12 +12,6 @@
 
 #include "../includes/minishell.h"
 
-void		move_word(char *line, t_data *d, int process_num, int n)
-{
-	ft_free_all_word(d->word);
-	ft_word_split(d, line, process_num + n);
-}
-
 int			**init_pfd(int c)
 {
 	int i;

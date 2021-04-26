@@ -21,12 +21,12 @@ void		ft_semi_in_pipe(char *line, t_data *d, int process_num, int **pfd)
 	pid = fork();
 	if (pid == 0)
 	{
-		close(pfd[process_num - 1][1]);
-		dup2(pfd[process_num - 1][0], 0);
+		dup2(pfd[process_num - 1][0], STDIN);
 		if (process_num == 0 || (ft_char_stop(line, process_num - 1) != '>'
 			&& ft_char_stop(line, process_num - 1) != 'C'
 			&& ft_char_stop(line, process_num - 1) != '<'))
 			ft_parse_exec(d->word, d);
+		close(pfd[process_num - 1][0]);
 		exit(g_status);
 	}
 	else
