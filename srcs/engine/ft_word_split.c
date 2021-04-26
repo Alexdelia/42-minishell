@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/25 12:07:28 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/26 11:27:59 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,15 @@
 int		get_start_index(char *line, int process_num)
 {
 	int	i;
+	int	quote;
 
 	i = 0;
 	while (line[i] != '\0' && process_num > 0)
 	{
-		if (line[i] == '|' || line[i] == ';')
+		quote = ft_char_quote(line, i);
+		if (quote != -1)
+			i = quote;
+		else if (line[i] == '|' || line[i] == ';')
 			process_num--;
 		else if (line[i] == '>')
 		{

@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/26 08:50:01 by nicolases        ###   ########.fr       */
+/*   Updated: 2021/04/26 11:28:35 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,5 +194,6 @@ int				ft_word_search(char *str, t_word *word);
 int				ft_mi_strcat(char **dst, const char *src, int y, t_data *d);
 char			*ft_special_convertion(char *str);
 void			ft_print_word(t_word *word);
+int				ft_char_quote(char *line, int i);
 
 #endif

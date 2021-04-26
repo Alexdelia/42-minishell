@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 14:19:55 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/25 14:29:36 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/26 11:26:30 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ft_is_double_c(char *line, int i, char c)
 	return (FALSE);
 }
 
-static int	ft_char_quote(char *line, int i)
+int			ft_char_quote(char *line, int i)
 {
 	if (line[i] == '\"')
 	{
