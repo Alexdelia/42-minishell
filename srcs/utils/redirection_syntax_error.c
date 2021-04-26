@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 11:56:34 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/25 12:18:58 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/26 12:14:44 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ int			ft_syntax_error(char *line, int i, int way)
 		if (!line[i])
 			return (ft_mi_error("redirection", "empty line", 0));
 	}
-	if (line[i] && line[i] == ';')
+	if (line[i] && line[i] == ';' && !line[i - 1])
 		return (ft_syntax_message("`;'\n"));
+	else if (line[i] && line[i] == ';')
+		return (i);
 	else if (line[i] && line[i] == '|')
 		return (ft_syntax_message("`|'\n"));
 	else if (line[i] && (line[i] == '>' || line[i] == '<'))
