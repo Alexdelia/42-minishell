@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 13:08:56 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/23 23:09:44 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/26 10:46:04 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void		ft_conv_dollar(t_parser *p, t_data *d, const char *str, char **res)
 	while (str[p->i] && str[p->i] != ' ' && str[p->i] != ';'
 		&& str[p->i] != '\'' && str[p->i] != '\"' && str[p->i] != '='
 		&& str[p->i] != '|' && str[p->i] != '>' && str[p->i] != '<'
-		&& str[p->i] != '\\')
+		&& str[p->i] != '\\' && str[p->i] != '/')
 		p->i++;
 }
 

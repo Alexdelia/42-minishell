@@ -6,7 +6,7 @@
 /*   By: user42 <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:18:42 by user42            #+#    #+#             */
-/*   Updated: 2021/04/13 15:54:38 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/26 10:45:38 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*ft_f_mi_strcat(const char *src)
 	na_env = (char *)malloc(sizeof(*na_env) * (ft_strlen(src) + 1));
 	while (src[i + 1] && src[i + 1] != ' ' && src[i + 1] != ';'
 		&& src[i + 1] != '\"' && src[i + 1] != '\'' && src[i + 1] != '='
-		&& src[i + 1] != '\\')
+		&& src[i + 1] != '\\' && src[i + 1] != '/')
 	{
 		na_env[i] = src[i + 1];
 		i++;
