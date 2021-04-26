@@ -44,7 +44,7 @@ void		ft_exec_word(char *line, t_data *d, int *process_num, int **pfd)
 {
 	char		char_stop;
 
-	printf("========process_num = %d========\n", *process_num);
+	printf("=== process_num = %d =====\n", *process_num);
 	char_stop = ft_char_stop(line, *process_num);
 	if (char_stop == ';' || char_stop == '\0')
 		ft_semi(line, d, *process_num, pfd);

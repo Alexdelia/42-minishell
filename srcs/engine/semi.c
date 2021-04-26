@@ -17,6 +17,7 @@ void		ft_semi_in_pipe(char *line, t_data *d, int process_num, int **pfd)
 	int		stats;
 	int		pid;
 
+	(void)pfd;
 	pid = fork();
 	if (pid == 0)
 	{

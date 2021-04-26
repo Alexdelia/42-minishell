@@ -14,29 +14,30 @@
 
 void		ft_reverse_back(char *line, t_data *d, int process_num, int **pfd)
 {
-	int		n;
+	int		n1;
+	int		n2;
 	int		k;
 
 	k = ft_backward_count(line, process_num);
-	n = ft_chevron_count(line, process_num - k);
-	if (n != -1)
+	n1 = ft_chevron_count(line, process_num - k);
+	if (n1 != -1)
 	{
-		pfd[process_num][1] = ft_fd_out(line, process_num - k + n,
-			ft_char_stop(line, process_num - k + n));
+		pfd[process_num][1] = ft_fd_out(line, process_num - k + n1,
+			ft_char_stop(line, process_num - k + n1));
 		dup2(pfd[process_num][1], STDOUT);
 	}
-	n = ft_reverse_count(line, process_num - k);
-	pfd[process_num][0] = ft_fd_in(line, process_num - k + n);
+	n2 = ft_reverse_count(line, process_num - k);
+	pfd[process_num][0] = ft_fd_in(line, process_num - k + n2);
 	if (pfd[process_num][0] == -1)
 	{
-		if (n != -1)
+		if (n1 != -1)
 			close(pfd[process_num][1]);
 		return ;
 	}
 	dup2(pfd[process_num][0], STDIN);
 	ft_exec_move(line, d, process_num, k);
 	close(pfd[process_num][0]);
-	if (n != -1)
+	if (n1 != -1)
 		close(pfd[process_num][1]);
 }
 
@@ -78,6 +79,25 @@ void		ft_reverse_pipe(char *line, t_data *d, int *process_num, int **pfd)
 		ft_reverse_parent(line, process_num, pfd, pid);
 }
 
+void		ft_reverse_main(char *line, t_data *d, int *process_num, int **pfd)
+{
+	pfd[*process_num][0] = ft_fd_in(line, *process_num);
+	if (pfd[*process_num][0] == -1)
+	{
+		*process_num = *process_num + forward_to_semi(line, *process_num);
+		if (ft_char_stop(line, *process_num) == '|')
+		{
+			pipe(pfd[*process_num]);
+			close(pfd[*process_num][1]);
+		}
+		return ;
+	}
+	else
+		close(pfd[*process_num][0]);
+	if (ft_reverse_count(line, *process_num) == 0)
+		ft_reverse_back(line, d, *process_num, pfd);
+}
+
 void		ft_reverse(char *line, t_data *d, int *process_num, int **pfd)
 {
 	int saved_stdout;
@@ -88,18 +108,7 @@ void		ft_reverse(char *line, t_data *d, int *process_num, int **pfd)
 	if (*process_num > 0 && ft_char_stop(line, *process_num - 1) == '|')
 		ft_reverse_pipe(line, d, process_num, pfd);
 	else
-	{
-		pfd[*process_num][0] = ft_fd_in(line, *process_num);
-		if (pfd[*process_num][0] == -1)
-		{
-			*process_num = *process_num + forward_to_semi(line, *process_num);
-			return ;
-		}
-		else
-			close(pfd[*process_num][0]);
-		if (ft_reverse_count(line, *process_num) == 0)
-			ft_reverse_back(line, d, *process_num, pfd);
-	}
+		ft_reverse_main(line, d, process_num, pfd);
 	dup2(saved_stdin, STDIN);
 	dup2(saved_stdout, STDOUT);
 	close(saved_stdin);
