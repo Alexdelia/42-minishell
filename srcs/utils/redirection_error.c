@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 21:46:11 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/27 14:47:32 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/27 14:58:18 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	ft_redir_loop(char *line)
 			return (TRUE);
 		else if (line[i] && (line[i] == ';' || line[i] == '|'
 				|| line[i] == '>' || line[i] == '<')
-				&& (!line[i - 1] || (line[i - 1] && line[i - 1] != '\\')))
+				&& (i == 0 || (line[i - 1] && line[i - 1] != '\\')))
 		{
 			i = ft_redir_char_stop(line, i);
 			if (i == -1)

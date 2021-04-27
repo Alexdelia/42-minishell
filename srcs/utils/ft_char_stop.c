@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 14:19:55 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/27 14:46:10 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/27 14:57:33 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char		ft_char_stop(char *line, int process_num)
 			i = quote;
 		else if (line[i] && (line[i] == ';' || line[i] == '|'
 					|| line[i] == '>' || line[i] == '<')
-				&& (!line[i - 1] || (line[i - 1] && line[i - 1] != '\\')))
+				&& (i == 0 || (line[i - 1] && line[i - 1] != '\\')))
 		{
 			if (process_num == 0)
 				return (ft_char_return(line, i));
