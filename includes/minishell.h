@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:23:34 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/26 11:28:35 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/27 14:23:56 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ char			**etoa(t_env *env);
 */
 
 int				ft_word_split(t_data *d, char *str, int stop);
-int				get_start_index(char *line, int process_num);
+int				get_start_index(char *line, int process_num, int quote);
 int				ft_strlen_post_transform(const char *str, t_data *d, int ml);
 int				ft_transform(t_data *d, char *str, int first);
 void			ft_conv_simple(t_parser *p, const char *str, char *res);
