@@ -94,19 +94,28 @@ int			ft_fd_in(char *line, int process_num)
 	return (fd);
 }
 
-int			ft_fd_in_mute(char *line, int process_num)
+int			check_build_fd(char *line, int process_num, int **pfd)
 {
-	int			fd;
-	char		*file;
-	int			i;
-	struct stat	stats;
+	char char_stop;
 
-	i = ft_fd_index(line, process_num + 1);
-	file = ft_next_word(line, i);
-	if (stat(file, &stats) == -1)
-		fd = -1;
-	else
-		fd = open(file, O_RDONLY);
-	free(file);
-	return (fd);
+	char_stop = ft_char_stop(line, process_num);
+	while (char_stop != ';' && char_stop != '!' && char_stop != '\0')
+	{
+		char_stop = ft_char_stop(line, process_num);
+		if (char_stop == '>' || char_stop == 'C')
+		{
+			pfd[process_num][1] = ft_fd_out(line, process_num,
+				ft_char_stop(line, process_num));
+			close(pfd[process_num][1]);
+		}
+		else if (char_stop == '<')
+		{
+			pfd[process_num][0] = ft_fd_in(line, process_num);
+			if (pfd[process_num][0] == -1)
+				return (1);
+			close(pfd[process_num][0]);
+		}
+		process_num++;
+	}
+	return (0);
 }

@@ -52,24 +52,6 @@ int			ft_reverse_count(char *line, int process_num)
 	return (ret);
 }
 
-int			ft_backward_count(char *line, int process_num)
-{
-	int		n;
-	char	char_stop;
-
-	n = -1;
-	while (process_num >= 0)
-	{
-		char_stop = ft_char_stop(line, process_num);
-		if (char_stop == '>' || char_stop == 'C' || char_stop == '<')
-			n++;
-		else if (char_stop == '\0' || char_stop == ';' || char_stop == '|')
-			return (n);
-		process_num--;
-	}
-	return (n);
-}
-
 int			forward_to_semi(char *line, int process_num)
 {
 	int		n;
@@ -84,11 +66,4 @@ int			forward_to_semi(char *line, int process_num)
 		process_num++;
 	}
 	return (n);
-}
-
-void		ft_exec_move(char *line, t_data *d, int process_num, int k)
-{
-	move_word(line, d, process_num, -k);
-	ft_parse_exec(d->word, d);
-	move_word(line, d, process_num, k);
 }
