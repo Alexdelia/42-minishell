@@ -42,10 +42,14 @@ int			determine_stdin(char *line, int process_num, int **pfd)
 {
 	int	n;
 
-	(void)pfd;
 	n = ft_reverse_count(line, process_num);
 	printf("*** REVERSE COUNT = %d \n", n);
-	if (n != -1)
+	if (n != -1 && ft_char_stop(line, process_num - 1) == '|')
+	{
+		close(pfd[process_num - 1][0]);
+		return (ft_fd_in(line, process_num + n));
+	}
+	else if (n != -1 && ft_char_stop(line, process_num - 1) != '|')
 		return (ft_fd_in(line, process_num + n));
 	else if (n == -1 && ft_char_stop(line, process_num - 1) == '|')
 		return (pfd[process_num - 1][0]);
@@ -64,9 +68,18 @@ int			determine_stdout(char *line, int process_num, int **pfd)
 	printf("*** FORWARD COUNT = %d \n", k);
 	n = ft_chevron_count(line, process_num);
 	printf("*** CHEVRON COUNT = %d \n", n);
-	if (n != -1)
+	if (n != -1 && ft_char_stop(line, process_num + k) == '|')
+	{
+		pipe(pfd[process_num + k]);
+		close(pfd[process_num + k][1]);
 		return (ft_fd_out(line, process_num + n,
 			ft_char_stop(line, process_num + n)));
+	}
+	else if (n != -1 && ft_char_stop(line, process_num + k) != '|')
+	{
+		return (ft_fd_out(line, process_num + n,
+			ft_char_stop(line, process_num + n)));
+	}
 	else if (n == -1 && ft_char_stop(line, process_num + k) == '|')
 	{
 		pipe(pfd[process_num + k]);
@@ -78,11 +91,22 @@ int			determine_stdout(char *line, int process_num, int **pfd)
 		return (-1);
 }
 
-void		execute_chevron(char *line, t_data *d, int *process_num, int **pfd)
+void		ft_chevron(char *line, t_data *d, int *process_num, int **pfd)
 {
+	int 	saved_stdout;
+	int		saved_stdin;
+	int		n;
+	int		k;
+
+	saved_stdin = dup(STDIN);
+	saved_stdout = dup(STDOUT);
+	n = ft_chevron_count(line, *process_num);
+	k = forward_to_semi(line, *process_num);
 	if (check_build_fd(line, *process_num, pfd) == 1)
 	{
 		*process_num = *process_num + forward_to_semi(line, *process_num);
+		//close(saved_stdin);
+		//close(saved_stdout);
 		return ;
 	}
 	pfd[*process_num][0] = determine_stdin(line, *process_num, pfd);
@@ -91,43 +115,12 @@ void		execute_chevron(char *line, t_data *d, int *process_num, int **pfd)
 	dup2(pfd[*process_num][1], STDOUT);
 	ft_parse_exec(d->word, d);
 	*process_num = *process_num + forward_to_semi(line, *process_num);
-}
-
-void		ft_chevron(char *line, t_data *d, int *process_num, int **pfd)
-{
-	int 	pid;
-	int 	saved_stdout;
-	int		saved_stdin;
-	int		stats;
-
-	saved_stdin = dup(STDIN);
-	saved_stdout = dup(STDOUT);
-	if (process_num > 0 && ft_char_stop(line, *process_num - 1) == '|')
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			execute_chevron(line, d, process_num, pfd);
-			close(pfd[*process_num][0]);
-		}
-		else
-		{
-			waitpid(pid, &stats, 0);
-			if (stats > 255)
-				g_status = stats / 256;
-			else
-				g_status = stats;
-			close(pfd[*process_num][0]);
-		}
-	}
-	else
-	{
-		execute_chevron(line, d, process_num, pfd);
-		//close(pfd[*process_num][0]);
-	}
-	//close(pfd[*process_num][1]);
+	//if (n == -1 && ft_char_stop(line, *process_num + k) == '|')
+	//	close(pfd[*process_num][1]);
+	//close(pfd[*process_num][0]);
 	dup2(saved_stdin, STDIN);
 	dup2(saved_stdout, STDOUT);
-	close(saved_stdin);
-	close(saved_stdout);
+	//close(saved_stdin);
+	//close(saved_stdout);
 }
+
