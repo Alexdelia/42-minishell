@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 11:56:34 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/26 16:45:39 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/27 14:20:58 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static int	ft_syntax_message(char *type)
 {
 	g_status = 1;
-	ft_pserc("minishell: redirection: syntax error near unexpected token ", RED);
+	ft_pserc("minishell: redirection: syntax error near unexpected token ",
+		RED);
 	ft_pserc(type, RED);
 	return (-1);
 }

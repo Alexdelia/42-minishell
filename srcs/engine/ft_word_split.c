@@ -6,16 +6,15 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 06:51:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/26 11:27:59 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/27 14:22:00 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		get_start_index(char *line, int process_num)
+int		get_start_index(char *line, int process_num, int quote)
 {
 	int	i;
-	int	quote;
 
 	i = 0;
 	while (line[i] != '\0' && process_num > 0)
@@ -71,7 +70,7 @@ int		ft_word_split(t_data *d, char *line, int process_num)
 	char	*clean;
 	char	*end_of_line;
 
-	i = get_start_index(line, process_num);
+	i = get_start_index(line, process_num, 0);
 	j = get_end_index(line, i);
 	raw = ft_strdup2(line, i, j);
 	clean = ft_strtrim(raw, " ");
