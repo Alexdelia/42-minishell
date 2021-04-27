@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 14:19:55 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/26 11:43:44 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/27 14:46:10 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	ft_is_double_c(char *line, int i, char c)
 int			ft_char_quote(char *line, int i)
 {
 	if (line[i] == '\"'
-		&& (!line[i - 1] || (line[i - 1] && line[i - 1] != '\\')))
+		&& (i == 0 || (line[i - 1] && line[i - 1] != '\\')))
 	{
 		i++;
 		while (line[i] && (line[i] != '\"' || (line[i - 1]
@@ -30,7 +30,7 @@ int			ft_char_quote(char *line, int i)
 			i++;
 	}
 	else if (line[i] == '\''
-		&& (!line[i - 1] || (line[i - 1] && line[i - 1] != '\\')))
+		&& (i == 0 || (line[i - 1] && line[i - 1] != '\\')))
 	{
 		i++;
 		while (line[i] && (line[i] != '\'' || (line[i - 1]
@@ -73,7 +73,8 @@ char		ft_char_stop(char *line, int process_num)
 				i++;
 			process_num--;
 		}
-		i++;
+		if (line[i])
+			i++;
 	}
 	return ('\0');
 }
