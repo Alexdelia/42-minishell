@@ -107,7 +107,7 @@ int				ft_exit(t_data *d);
 
 int				ft_fd_out(char *line, int process_num, char char_stop);
 int				ft_fd_in(char *line, int process_num);
-int				ft_fd_in_mute(char *line, int process_num);
+int				check_build_fd(char *line, int process_num, int **pfd);
 char			ft_char_stop(char *line, int process_num);
 void			move_word(char *line, t_data *d, int process_num, int n);
 int				**init_pfd(int c);
