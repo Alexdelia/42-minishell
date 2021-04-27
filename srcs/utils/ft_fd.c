@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:53:13 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/26 17:43:43 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/27 14:16:13 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int			ft_fd_index(char *line, int process_num)
 {
 	int		i;
 
-	process_num;
 	i = 0;
 	while (line[i] && process_num > 0)
 	{
