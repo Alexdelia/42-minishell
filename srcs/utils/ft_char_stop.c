@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 14:19:55 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/27 14:57:33 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/28 16:44:34 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ int			ft_char_quote(char *line, int i)
 		&& (i == 0 || (line[i - 1] && line[i - 1] != '\\')))
 	{
 		i++;
-		while (line[i] && (line[i] != '\'' || (line[i - 1]
-						&& line[i - 1] == '\\' && line[i] == '\'')))
+		while (line[i] && line[i] != '\'')
 			i++;
 	}
 	else

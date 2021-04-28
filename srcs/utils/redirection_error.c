@@ -6,7 +6,7 @@
 /*   By: nicolasessayan <marvin@42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 21:46:11 by nicolases         #+#    #+#             */
-/*   Updated: 2021/04/27 14:58:18 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/28 16:45:46 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ static int	ft_redir_quote(char *line, int i)
 			&& (i == 0 || (line[i - 1] && line[i - 1] != '\\')))
 	{
 		i++;
-		while (line[i] && (line[i] != '\'' || (line[i - 1]
-				&& line[i - 1] == '\\' && line[i] == '\'')))
+		while (line[i] && line[i] != '\'')
 			i++;
 		if (!line[i])
 			return (-1);

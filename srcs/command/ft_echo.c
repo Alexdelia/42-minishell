@@ -6,13 +6,13 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 17:41:22 by adelille          #+#    #+#             */
-/*   Updated: 2021/04/25 13:57:04 by adelille         ###   ########.fr       */
+/*   Updated: 2021/04/28 16:43:03 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int			ft_pass_n(char *word, int i)
+int			ft_pass_n(char *word, int i, int *nl)
 {
 	int	y;
 
@@ -21,15 +21,17 @@ int			ft_pass_n(char *word, int i)
 	{
 		while (word[i] && word[i] == ' ')
 			i++;
+		y = i;
 		if (word[i] && word[i] == '-')
 		{
-			y = i;
 			i++;
 			while (word[i] && word[i] == 'n')
 				i++;
 		}
 		if (word[i] != ' ')
 			return (y);
+		else
+			*nl = TRUE;
 	}
 	return (y);
 }
@@ -40,9 +42,7 @@ int			ft_echo(t_word *word)
 	int	i;
 
 	nl = FALSE;
-	i = ft_pass_n(word->data, 0);
-	if (i > 0)
-		nl = TRUE;
+	i = ft_pass_n(word->data, 0, &nl);
 	ft_ps(&word->data[i]);
 	if (nl == TRUE)
 		return (0);
